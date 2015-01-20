@@ -146,7 +146,7 @@ public class InterfacciaGrafica{
         
         try{
             
-            immagine[ 0 ] = ImageIO.read( getClass().getResource( "immagini/pedina.png" ) );
+            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedina.png" ) );
             // imm[ 1 ] = ImageIO.read( getClass().getResource( "img/Torre_Bianca.gif" ) );
             // imm[ 2 ] = ImageIO.read( getClass().getResource( "img/Cavallo_Bianco.gif" ) );
             // imm[ 3 ] = ImageIO.read( getClass().getResource( "img/Alfiere_Bianco.gif" ) );
