@@ -90,9 +90,10 @@ public class InterfacciaGrafica{
                 JButton bottone = new JButton();
                 bottone.setMargin( margineBottoni );
                 
-                // I Pezzi Sono Da 64x64 Pixel E Trasparenti ( Posso Modificare )
+                // I Pezzi Sono Da 64x64 Pixel E Trasparenti ( Posso Modificare )           
                 ImageIcon immaginePezzo = new ImageIcon( new BufferedImage( 64, 64, BufferedImage.TYPE_INT_ARGB ) );
                 bottone.setIcon(immaginePezzo);
+                
                 
                 // Coloro Lo Sfondo Dei Quadrati Se Sono Pari O Dispari
                 if ( ( j % 2 == 1 && i % 2 == 1 ) || ( j % 2 == 0 && i % 2 == 0 ) ){
