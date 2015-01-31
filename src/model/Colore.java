@@ -10,10 +10,11 @@ package model;
  *
  * @author Viktor
  */
-public abstract class Colore {
+public interface Colore {
     public static final int BIANCO=1;
     public static final int NERO=-1;
     
+    @Override
     public abstract boolean equals(Object o);
     
 }

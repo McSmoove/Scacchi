@@ -10,7 +10,7 @@ package model;
  *
  * @author Viktor
  */
-public class Bianco extends Colore{
+public class Bianco implements Colore{
     private int colore;
     public Bianco(){
         colore=Colore.BIANCO;

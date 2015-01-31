@@ -1,5 +1,6 @@
 package controller;
 
+
 import model.Alfiere;
 import model.Bianco;
 import model.MatriceDeiPezzi;
@@ -155,7 +156,7 @@ public class GestoreMovimenti {
         int temp1,temp2;
         x=alfiere.getX();
         y=alfiere.getY();
-        
+
         
         //while()
         
