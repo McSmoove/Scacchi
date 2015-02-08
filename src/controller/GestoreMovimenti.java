@@ -10,12 +10,6 @@ import model.Pezzo;
 import model.Spazio;
 import model.Torre;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Viktor
@@ -30,7 +24,7 @@ public class GestoreMovimenti {
     public GestoreMovimenti(MatriceDeiPezzi matrice){
         this.matrice=matrice;
         m=matrice.getMatrice();
-        //da implementare gli altri collegamenti MCV
+        //da implementare gli altri collegamenti MCV 
     }
     
     //chiamata dopo ogni mossa effettuata
@@ -50,9 +44,15 @@ public class GestoreMovimenti {
                 if(p instanceof Alfiere)
                     return movimentiAlfiere((Alfiere) p);
             
-        return null;//da implementare il resto
+        return null;//da implementare il resto (altri sottoclassi di pezzo)
     }
     
+    
+    //metodo per controllare il pedone
+    //manca il controllo di quando supero una pedina con un'altra (opzionale)
+    //mancano controlli che impediscono la mossa nel caso di scacco
+    //manca il controllo ultima riga -> trasformazione in un altro pezzo (solo dopo il movimento)
+    //non controllo l'ultima riga xke in quella il pezzo si trasforma e cambiano le sue regole
     public int[][] movimentiPedone(Pedone p){
         int[][] scacchiera=new int[8][8];
         int x,y;
@@ -70,22 +70,23 @@ public class GestoreMovimenti {
                     scacchiera[x-1][y+1]=1;
             
             //in alto a destra
-            if((x+1)<=7)//controllo posizione valida (probabilmente ridondante)
+            if((x+1)<=MAXLENGTH)//controllo posizione valida (probabilmente ridondante)
                 if(m[x+1][y+1].isBusy() && m[x+1][y+1].getPezzo().getColore() instanceof Nero )
                     scacchiera[x+1][y+1]=1;
             
         }     
-        //manca il controllo di quando supero una pedina con un'altra (opzionale)
-        //mancano controlli che impediscono la mossa nel caso di scacco
+        
         
         //caso del nero
         else{
             if(!m[x][y-1].isBusy())
                 scacchiera[x][y-1]=1;
-            if(m[x-1][y-1].isBusy() && m[x-1][y-1].getPezzo().getColore() instanceof Nero )
-                scacchiera[x+1][y-1]=1;
-            if(m[x+1][y-1].isBusy() && m[x+1][y-1].getPezzo().getColore() instanceof Nero )
-                scacchiera[x+1][y-1]=1;
+            if((x-1)>=0)//controllo posizione valida(probabilmente ridondante)
+                if(m[x-1][y-1].isBusy() && m[x-1][y-1].getPezzo().getColore() instanceof Nero )
+                    scacchiera[x+1][y-1]=1;
+            if((x+1)<=7)//controllo posizione valida (probabilmente ridondante)
+                if(m[x+1][y-1].isBusy() && m[x+1][y-1].getPezzo().getColore() instanceof Nero )
+                    scacchiera[x+1][y-1]=1;
         }
         return scacchiera;
     }
@@ -100,12 +101,15 @@ public class GestoreMovimenti {
         
         //direzione verso destra
         if(x+1<=MAXLENGTH){
+            //spazi liberi a destra
             for(temp=x+1;temp<=MAXLENGTH && !(m[temp][y].isBusy());temp++){
                 scacchiera[temp][y]=1;
             }
+            //primo spazio occupato a destra
             temp++;
             if(temp<=MAXLENGTH)//controllo per non uscire fuori dalla scachiera
                 //se lo spazzio è occupato e contiene un pezzo del colore opposto
+                //controllo isBusy() obsoleto
                 if(m[temp][y].isBusy()&&(!m[temp][y].getPezzo().getColore().equals(torre.getColore())))
                     scacchiera[temp][y]=1;
         }
@@ -156,13 +160,71 @@ public class GestoreMovimenti {
         int temp1,temp2;
         x=alfiere.getX();
         y=alfiere.getY();
-
+        temp1=x+1;
+        temp2=y+1;
         
-        //while()
+        //direzione verso alto a destra
+        //spazi verso alto a destra liberi
+        while(temp1<=MAXLENGTH && temp2<=MAXLENGTH && !m[temp1][temp2].isBusy()){
+            scacchiera[temp1][temp2]=1;
+            temp1++;
+            temp2++;
+        }
+        //il primo spazio occupato
+        //incremento effettuato dento il ciclo while
+        //temp1++;
+        //temp2++;
+        //potrebbe essersi verificata la terza condizione del ciclo while ma non le prime 2
+        if(temp1<=MAXLENGTH)
+            if(temp2<=MAXLENGTH)
+                //se lo spazzio è occupato e contiene un pezzo del colore opposto
+                if(m[temp1][temp2].isBusy()&&(!m[temp1][temp2].getPezzo().getColore().equals(alfiere.getColore())))
+                    scacchiera[temp1][temp2]=1;
         
+        //direzione verso basso destra
+        temp1=x+1;
+        temp2=y-1;
+        while(temp1<=MAXLENGTH && temp2>=0 && !m[temp1][temp2].isBusy()){
+            scacchiera[temp1][temp2]=1;
+            temp1++;
+            temp2--;
+        }
+        if(temp1<=MAXLENGTH)
+            if(temp2>=0)
+                //se lo spazzio è occupato e contiene un pezzo del colore opposto
+                if(m[temp1][temp2].isBusy()&&(!m[temp1][temp2].getPezzo().getColore().equals(alfiere.getColore())))
+                    scacchiera[temp1][temp2]=1;
         
+        //direzione alto sinistra
+        temp1=x-1;
+        temp2=y+1;
+        while(temp1>=0 && temp2<=MAXLENGTH && !m[temp1][temp2].isBusy()){
+            scacchiera[temp1][temp2]=1;
+            temp1--;
+            temp2++;
+        }
+        if(temp1>=0)
+            if(temp2<=MAXLENGTH)
+                //se lo spazzio è occupato e contiene un pezzo del colore opposto
+                if(m[temp1][temp2].isBusy()&&(!m[temp1][temp2].getPezzo().getColore().equals(alfiere.getColore())))
+                    scacchiera[temp1][temp2]=1;
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //direzione basso sinistra
+        temp1=x-1;
+        temp2=y-1;
+        while(temp1>=0 && temp2>=0 && !m[temp1][temp2].isBusy()){
+            scacchiera[temp1][temp2]=1;
+            temp1--;
+            temp2--;
+        }
+        if(temp1>=0)
+            if(temp2>=0)
+                //se lo spazzio è occupato e contiene un pezzo del colore opposto
+                if(m[temp1][temp2].isBusy()&&(!m[temp1][temp2].getPezzo().getColore().equals(alfiere.getColore())))
+                    scacchiera[temp1][temp2]=1;
+        
+        return scacchiera;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
