@@ -3,10 +3,12 @@ package controller;
 
 import model.Alfiere;
 import model.Bianco;
+import model.Cavallo;
 import model.MatriceDeiPezzi;
 import model.Nero;
 import model.Pedone;
 import model.Pezzo;
+import model.Regina;
 import model.Spazio;
 import model.Torre;
 
@@ -43,6 +45,12 @@ public class GestoreMovimenti {
             else 
                 if(p instanceof Alfiere)
                     return movimentiAlfiere((Alfiere) p);
+                else
+                    if (p instanceof Cavallo)
+                        return movimentiCavallo((Cavallo)p);
+                    else
+                        if (p instanceof Regina)
+                            return movimentiRegina((Regina)p);
             
         return null;//da implementare il resto (altri sottoclassi di pezzo)
     }
@@ -225,6 +233,75 @@ public class GestoreMovimenti {
         
         return scacchiera;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    //da migliorare i controlli delle posizioni permesse ragruppando gli if
+    private int[][] movimentiCavallo(Cavallo cavallo) {
+        int[][] scacchiera=new int[8][8];
+        int x,y;
+        int temp;
+        x=cavallo.getX();
+        y=cavallo.getY();
+        //alto destra
+        if(x+1<=MAXLENGTH && y+2<=MAXLENGTH)
+            //libero o dell'avversario
+            if (!m[x+1][y+2].isBusy() || (m[x+1][y+2].isBusy() && !m[x+1][y+2].getPezzo().getColore().equals(cavallo.getColore()) ))
+                scacchiera[x+1][y+2]=1;
+        
+        //alto sinistra
+        if(x-1>=0 && y+2<=MAXLENGTH)
+            //libero o dell'avversario
+            if (!m[x-1][y+2].isBusy() || (m[x-1][y+2].isBusy() && !m[x-1][y+2].getPezzo().getColore().equals(cavallo.getColore()) ))
+                scacchiera[x-1][y+2]=1;
+        
+        //destra alto
+        if(x+2<=MAXLENGTH && y+1<=MAXLENGTH)
+            //libero o dell'avversario
+            if (!m[x+2][y+1].isBusy() || (m[x+2][y+1].isBusy() && !m[x+2][y+1].getPezzo().getColore().equals(cavallo.getColore()) ))
+                scacchiera[x+2][y+1]=1;
+        
+        //destra basso
+        if(x+2<=MAXLENGTH && y-1>=0)
+            //libero o dell'avversario
+            if (!m[x+2][y-1].isBusy() || (m[x+2][y-1].isBusy() && !m[x+2][y-1].getPezzo().getColore().equals(cavallo.getColore()) ))
+                scacchiera[x+2][y-1]=1;
+        
+        
+        //sinistra alto
+        if(x-2>=0 && y+1<=MAXLENGTH)
+            //libero o dell'avversario
+            if (!m[x-2][y+1].isBusy() || (m[x-2][y+1].isBusy() && !m[x-2][y+1].getPezzo().getColore().equals(cavallo.getColore()) ))
+                scacchiera[x-2][y+1]=1;
+        
+        //sinistra basso
+        if(x-2>=0 && y-1>=0)
+            //libero o dell'avversario
+            if (!m[x-2][y-1].isBusy() || (m[x-2][y-1].isBusy() && !m[x-2][y-1].getPezzo().getColore().equals(cavallo.getColore()) ))
+                scacchiera[x-2][y-1]=1;
+        
+        //basso desra
+        if(x+1<=MAXLENGTH && y-2>=0)
+            //libero o dell'avversario
+            if (!m[x+1][y-2].isBusy() || (m[x+1][y-2].isBusy() && !m[x+1][y-2].getPezzo().getColore().equals(cavallo.getColore()) ))
+                scacchiera[x+1][y-2]=1;
+        
+        //basso sinistra
+        if(x-1>=0 && y-2>=0)
+            //libero o dell'avversario
+            if (!m[x-1][y-2].isBusy() || (m[x-1][y-2].isBusy() && !m[x-1][y-2].getPezzo().getColore().equals(cavallo.getColore()) ))
+                scacchiera[x-1][y-2]=1;
+        
+        
+        
+        
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return scacchiera;
+    }
+
+    private int[][] movimentiRegina(Regina regina) {
+        
+        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
