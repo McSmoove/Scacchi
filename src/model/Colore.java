@@ -17,15 +17,6 @@ public abstract class Colore {
     public static final int NERO=-1;
     private int colore;
     
-    public Colore(int c) throws InvalidValueException{
-        if(c==BIANCO)
-            colore=BIANCO;
-        else
-            if(c==NERO)
-                colore=NERO;
-            else
-                throw new InvalidValueException("Colore non valido");
-    }
     
     @Override
     public boolean equals(Object o){

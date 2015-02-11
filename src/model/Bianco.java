@@ -12,6 +12,7 @@ package model;
  */
 public class Bianco extends Colore{
     private int colore;
+    
     public Bianco(){
         colore=Colore.BIANCO;
     }

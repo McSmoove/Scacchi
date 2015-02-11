@@ -21,8 +21,8 @@ import model.Torre;
 
 
 public class GestoreMovimenti {
-    MatriceDeiPezzi matrice; //collegamento con la matrice che salva le posizioni di tutti i pezzi
-    Spazio[][] m;
+    private MatriceDeiPezzi matrice; //collegamento con la matrice che salva le posizioni di tutti i pezzi
+    private Spazio[][] m;
     private final int MAXLENGTH=7;
     
     public GestoreMovimenti(MatriceDeiPezzi matrice){
@@ -67,11 +67,13 @@ public class GestoreMovimenti {
     //mancano controlli che impediscono la mossa nel caso di scacco
     //manca il controllo ultima riga -> trasformazione in un altro pezzo (solo dopo il movimento)
     //non controllo l'ultima riga xke in quella il pezzo si trasforma e cambiano le sue regole
+    //aggiungere il controllo se il pedone non si è mai mosso può muoversi di 2 quadratini!!!
     public int[][] movimentiPedone(Pedone p){
         int[][] scacchiera=new int[8][8];
         int x,y;
         x=p.getX();
         y=p.getY();
+        
         
         if(p.getColore() instanceof Bianco){
             //immediatamente sopra
@@ -375,11 +377,49 @@ public class GestoreMovimenti {
             }
         }
         
-        //da implementare scambio con una delle 2 torri
+        //da implementare controllo scambio con una delle 2 torri (arrocco)
+        //in questo caso il re si sposta di 2 caselle verso la torre e la torre gli si mette di fianco dall'altra parte
+        //simulare la scacchiera modificata e vedere se lo scambio non porta ad una situazione di scacco matto
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(!re.isMoved())//re mai mosso
+            if(controlloScacco(x,y,re.getColore())==1)//se il re non è sotto scacco
+                                
+                //gli spazi tra il re e la torre sinistra sono liberi (generalizzato x entrambi i re
+                if(!m[1][re.getY()].isBusy() && !m[2][re.getY()].isBusy() && !m[3][re.getY()].isBusy()){     
+                    //a sinistra c'è una torre nella sua posizione originale
+                    if(m[0][re.getY()].getPezzo() instanceof Torre)
+                        //torre a sinistra mai mossa
+                        if(!((Torre)m[0][re.getY()].getPezzo()).isMoved())
+                            //controllo se tutti gli spazi tra la posizione attuale del re
+                            //e la posizione finale del re non sono sotto scacco
+                            if((controlloScacco(x-1,y,re.getColore())==1))
+                                if((controlloScacco(x-2,y,re.getColore())==1))
+                                    scacchiera[x-2][y]=1;
+                }
+                
+                //gli spazi tra il re e la torre destra sono liberi (generalizzato x entrambi i re
+                if(!m[5][re.getY()].isBusy() && !m[6][re.getY()].isBusy()){     
+                    //a sinistra c'è una torre nella sua posizione originale
+                    if(m[7][re.getY()].getPezzo() instanceof Torre)
+                        //torre a sinistra mai mossa
+                        if(!((Torre)m[7][re.getY()].getPezzo()).isMoved())
+                            //controllo se tutti gli spazi tra la posizione attuale del re
+                            //e la posizione finale del re non sono sotto scacco
+                            if((controlloScacco(x+1,y,re.getColore())==1))
+                                if((controlloScacco(x+2,y,re.getColore())==1))
+                                    scacchiera[x+2][y]=1;
+                }
+        
+        
+        
+        
+        return scacchiera;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    //minimizzare il codice regruppando re e pedone in casi specifici
+    //(come regina con torre e alfiere)
+    //si possono fare delle hiamate per minimizzare il codice
     private int controlloScacco(int x, int y,Colore colore) {
         // controllo x torri/regine in orizzontale e verticale
         int temp1,temp2;
@@ -512,16 +552,96 @@ public class GestoreMovimenti {
                 if(!m[x-1][y+2].getPezzo().getColore().equals(colore))
                     if(m[x-1][y+2].getPezzo() instanceof Cavallo)
                         return 0;
-        //dastra alto
+        
+        //destra alto
+        if(x+2<=MAXLENGTH && y+1<=MAXLENGTH)
+            if(m[x+2][y+1].isBusy())
+                if(!m[x+2][y+1].getPezzo().getColore().equals(colore))
+                    if(m[x+2][y+1].getPezzo() instanceof Cavallo)
+                        return 0;
         //destra basso
+        if(x+2<=MAXLENGTH && y-1>=0)
+            if(m[x+2][y-1].isBusy())
+                if(!m[x+2][y-1].getPezzo().getColore().equals(colore))
+                    if(m[x+2][y+1].getPezzo() instanceof Cavallo)
+                        return 0;
         //sinistra alto
+        if(x-2>=0 && y+1<=MAXLENGTH)
+            if(m[x-2][y+1].isBusy())
+                if(!m[x-2][y+1].getPezzo().getColore().equals(colore))
+                    if(m[x-2][y+1].getPezzo() instanceof Cavallo)
+                        return 0;
         //sinistra basso
+        if(x-2>=0 && y-1>=0)
+            if(m[x-2][y-1].isBusy())
+                if(!m[x-2][y-1].getPezzo().getColore().equals(colore))
+                    if(m[x-2][y-1].getPezzo() instanceof Cavallo)
+                        return 0;
         //basso destra
+        if(x+1<=MAXLENGTH && y-2<=MAXLENGTH)
+            if(m[x+1][y-2].isBusy())
+                if(!m[x+1][y-2].getPezzo().getColore().equals(colore))
+                    if(m[x+1][y-2].getPezzo() instanceof Cavallo)
+                        return 0;
         //basso sinistra
+        if(x-1>=0 && y-2>=0)
+            if(m[x-1][y-2].isBusy())
+                if(!m[x-1][y-2].getPezzo().getColore().equals(colore))
+                    if(m[x-1][y-2].getPezzo() instanceof Cavallo)
+                        return 0;
         
+        //controllo re adiacente
+        //destra
+        if(x+1<=MAXLENGTH)
+            if(m[x+1][y].isBusy())
+                if(!m[x+1][y].getPezzo().getColore().equals(colore))
+                    if(m[x+1][y].getPezzo() instanceof Re)
+                        return 0;
+        //sinistra
+        if(x-1>=0)
+            if(m[x-1][y].isBusy())
+                if(!m[x-1][y].getPezzo().getColore().equals(colore))
+                    if(m[x-1][y].getPezzo() instanceof Re)
+                        return 0;
+        //alto
+        if(y+1<=MAXLENGTH)
+            if(m[x][y+1].isBusy())
+                if(!m[x][y+1].getPezzo().getColore().equals(colore))
+                    if(m[x][y+1].getPezzo() instanceof Re)
+                        return 0;
+        //basso
+        if(y-1>=0)
+            if(m[x][y-1].isBusy())
+                if(!m[x][y-1].getPezzo().getColore().equals(colore))
+                    if(m[x][y-1].getPezzo() instanceof Re)
+                        return 0;
+        //alto destra
+        if(x+1<=MAXLENGTH && y+1<=MAXLENGTH)
+            if(m[x+1][y+1].isBusy())
+                if(!m[x+1][y+1].getPezzo().getColore().equals(colore))
+                    if(m[x+1][y+1].getPezzo() instanceof Re)
+                        return 0;
+        //alto sinistra
+        if(x-1>=0 && y+1<=MAXLENGTH)
+            if(m[x-1][y+1].isBusy())
+                if(!m[x-1][y+1].getPezzo().getColore().equals(colore))
+                    if(m[x-1][y+1].getPezzo() instanceof Re)
+                        return 0;
+        //basso destra
+        if(x+1<=MAXLENGTH && y-1>=0)
+            if(m[x+1][y-1].isBusy())
+                if(!m[x+1][y-1].getPezzo().getColore().equals(colore))
+                    if(m[x+1][y-1].getPezzo() instanceof Re)
+                        return 0;
+        //basso sinistra
+        if(x-1>=0 && y-1>=0)
+            if(m[x-1][y-1].isBusy())
+                if(!m[x-1][y-1].getPezzo().getColore().equals(colore))
+                    if(m[x-1][y-1].getPezzo() instanceof Re)
+                        return 0;
         
-        //return 1;
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return 1;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

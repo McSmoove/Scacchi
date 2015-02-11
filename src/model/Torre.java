@@ -17,4 +17,12 @@ public class Torre extends Pezzo{
     public Torre(int x, int y, Colore colore) {
         super(x, y, colore);
     }
+    
+    public boolean isMoved(){
+        return maiMossa;
+    }
+    
+    public void moved(boolean m){
+        maiMossa=m;
+    }
 }
