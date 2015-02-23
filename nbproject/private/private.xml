@@ -5,14 +5,10 @@
         <group>
             <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/MatriceDeiPezzi.java</file>
             <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Cavallo.java</file>
-            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Regina.java</file>
-            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Bianco.java</file>
-            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Colore.java</file>
-            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Nero.java</file>
-            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Re.java</file>
+            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Alfiere.java</file>
+            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/view/InterfacciaGrafica.java</file>
             <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Torre.java</file>
             <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/controller/GestoreMovimenti.java</file>
-            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Pedone.java</file>
         </group>
     </open-files>
 </project-private>

@@ -17,4 +17,8 @@ public class Alfiere extends Pezzo{
         super(x, y, colore);
     }
     
+    public Alfiere(int x, int y, int colore) {
+        super(x, y, colore);
+    }
+    
 }

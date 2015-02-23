@@ -1,5 +1,6 @@
 package view;
 
+import controller.GestoreMovimenti;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -7,6 +8,7 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.imageio.ImageIO;
+import model.MatriceDeiPezzi;
 
 public class InterfacciaGrafica{
     
@@ -16,9 +18,13 @@ public class InterfacciaGrafica{
     private JPanel scacchiera;
     private final JLabel messaggioInfo = new JLabel( "Tocca Al Bianco / Nero" );
     private static final String colonne = "ABCDEFGH";
+    private GestoreMovimenti gm;
+    private MatriceDeiPezzi matrice;
+    
 
     InterfacciaGrafica(){
-        
+        matrice=new MatriceDeiPezzi();
+        gm=new GestoreMovimenti(matrice);
         // Inizializza Interfaccia Grafica (Costruttore)
         interfacciaGrafica.setBorder( new EmptyBorder( 5, 5, 5, 5) );
         JToolBar menu = new JToolBar();
@@ -28,12 +34,9 @@ public class InterfacciaGrafica{
         Action iniziaNuovaPartita = new AbstractAction( "Nuova Partita" ){
 
             @Override
-            public void actionPerformed( ActionEvent e ){
-                
+            public void actionPerformed( ActionEvent e ){ 
                 iniziaPartita();
-            
             }
-        
         };
         
         menu.add( iniziaNuovaPartita );
@@ -143,6 +146,7 @@ public class InterfacciaGrafica{
     // Qui Si Inizializzano Le Immagini Eccetera...
     private final void iniziaPartita() {
         
+        //da modificare il testo in base al turno
         messaggioInfo.setText( "Fai Una Mossa !!!");
         
         try{
@@ -192,17 +196,15 @@ public class InterfacciaGrafica{
     
     } // Fine iniziaPartita
     
-    public static void main(String[] args) {
+    public void start() {
         
         Runnable run = new Runnable() {
             
             @Override
             public void run() {
-                
-                InterfacciaGrafica interfaccia = new InterfacciaGrafica();
 
                 JFrame frame = new JFrame( "Scacchi Beta !!!" );
-                frame.add( interfaccia.interfacciaGrafica );
+                frame.add( interfacciaGrafica );
                 
                 frame.setLocationByPlatform( true );
                 frame.setMinimumSize( frame.getMinimumSize() );

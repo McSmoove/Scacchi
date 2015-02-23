@@ -19,6 +19,11 @@ public class Pedone extends Pezzo {
         super(x, y, colore);
     }
     
+    public Pedone(int x, int y, int colore) {
+        super(x, y, colore);
+    }
+    
+    
     public boolean isMoved(){
         return maiMossa;
     }

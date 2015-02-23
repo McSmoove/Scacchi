@@ -13,6 +13,10 @@ public class Re extends Pezzo{
         super(x, y, colore);
     }
     
+    public Re(int x, int y,int colore) {
+        super(x, y, colore);
+    }
+    
     public boolean isMoved(){
         return maiMosso;
     }

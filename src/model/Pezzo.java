@@ -18,6 +18,17 @@ public abstract class Pezzo {
         this.x=x;
         this.y=y;
         this.colore=colore;
+    }
+    
+    public Pezzo(int x,int y,int colore){
+        this.x=x;
+        this.y=y;
+        if(colore==1)
+            this.colore=new Bianco();
+        else
+            if(colore==-1)
+                this.colore=new Nero();
+            //else colore non valido
     
     }
 

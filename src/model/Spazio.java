@@ -29,4 +29,8 @@ public class Spazio{
     public Pezzo getPezzo(){
         return occupante;
     }
+    
+    public void setPezzo(Pezzo p){
+        occupante=p;
+    }
 }

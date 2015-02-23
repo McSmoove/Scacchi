@@ -21,9 +21,45 @@ import model.Torre;
 
 
 public class GestoreMovimenti {
+    private static final int BIANCO=1;
+    private static final int NERO=-1;
     private MatriceDeiPezzi matrice; //collegamento con la matrice che salva le posizioni di tutti i pezzi
     private Spazio[][] m;
     private final int MAXLENGTH=7;
+    
+    public GestoreMovimenti(){
+        //throw new Exception("modificare il costruttore senza parametri");
+        //creare una matrice con le posizioni di default;
+        //semplificare le classi corrispondenti ai colori
+        m=new Spazio[8][8];
+        m[0][0].setPezzo(new Torre(0,0,NERO));
+        m[7][0].setPezzo(new Torre(7,0,NERO));
+        m[1][0].setPezzo(new Cavallo(1,0,NERO));
+        m[6][0].setPezzo(new Cavallo(6,0,NERO));
+        m[2][0].setPezzo(new Alfiere(2,0,NERO));
+        m[5][0].setPezzo(new Alfiere(5,0,NERO));
+        m[3][0].setPezzo(new Regina(3,0,NERO));
+        m[4][0].setPezzo(new Re(4,0,NERO));
+        
+        for(int i=0;i<8;i++){
+            m[i][1].setPezzo(new Pedone(i,1,NERO));
+        }
+        
+        for(int i=0;i<8;i++){
+            m[i][6].setPezzo(new Pedone(i,1,BIANCO));
+        }
+        
+        m[0][7].setPezzo(new Torre(0,0,BIANCO));
+        m[7][7].setPezzo(new Torre(7,0,BIANCO));
+        m[1][7].setPezzo(new Cavallo(1,0,BIANCO));
+        m[6][7].setPezzo(new Cavallo(6,0,BIANCO));
+        m[2][7].setPezzo(new Alfiere(2,0,BIANCO));
+        m[5][7].setPezzo(new Alfiere(5,0,BIANCO));
+        m[3][7].setPezzo(new Regina(3,0,BIANCO));
+        m[4][7].setPezzo(new Re(4,0,BIANCO));
+        
+        matrice=new MatriceDeiPezzi(m);
+    }
     
     public GestoreMovimenti(MatriceDeiPezzi matrice){
         this.matrice=matrice;

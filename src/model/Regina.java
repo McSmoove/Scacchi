@@ -17,4 +17,8 @@ public class Regina extends Pezzo{
     public Regina(int x, int y, Colore colore) {
         super(x, y, colore);
     }
+    
+    public Regina(int x, int y, int colore) {
+        super(x, y, colore);
+    }
 }

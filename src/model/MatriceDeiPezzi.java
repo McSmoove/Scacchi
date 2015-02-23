@@ -22,6 +22,10 @@ public class MatriceDeiPezzi {
         scacchiera = new Spazio[8][8];
     }
     
+    public MatriceDeiPezzi(Spazio[][] s){
+        scacchiera = s;
+    }
+    
     public Spazio[][] getMatrice(){
         return scacchiera;
     }
