@@ -37,6 +37,10 @@ public class GestoreMovimenti {
         m=matrice.getMatrice();
     }
     
+    public MatriceDeiPezzi getMatrice(){
+        return matrice;
+    }
+    
     //ritorna la matrice con le posizioni dove il pezzo potrebbe spostarsi
     public int[][] getPossibiliMovimenti(Pezzo p){
         if (p instanceof Pedone) 
