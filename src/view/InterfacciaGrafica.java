@@ -9,8 +9,24 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.imageio.ImageIO;
 import model.MatriceDeiPezzi;
+import model.Pedone;
+import model.Pezzo;
 
 public class InterfacciaGrafica{
+    private final int PEDONE_BIANCA=0;
+    private final int TORRE_BIANCA=1;
+    private final int CAVALLO_BIANCO=2;
+    private final int ALFIERE_BIANCO=3;
+    private final int REGINA_BIANCA=4;
+    private final int RE_BIANCO=5;
+    private final int PEDONE_NERO=6;
+    private final int TORRE_NERA=7;
+    private final int CAVALLO_NERO=8;
+    private final int ALFIERE_NERO=9;
+    private final int REGINA_NERA=10;
+    private final int RE_NERO=11;
+    
+    
     
     private final JPanel interfacciaGrafica = new JPanel(new BorderLayout(3, 3));
     private JButton[][] quadratiScacchiera = new JButton[8][8];
@@ -151,7 +167,7 @@ public class InterfacciaGrafica{
         
         try{
             
-            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedina.png" ) );
+            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneBianco.png" ) );
             // imm[ 1 ] = ImageIO.read( getClass().getResource( "img/Torre_Bianca.gif" ) );
             // imm[ 2 ] = ImageIO.read( getClass().getResource( "img/Cavallo_Bianco.gif" ) );
             // imm[ 3 ] = ImageIO.read( getClass().getResource( "img/Alfiere_Bianco.gif" ) );
@@ -159,7 +175,7 @@ public class InterfacciaGrafica{
             // imm[ 5 ] = ImageIO.read( getClass().getResource( "img/Re_Bianco.gif" ) );
             
             // Recupero le immagini pezzi neri
-            // imm[ 6 ] = ImageIO.read( getClass().getResource( "img/Pedone_Nero.gif" ) );
+             immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/PedoneNero.png" ) );
             // imm[ 7 ] = ImageIO.read( getClass().getResource( "img/Torre_Nera.gif" ) );
             // imm[ 8 ] = ImageIO.read( getClass().getResource( "img/Cavallo_Nero.gif" ) );
             // imm[ 9 ] = ImageIO.read( getClass().getResource( "img/Alfiere_Nero.gif" ) );
@@ -168,31 +184,19 @@ public class InterfacciaGrafica{
         
         } catch( IOException e ){}
         
-        // Pezzi Neri
-        for( int i = 0; i < 8; i++ ){
-            
-            quadratiScacchiera[ i ][ 0 ].setIcon( new ImageIcon( immagine[ 0 ] ) );
         
-        } // Fine For
+        //qui si metteranno i pezzi collegandoli alle immagini
         
-        for( int i = 0; i < 8; i++ ){
-            
-            quadratiScacchiera[ i ][ 1 ].setIcon( new ImageIcon( immagine[ 0 ] ) );
+        Pezzo p;//sposterò in alto la dichiarazione
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                p=matrice.getMatrice()[i][j].getPezzo();
+                //a mettere tutti i casidei vari pezzi
+                
+            }
+        }
         
-        } // Fine For
-
-        // Pezzi Bianchi
-        for( int i = 0; i < 8; i++ ){
-            
-            quadratiScacchiera[ i ][ 6 ].setIcon( new ImageIcon( immagine[ 0 ] ) );
         
-        } // Fine For
-        
-        for( int i = 0; i < 8; i++ ){
-            
-            quadratiScacchiera[ i ][ 7 ].setIcon( new ImageIcon( immagine[ 0 ] ) );
-        
-        } // Fine For
     
     } // Fine iniziaPartita
     
