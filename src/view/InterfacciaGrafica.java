@@ -8,12 +8,18 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.imageio.ImageIO;
+import model.Alfiere;
+import model.Bianco;
+import model.Cavallo;
 import model.MatriceDeiPezzi;
 import model.Pedone;
 import model.Pezzo;
+import model.Re;
+import model.Regina;
+import model.Torre;
 
 public class InterfacciaGrafica{
-    private final int PEDONE_BIANCA=0;
+    private final int PEDONE_BIANCO=0;
     private final int TORRE_BIANCA=1;
     private final int CAVALLO_BIANCO=2;
     private final int ALFIERE_BIANCO=3;
@@ -168,19 +174,19 @@ public class InterfacciaGrafica{
         try{
             
             immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneBianco.png" ) );
-            // imm[ 1 ] = ImageIO.read( getClass().getResource( "img/Torre_Bianca.gif" ) );
-            // imm[ 2 ] = ImageIO.read( getClass().getResource( "img/Cavallo_Bianco.gif" ) );
-            // imm[ 3 ] = ImageIO.read( getClass().getResource( "img/Alfiere_Bianco.gif" ) );
-            // imm[ 4 ] = ImageIO.read( getClass().getResource( "img/Regina_Bianca.gif" ) );
-            // imm[ 5 ] = ImageIO.read( getClass().getResource( "img/Re_Bianco.gif" ) );
+            immagine[ 1 ] = ImageIO.read( getClass().getResource( "../immagini/torreBianca.png" ) );
+            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) );
+            immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) );
+            immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) );
+            immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/reBianco.png" ) );
             
             // Recupero le immagini pezzi neri
-             immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/PedoneNero.png" ) );
-            // imm[ 7 ] = ImageIO.read( getClass().getResource( "img/Torre_Nera.gif" ) );
-            // imm[ 8 ] = ImageIO.read( getClass().getResource( "img/Cavallo_Nero.gif" ) );
-            // imm[ 9 ] = ImageIO.read( getClass().getResource( "img/Alfiere_Nero.gif" ) );
-            // imm[ 10 ] = ImageIO.read( getClass().getResource( "img/Regina_Nera.gif" ) );
-            // imm[ 11 ] = ImageIO.read( getClass().getResource( "img/Re_Nero.gif" ) );
+            immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneNero.png" ) );
+            immagine[ 7 ] = ImageIO.read( getClass().getResource( "../immagini/torreNera.png" ) );
+            immagine[ 8 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) );
+            immagine[ 9 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereNero.png" ) );
+            immagine[ 10 ] = ImageIO.read( getClass().getResource( "../immagini/reginaNera.png" ) );
+            immagine[ 11 ] = ImageIO.read( getClass().getResource( "../immagini/reNero.png" ) );
         
         } catch( IOException e ){}
         
@@ -190,9 +196,47 @@ public class InterfacciaGrafica{
         Pezzo p;//sposterò in alto la dichiarazione
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
-                p=matrice.getMatrice()[i][j].getPezzo();
-                //a mettere tutti i casidei vari pezzi
+                if(matrice.getMatrice()[i][j].isBusy()){
+                    p=matrice.getMatrice()[i][j].getPezzo();
                 
+                    //pensavo di utilizzare uno switch
+                    if(p instanceof Pedone){
+                        if(p.getColore() instanceof Bianco)
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[PEDONE_BIANCO]));
+                        else
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[PEDONE_NERO]));
+                    }
+                    if(p instanceof Alfiere){
+                        if(p.getColore() instanceof Bianco)
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[ALFIERE_BIANCO]));
+                        else
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[ALFIERE_NERO]));
+                    }
+                    if(p instanceof Torre){
+                        if(p.getColore() instanceof Bianco)
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[TORRE_BIANCA]));
+                        else
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[TORRE_NERA]));
+                    }
+                    if(p instanceof Cavallo){
+                        if(p.getColore() instanceof Bianco)
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[CAVALLO_BIANCO]));
+                        else
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[CAVALLO_NERO]));
+                    }
+                    if(p instanceof Regina){
+                        if(p.getColore() instanceof Bianco)
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[REGINA_BIANCA]));
+                        else
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[REGINA_NERA]));
+                    }
+                    if(p instanceof Re){
+                        if(p.getColore() instanceof Bianco)
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[RE_BIANCO]));
+                        else
+                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[RE_NERO]));
+                    }
+                }
             }
         }
         
