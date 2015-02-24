@@ -13,6 +13,7 @@ import model.Re;
 import model.Regina;
 import model.Spazio;
 import model.Torre;
+import view.InterfacciaGrafica;
 
 /**
  *
@@ -21,16 +22,19 @@ import model.Torre;
 
 
 public class GestoreMovimenti {
+    private int turno;
     private static final int BIANCO=1;
     private static final int NERO=-1;
     private MatriceDeiPezzi matrice; //collegamento con la matrice che salva le posizioni di tutti i pezzi
     private Spazio[][] m;
     private final int MAXLENGTH=7;
+    private InterfacciaGrafica ig;
     
     public GestoreMovimenti(){
         //throw new Exception("modificare il costruttore senza parametri");
         //creare una matrice con le posizioni di default;
         //semplificare le classi corrispondenti ai colori
+        turno=BIANCO;
         m=new Spazio[8][8];
         m[0][0].setPezzo(new Torre(0,0,NERO));
         m[7][0].setPezzo(new Torre(7,0,NERO));
@@ -62,6 +66,14 @@ public class GestoreMovimenti {
     }
     
     public GestoreMovimenti(MatriceDeiPezzi matrice){
+        
+        this.matrice=matrice;
+        m=matrice.getMatrice();
+        //da implementare gli altri collegamenti MCV 
+    }
+    
+    public GestoreMovimenti(MatriceDeiPezzi matrice,int turno){
+        this.turno=turno;
         this.matrice=matrice;
         m=matrice.getMatrice();
         //da implementare gli altri collegamenti MCV 
@@ -684,4 +696,11 @@ public class GestoreMovimenti {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public int getTurno(){
+        return turno;
+    }
+    
+    public void setInterfacciaGrafica(InterfacciaGrafica i){
+        ig=i;
+    }
 }

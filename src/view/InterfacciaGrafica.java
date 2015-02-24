@@ -47,8 +47,9 @@ public class InterfacciaGrafica{
     InterfacciaGrafica(){
         matrice=new MatriceDeiPezzi();//inizializzata con la scacchiera di default
         
+        gm=new GestoreMovimenti(matrice);//collegamento interfaccia-gestore
+        gm.setInterfacciaGrafica(this);//collegamento gestore-interfaccia
         
-        gm=new GestoreMovimenti(matrice);
         // Inizializza Interfaccia Grafica (Costruttore)
         interfacciaGrafica.setBorder( new EmptyBorder( 5, 5, 5, 5) );
         JToolBar menu = new JToolBar();
@@ -141,7 +142,7 @@ public class InterfacciaGrafica{
 
         
         // Disegno Le Coordinate
-        scacchiera.add( new JLabel() ); // Perche Devo Metterla ???
+        scacchiera.add( new JLabel() ); // Perche Devo Metterla ??? (x Michele :P : x spostare la matrice dei numeri in basso di un quadrato)
 
         // Disegno Le Lettere In Alto
         for( int i = 0; i < 8; i++ ){
@@ -154,16 +155,19 @@ public class InterfacciaGrafica{
             
             for ( int j = 0; j < 8; j++ ){
                 
+                //cosa fa lo switch?
                 switch ( j ){
                     
                     case 0: scacchiera.add( new JLabel( "" + ( 9 - ( i + 1 ) ), SwingConstants.CENTER ) );
                     default: scacchiera.add( quadratiScacchiera[ j ][ i ] );
                 
-                } // Fine Switch
+                }
             
-            } // Fine For Colonne
+            } // Fine For Colonne (no righr)
         
-        } // Fine For Righe
+        } // Fine For Righe (colonne...)
+        
+        
     
     } // Fine InterfacciaGrafica
 
