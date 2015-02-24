@@ -45,8 +45,8 @@ public class InterfacciaGrafica{
     
 
     InterfacciaGrafica(){
-        matrice=new MatriceDeiPezzi();
-        //bisogna popolare la matrice (probabilmente nel suo costruttore)
+        matrice=new MatriceDeiPezzi();//inizializzata con la scacchiera di default
+        
         
         gm=new GestoreMovimenti(matrice);
         // Inizializza Interfaccia Grafica (Costruttore)
