@@ -46,6 +46,8 @@ public class InterfacciaGrafica{
 
     InterfacciaGrafica(){
         matrice=new MatriceDeiPezzi();
+        //bisogna popolare la matrice (probabilmente nel suo costruttore)
+        
         gm=new GestoreMovimenti(matrice);
         // Inizializza Interfaccia Grafica (Costruttore)
         interfacciaGrafica.setBorder( new EmptyBorder( 5, 5, 5, 5) );

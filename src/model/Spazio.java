@@ -22,6 +22,31 @@ public class Spazio{
     private int x,y; //forse servirà ma potrebbe essere ridondante con l'analogia dei pezzi
     //da finire
     
+    public Spazio(){
+        occupato=false;
+    }
+    
+    public Spazio(int x,int y){
+        occupato=false;
+        this.x=x;
+        this.y=y;
+    }
+    
+    public Spazio(int x,int y,Pezzo p){
+        occupato=true;
+        this.x=x;
+        this.y=y;
+        occupante=p;
+    }
+    
+    public Spazio(Pezzo p){
+        occupante=p;
+        x=p.getX();
+        y=p.getY();
+        occupato=true;
+    }
+    
+    
     public boolean isBusy(){
         return occupato;
     }
