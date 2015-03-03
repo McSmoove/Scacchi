@@ -5,6 +5,8 @@
         <group>
             <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/MatriceDeiPezzi.java</file>
             <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/view/InterfacciaGrafica.java</file>
+            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/controller/GestoreTurni.java</file>
+            <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/controller/GestoreBottoni.java</file>
             <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/controller/GestoreMovimenti.java</file>
             <file>file:/C:/Users/Viktor/Documents/GitHub/Scacchi/src/model/Spazio.java</file>
         </group>

@@ -1,6 +1,8 @@
 package view;
 
+import controller.GestoreBottoni;
 import controller.GestoreMovimenti;
+import controller.GestoreTurni;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -8,6 +10,7 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.imageio.ImageIO;
+import static javax.swing.Spring.constant;
 import model.Alfiere;
 import model.Bianco;
 import model.Cavallo;
@@ -18,7 +21,7 @@ import model.Re;
 import model.Regina;
 import model.Torre;
 
-public class InterfacciaGrafica{
+public class InterfacciaGrafica implements ActionListener{
     private final int PEDONE_BIANCO=0;
     private final int TORRE_BIANCA=1;
     private final int CAVALLO_BIANCO=2;
@@ -42,14 +45,12 @@ public class InterfacciaGrafica{
     private static final String colonne = "ABCDEFGH";
     private GestoreMovimenti gm;
     private MatriceDeiPezzi matrice;
+    private GestoreBottoni gestoreBottoni;
+    private GestoreTurni gestoreTurni;
     
 
     InterfacciaGrafica(){
-        matrice=new MatriceDeiPezzi();//inizializzata con la scacchiera di default
-        
-        gm=new GestoreMovimenti(matrice);//collegamento interfaccia-gestore
-        gm.setInterfacciaGrafica(this);//collegamento gestore-interfaccia
-        
+                
         // Inizializza Interfaccia Grafica (Costruttore)
         interfacciaGrafica.setBorder( new EmptyBorder( 5, 5, 5, 5) );
         JToolBar menu = new JToolBar();
@@ -173,7 +174,11 @@ public class InterfacciaGrafica{
 
     // Qui Si Inizializzano Le Immagini Eccetera...
     private final void iniziaPartita() {
-        
+        matrice=new MatriceDeiPezzi();//inizializzata con la scacchiera di default
+        gm=new GestoreMovimenti(matrice);//collegamento interfaccia-gestore
+        gm.setInterfacciaGrafica(this);//collegamento gestore-interfaccia
+        gestoreBottoni=new GestoreBottoni(gm,gestoreTurni,this);
+                
         //da modificare il testo in base al turno
         messaggioInfo.setText( "Fai Una Mossa !!!");
         
@@ -274,5 +279,15 @@ public class InterfacciaGrafica{
         SwingUtilities.invokeLater(run);
     
     } // Fine main
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() instanceof JButton)
+            gestoreBottoni.pressionePulsanteScacchiera(e);
+    }
+    
+    public JButton[][] getMatriceBottoni(){
+        return quadratiScacchiera;
+    }
 
 } // Fine Classe InterfacciaGrafica

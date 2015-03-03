@@ -29,6 +29,8 @@ public class GestoreMovimenti {
     private Spazio[][] m;
     private final int MAXLENGTH=7;
     private InterfacciaGrafica ig;
+    private Re reBianco;
+    private Re reNero;
     
     public GestoreMovimenti(){
         //throw new Exception("modificare il costruttore senza parametri");
@@ -44,6 +46,7 @@ public class GestoreMovimenti {
         m[5][0].setPezzo(new Alfiere(5,0,NERO));
         m[3][0].setPezzo(new Regina(3,0,NERO));
         m[4][0].setPezzo(new Re(4,0,NERO));
+        reNero=(Re) m[4][0].getPezzo();
         
         for(int i=0;i<8;i++){
             m[i][1].setPezzo(new Pedone(i,1,NERO));
@@ -61,6 +64,7 @@ public class GestoreMovimenti {
         m[5][7].setPezzo(new Alfiere(5,0,BIANCO));
         m[3][7].setPezzo(new Regina(3,0,BIANCO));
         m[4][7].setPezzo(new Re(4,0,BIANCO));
+        reBianco=(Re) m[4][7].getPezzo();
         
         matrice=new MatriceDeiPezzi(m);
     }
@@ -472,7 +476,7 @@ public class GestoreMovimenti {
     //minimizzare il codice regruppando re e pedone in casi specifici
     //(come regina con torre e alfiere)
     //si possono fare delle hiamate per minimizzare il codice
-    private int controlloScacco(int x, int y,Colore colore) {
+    public int controlloScacco(int x, int y,Colore colore) {
         // controllo x torri/regine in orizzontale e verticale
         int temp1,temp2;
         //verso destra
@@ -696,11 +700,20 @@ public class GestoreMovimenti {
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public int getTurno(){
-        return turno;
+    public int controlloScacco(Re r) {
+        return controlloScacco(r.getX(),r.getY(),r.getColore());
     }
+    
     
     public void setInterfacciaGrafica(InterfacciaGrafica i){
         ig=i;
+    }
+    
+    public Re getReNero(){
+        return reNero;
+    }
+    
+    public Re getReBianco(){
+        return reBianco;
     }
 }
