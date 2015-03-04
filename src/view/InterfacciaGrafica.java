@@ -1,8 +1,6 @@
 package view;
 
-import controller.GestoreBottoni;
-import controller.GestoreMovimenti;
-import controller.GestoreTurni;
+import controller.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -10,35 +8,25 @@ import java.io.IOException;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.imageio.ImageIO;
-import static javax.swing.Spring.constant;
-import model.Alfiere;
-import model.Bianco;
-import model.Cavallo;
-import model.MatriceDeiPezzi;
-import model.Pedone;
-import model.Pezzo;
-import model.Re;
-import model.Regina;
-import model.Torre;
+import model.*;
 
-public class InterfacciaGrafica implements ActionListener{
-    private final int PEDONE_BIANCO=0;
-    private final int TORRE_BIANCA=1;
-    private final int CAVALLO_BIANCO=2;
-    private final int ALFIERE_BIANCO=3;
-    private final int REGINA_BIANCA=4;
-    private final int RE_BIANCO=5;
-    private final int PEDONE_NERO=6;
-    private final int TORRE_NERA=7;
-    private final int CAVALLO_NERO=8;
-    private final int ALFIERE_NERO=9;
-    private final int REGINA_NERA=10;
-    private final int RE_NERO=11;
+public class InterfacciaGrafica{
     
+    private final int PEDONE_BIANCO = 0;
+    private final int TORRE_BIANCA = 1;
+    private final int CAVALLO_BIANCO = 2;
+    private final int ALFIERE_BIANCO = 3;
+    private final int REGINA_BIANCA = 4;
+    private final int RE_BIANCO = 5;
+    private final int PEDONE_NERO = 6;
+    private final int TORRE_NERA = 7;
+    private final int CAVALLO_NERO = 8;
+    private final int ALFIERE_NERO = 9;
+    private final int REGINA_NERA = 10;
+    private final int RE_NERO = 11;
     
-    
-    private final JPanel interfacciaGrafica = new JPanel(new BorderLayout(3, 3));
-    private JButton[][] quadratiScacchiera = new JButton[8][8];
+    private final JPanel interfacciaGrafica = new JPanel( new BorderLayout( 3, 3 ) );
+    private JButton[][] quadratiScacchiera = new JButton[ 8 ][ 8 ];
     private final Image immagine[] = new Image[ 12 ];
     private JPanel scacchiera;
     private final JLabel messaggioInfo = new JLabel( "Tocca Al Bianco / Nero" );
@@ -48,21 +36,27 @@ public class InterfacciaGrafica implements ActionListener{
     private GestoreBottoni gestoreBottoni;
     private GestoreTurni gestoreTurni;
     
-
     InterfacciaGrafica(){
-                
-        // Inizializza Interfaccia Grafica (Costruttore)
-        interfacciaGrafica.setBorder( new EmptyBorder( 5, 5, 5, 5) );
+        
+        matrice = new MatriceDeiPezzi(); // Inizializzata Con La Scacchiera Di Default
+        gm = new GestoreMovimenti( matrice ); // Collegamento Interfaccia-Gestore
+        gm.setInterfacciaGrafica( this ); // Collegamento Gestore-Interfaccia
+        
+        // Inizializza Interfaccia Grafica ( Costruttore )
+        interfacciaGrafica.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         JToolBar menu = new JToolBar();
         menu.setFloatable( false );
         interfacciaGrafica.add( menu, BorderLayout.PAGE_START );
         
         Action iniziaNuovaPartita = new AbstractAction( "Nuova Partita" ){
-
+            
             @Override
             public void actionPerformed( ActionEvent e ){ 
+                
                 iniziaPartita();
+            
             }
+        
         };
         
         menu.add( iniziaNuovaPartita );
@@ -72,7 +66,7 @@ public class InterfacciaGrafica implements ActionListener{
         scacchiera = new JPanel( new GridLayout( 0, 9 ) ){
             
             @Override
-            public final Dimension getPreferredSize() {
+            public final Dimension getPreferredSize(){
                 
                 Dimension dimensione = super.getPreferredSize();
                 Dimension dimensioneCambiata = null;
@@ -96,21 +90,21 @@ public class InterfacciaGrafica implements ActionListener{
                 int h = ( int )dimensioneCambiata.getHeight();
                 
                 // Prendo La Piu Piccola Tra Altezza E Larghezza Per Ridimensionare
-                int scelta = ( w > h ? h : w);
+                int scelta = ( w > h ? h : w );
                 return new Dimension( scelta, scelta );
             
             } // Fine getPrefferedSize
         
         };
         
-        scacchiera.setBorder( new CompoundBorder( new EmptyBorder( 10, 10, 10, 10), new LineBorder( Color.ORANGE ) ) );
+        scacchiera.setBorder( new CompoundBorder( new EmptyBorder( 10, 10, 10, 10 ), new LineBorder( Color.ORANGE ) ) );
 
         JPanel pannelloScacchiera = new JPanel( new GridBagLayout() );
         pannelloScacchiera.add( scacchiera );
         interfacciaGrafica.add( pannelloScacchiera );
 
         // Creo I JButton Del Pannello Della Scacchiera
-        Insets margineBottoni = new Insets(0, 0, 0, 0); // Per Avere Margini = 0
+        Insets margineBottoni = new Insets( 0, 0, 0, 0 ); // Per Avere Margini = 0
         
         for (int i = 0; i < quadratiScacchiera.length; i++ ){
             
@@ -121,9 +115,8 @@ public class InterfacciaGrafica implements ActionListener{
                 
                 // I Pezzi Sono Da 64x64 Pixel E Trasparenti ( Posso Modificare )           
                 ImageIcon immaginePezzo = new ImageIcon( new BufferedImage( 64, 64, BufferedImage.TYPE_INT_ARGB ) );
-                bottone.setIcon(immaginePezzo);
-                
-                
+                bottone.setIcon( immaginePezzo );
+
                 // Coloro Lo Sfondo Dei Quadrati Se Sono Pari O Dispari
                 if ( ( j % 2 == 1 && i % 2 == 1 ) || ( j % 2 == 0 && i % 2 == 0 ) ){
                     
@@ -141,9 +134,8 @@ public class InterfacciaGrafica implements ActionListener{
         
         } // Fine For Righe
 
-        
         // Disegno Le Coordinate
-        scacchiera.add( new JLabel() ); // Perche Devo Metterla ??? (x Michele :P : x spostare la matrice dei numeri in basso di un quadrato)
+        scacchiera.add( new JLabel() );
 
         // Disegno Le Lettere In Alto
         for( int i = 0; i < 8; i++ ){
@@ -156,7 +148,6 @@ public class InterfacciaGrafica implements ActionListener{
             
             for ( int j = 0; j < 8; j++ ){
                 
-                //cosa fa lo switch?
                 switch ( j ){
                     
                     case 0: scacchiera.add( new JLabel( "" + ( 9 - ( i + 1 ) ), SwingConstants.CENTER ) );
@@ -164,22 +155,16 @@ public class InterfacciaGrafica implements ActionListener{
                 
                 }
             
-            } // Fine For Colonne (no righr)
+            } // Fine For Righe
         
-        } // Fine For Righe (colonne...)
-        
-        
+        } // Fine For Colonne
     
     } // Fine InterfacciaGrafica
 
-    // Qui Si Inizializzano Le Immagini Eccetera...
+    // Qui Si Inizializzano Le Immagini Eccetera
     private final void iniziaPartita() {
-        matrice=new MatriceDeiPezzi();//inizializzata con la scacchiera di default
-        gm=new GestoreMovimenti(matrice);//collegamento interfaccia-gestore
-        gm.setInterfacciaGrafica(this);//collegamento gestore-interfaccia
-        gestoreBottoni=new GestoreBottoni(gm,gestoreTurni,this);
-                
-        //da modificare il testo in base al turno
+
+        // Da Modificare Il Testo In Base Al Turno
         messaggioInfo.setText( "Fai Una Mossa !!!");
         
         try{
@@ -190,7 +175,7 @@ public class InterfacciaGrafica implements ActionListener{
             immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) );
             immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) );
             immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/reBianco.png" ) );
-            
+
             // Recupero le immagini pezzi neri
             immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneNero.png" ) );
             immagine[ 7 ] = ImageIO.read( getClass().getResource( "../immagini/torreNera.png" ) );
@@ -200,67 +185,117 @@ public class InterfacciaGrafica implements ActionListener{
             immagine[ 11 ] = ImageIO.read( getClass().getResource( "../immagini/reNero.png" ) );
         
         } catch( IOException e ){}
+
+        // Qui Si Metteranno I Pezzi Collegandoli Alle Immagini
         
-        
-        //qui si metteranno i pezzi collegandoli alle immagini
-        
-        Pezzo p;//sposterò in alto la dichiarazione
-        for(int i=0;i<8;i++){
-            for(int j=0;j<8;j++){
-                if(matrice.getMatrice()[i][j].isBusy()){
-                    p=matrice.getMatrice()[i][j].getPezzo();
+        Pezzo p; // Sposteo In Alto La Dichiarazione
+        for( int i = 0; i < 8; i++ ){
+            
+            for( int j = 0; j < 8; j++ ){
                 
-                    //pensavo di utilizzare uno switch
-                    if(p instanceof Pedone){
-                        if(p.getColore() instanceof Bianco)
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[PEDONE_BIANCO]));
-                        else
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[PEDONE_NERO]));
+                if( matrice.getMatrice()[ i ][ j ].eOccupato() ){
+                    
+                    p  = matrice.getMatrice()[ i ][ j ].getOccupante();
+
+                    // Pensavo Di Utilizzare Uno Switch
+                    if( p instanceof Pedone ){
+                        
+                        if( p.getColore() instanceof Bianco ){
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ PEDONE_BIANCO ] ) );
+                        
+                        } else {
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ PEDONE_NERO ] ) );
+                        
+                        }
+                    
                     }
-                    if(p instanceof Alfiere){
-                        if(p.getColore() instanceof Bianco)
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[ALFIERE_BIANCO]));
-                        else
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[ALFIERE_NERO]));
+                    
+                    if( p instanceof Alfiere ){
+                        
+                        if( p.getColore() instanceof Bianco ){
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ ALFIERE_BIANCO ] ) );
+                        
+                        } else {
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ ALFIERE_NERO ] ) );
+                        
+                        }
+                    
                     }
-                    if(p instanceof Torre){
-                        if(p.getColore() instanceof Bianco)
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[TORRE_BIANCA]));
-                        else
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[TORRE_NERA]));
+                    
+                    if( p instanceof Torre ){
+                        
+                        if( p.getColore() instanceof Bianco ){
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ TORRE_BIANCA ] ) );
+                        
+                        } else {
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ TORRE_NERA ] ) );
+                        
+                        }
+                    
                     }
-                    if(p instanceof Cavallo){
-                        if(p.getColore() instanceof Bianco)
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[CAVALLO_BIANCO]));
-                        else
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[CAVALLO_NERO]));
+                    
+                    if( p instanceof Cavallo ){
+                        
+                        if( p.getColore() instanceof Bianco ){
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ CAVALLO_BIANCO ] ) );
+                        
+                        } else {
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ CAVALLO_NERO ] ) );
+                        
+                        }
+                    
                     }
-                    if(p instanceof Regina){
-                        if(p.getColore() instanceof Bianco)
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[REGINA_BIANCA]));
-                        else
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[REGINA_NERA]));
+                    
+                    if( p instanceof Regina ){
+                        
+                        if( p.getColore() instanceof Bianco ){
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ REGINA_BIANCA ] ) );
+                        
+                        } else {
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ REGINA_NERA ] ) );
+                        
+                        }
+                    
                     }
-                    if(p instanceof Re){
-                        if(p.getColore() instanceof Bianco)
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[RE_BIANCO]));
-                        else
-                            quadratiScacchiera[ i ][ j ].setIcon(new ImageIcon(immagine[RE_NERO]));
+                    
+                    if( p instanceof Re ){
+                        
+                        if( p.getColore() instanceof Bianco ){
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ RE_BIANCO ] ) );
+                        
+                        } else {
+                            
+                            quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ RE_NERO ] ) );
+                        
+                        }
+                    
                     }
+                
                 }
+            
             }
+        
         }
-        
-        
     
     } // Fine iniziaPartita
     
     public void start() {
         
-        Runnable run = new Runnable() {
+        Runnable run = new Runnable(){
             
             @Override
-            public void run() {
+            public void run(){
 
                 JFrame frame = new JFrame( "Scacchi Beta !!!" );
                 frame.add( interfacciaGrafica );
@@ -279,15 +314,21 @@ public class InterfacciaGrafica implements ActionListener{
         SwingUtilities.invokeLater(run);
     
     } // Fine main
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() instanceof JButton)
-            gestoreBottoni.pressionePulsanteScacchiera(e);
+    
+    public void actionPerformed( ActionEvent e ) {
+        
+        if( e.getSource() instanceof JButton ){
+            
+            gestoreBottoni.pressionePulsanteScacchiera( e );
+        
+        }
+    
     }
     
     public JButton[][] getMatriceBottoni(){
+        
         return quadratiScacchiera;
+    
     }
 
 } // Fine Classe InterfacciaGrafica

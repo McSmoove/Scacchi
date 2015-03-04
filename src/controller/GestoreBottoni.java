@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.awt.event.ActionEvent;
@@ -65,9 +60,9 @@ public class GestoreBottoni {
         //guardo se nello stesso turno non è abilitato un bottone
         if(!gestoreTurni.isAttivato()){
             //guardo se lo spazio contiene qualcosa
-            if(gestoreMovimenti.getMatrice().getMatrice()[x][y].isBusy()){
+            if(gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                 //se ciò che contiene ha lo stesso colore del turno corrente
-                if(turno.equals(gestoreMovimenti.getMatrice().getMatrice()[x][y].getPezzo().getColore())){
+                if(turno.equals(gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getColore())){
                     
                     
                     
@@ -107,7 +102,7 @@ public class GestoreBottoni {
             //altrimenti se è una posizione diversa
             else{
                 //se è una locazione vuota
-                if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].isBusy()){
+                if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                     //se è una locazione consentita dal pezzo
                     
                 }

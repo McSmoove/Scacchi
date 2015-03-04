@@ -1,51 +1,72 @@
 package model;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Viktor
  */
-public abstract class Pezzo {
-    private int x,y;//coordinate
+
+public abstract class Pezzo{
+    
+    private int x, y; // Coordinate
     private Colore colore;
     
-    public Pezzo(int x,int y,Colore colore){
-        this.x=x;
-        this.y=y;
-        this.colore=colore;
+    public Pezzo( int x, int y, Colore colore ){
+        
+        this.x = x;
+        this.y = y;
+        this.colore = colore;
+    
     }
     
-    public Pezzo(int x,int y,int colore){
-        this.x=x;
-        this.y=y;
-        if(colore==1)
-            this.colore=new Bianco();
-        else
-            if(colore==-1)
-                this.colore=new Nero();
-            //else colore non valido
+    public Pezzo( int x, int y, int colore ){
+        
+        this.x = x;
+        this.y = y;
+        
+        if( colore == 1 ){
+            
+            this.colore = new Bianco();
+        
+        } else {
+            
+            if( colore == -1 ){
+                
+                this.colore = new Nero();
+            
+            } else {
+
+            // Colore non valido
+            
+            }
+        
+        }
     
     }
 
-    //da implementare
+    // Da implementare
     public int getX(){
+        
         return x;
-    }
-    public int getY(){
-        return y;
-    }
-    public Colore getColore(){
-        return colore;
+    
     }
     
-    //metodo chiamato alla distruzione di un pezzo
-    public void distruggi(){
-        x=-1;
-        y=-1;
+    public int getY(){
+        
+        return y;
+    
     }
+    
+    public Colore getColore(){
+        
+        return colore;
+    
+    }
+    
+    public void distruggi(){ // Metodo Chiamato Alla Distruzione Di Un Pezzo
+        
+        x = -1;
+        y = -1;
+    
+    }
+
 }

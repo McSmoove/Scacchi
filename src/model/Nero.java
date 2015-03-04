@@ -1,24 +1,40 @@
 package model;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Viktor
  */
+
 public class Nero extends Colore{
-    private int colore;
+    
+    private final int colore;
+    
     public Nero(){
-        colore=Colore.NERO;
+        
+        colore = Colore.NERO;
+    
     }
     
-    public boolean equals(Object o){
-        if(o instanceof Nero)
+    @Override
+    public boolean equals( Object o ){
+        
+        if( o instanceof Nero ){ // If Rindondante
+            
             return true;
-        return false;
+        
+        } else {
+            
+            return false;
+        
+        }
+    
     }
+
+    @Override
+    public int hashCode(){ // La Equals Vuole La hashCode()
+        
+        return colore;
+    
+    }
+
 }
