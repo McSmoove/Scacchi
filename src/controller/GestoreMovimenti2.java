@@ -21,7 +21,7 @@ import view.InterfacciaGrafica;
  */
 
 
-public class GestoreMovimenti {
+public class GestoreMovimenti2 {
     private int turno;
     private static final int BIANCO=1;
     private static final int NERO=-1;
@@ -32,7 +32,7 @@ public class GestoreMovimenti {
     private Re reBianco;
     private Re reNero;
     
-    public GestoreMovimenti(){
+    public GestoreMovimenti2(){
         //throw new Exception("modificare il costruttore senza parametri");
         //creare una matrice con le posizioni di default;
         //semplificare le classi corrispondenti ai colori
@@ -69,14 +69,14 @@ public class GestoreMovimenti {
         matrice=new MatriceDeiPezzi(m);
     }
     
-    public GestoreMovimenti(MatriceDeiPezzi matrice){
+    public GestoreMovimenti2(MatriceDeiPezzi matrice){
         
         this.matrice=matrice;
         m=matrice.getMatrice();
         //da implementare gli altri collegamenti MCV 
     }
     
-    public GestoreMovimenti(MatriceDeiPezzi matrice,int turno){
+    public GestoreMovimenti2(MatriceDeiPezzi matrice,int turno){
         this.turno=turno;
         this.matrice=matrice;
         m=matrice.getMatrice();
