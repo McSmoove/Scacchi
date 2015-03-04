@@ -1,18 +1,6 @@
 package controller;
 
-
-import model.Alfiere;
-import model.Bianco;
-import model.Cavallo;
-import model.Colore;
-import model.MatriceDeiPezzi;
-import model.Nero;
-import model.Pedone;
-import model.Pezzo;
-import model.Re;
-import model.Regina;
-import model.Spazio;
-import model.Torre;
+import model.*;
 import view.InterfacciaGrafica;
 
 /**
@@ -20,700 +8,1136 @@ import view.InterfacciaGrafica;
  * @author Viktor
  */
 
-
-public class GestoreMovimenti {
+public class GestoreMovimenti{
+    
     private int turno;
-    private static final int BIANCO=1;
-    private static final int NERO=-1;
-    private MatriceDeiPezzi matrice; //collegamento con la matrice che salva le posizioni di tutti i pezzi
+    private static final int BIANCO = 1;
+    private static final int NERO = -1;
+    private MatriceDeiPezzi matrice;
     private Spazio[][] m;
-    private final int MAXLENGTH=7;
+    private final int MAXLENGTH = 7;
     private InterfacciaGrafica ig;
-    private Re reBianco;
-    private Re reNero;
     
     public GestoreMovimenti(){
-        //throw new Exception("modificare il costruttore senza parametri");
-        //creare una matrice con le posizioni di default;
-        //semplificare le classi corrispondenti ai colori
-        turno=BIANCO;
-        m=new Spazio[8][8];
-        m[0][0].setPezzo(new Torre(0,0,NERO));
-        m[7][0].setPezzo(new Torre(7,0,NERO));
-        m[1][0].setPezzo(new Cavallo(1,0,NERO));
-        m[6][0].setPezzo(new Cavallo(6,0,NERO));
-        m[2][0].setPezzo(new Alfiere(2,0,NERO));
-        m[5][0].setPezzo(new Alfiere(5,0,NERO));
-        m[3][0].setPezzo(new Regina(3,0,NERO));
-        m[4][0].setPezzo(new Re(4,0,NERO));
-        reNero=(Re) m[4][0].getPezzo();
         
-        for(int i=0;i<8;i++){
-            m[i][1].setPezzo(new Pedone(i,1,NERO));
-        }
+        // Throw New Exception ( Modificare Il Costruttore Senza Parametri )
+        // Creare Una Matrice Con Le Posizioni Di Default
+        // Semplificare Le Classi Corrispondenti Ai Colori
         
-        for(int i=0;i<8;i++){
-            m[i][6].setPezzo(new Pedone(i,1,BIANCO));
-        }
+        turno = BIANCO;
+        m = new Spazio[ 8 ][ 8 ];
+        m[ 0 ][ 0 ].setOccupante( new Torre( 0, 0, NERO ) );
+        m[ 7 ][ 0 ].setOccupante( new Torre( 7, 0, NERO ) );
+        m[ 1 ][ 0 ].setOccupante( new Cavallo( 1, 0, NERO ) );
+        m[ 6 ][ 0 ].setOccupante( new Cavallo( 6, 0, NERO ) );
+        m[ 2 ][ 0 ].setOccupante( new Alfiere( 2, 0, NERO ) );
+        m[ 5 ][ 0 ].setOccupante( new Alfiere( 5, 0, NERO ) );
+        m[ 3 ][ 0 ].setOccupante( new Regina( 3, 0, NERO ) );
+        m[ 4 ][ 0 ].setOccupante( new Re( 4, 0, NERO ) );
         
-        m[0][7].setPezzo(new Torre(0,0,BIANCO));
-        m[7][7].setPezzo(new Torre(7,0,BIANCO));
-        m[1][7].setPezzo(new Cavallo(1,0,BIANCO));
-        m[6][7].setPezzo(new Cavallo(6,0,BIANCO));
-        m[2][7].setPezzo(new Alfiere(2,0,BIANCO));
-        m[5][7].setPezzo(new Alfiere(5,0,BIANCO));
-        m[3][7].setPezzo(new Regina(3,0,BIANCO));
-        m[4][7].setPezzo(new Re(4,0,BIANCO));
-        reBianco=(Re) m[4][7].getPezzo();
+        for( int i = 0; i < 8; i++ ){
+            
+            m[ i ][ 1 ].setOccupante( new Pedone( i, 1, NERO ) );
         
-        matrice=new MatriceDeiPezzi(m);
+        } // Fine Inizializzazione Pezzi Neri
+        
+        m[ 0 ][ 7 ].setOccupante( new Torre( 0, 0, BIANCO ) );
+        m[ 7 ][ 7 ].setOccupante( new Torre( 7, 0, BIANCO ) );
+        m[ 1 ][ 7 ].setOccupante( new Cavallo( 1, 0, BIANCO ) );
+        m[ 6 ][ 7 ].setOccupante( new Cavallo( 6, 0, BIANCO ) );
+        m[ 2 ][ 7 ].setOccupante( new Alfiere( 2, 0, BIANCO ) );
+        m[ 5 ][ 7 ].setOccupante( new Alfiere( 5, 0, BIANCO ) );
+        m[ 3 ][ 7 ].setOccupante( new Regina( 3, 0, BIANCO ) );
+        m[ 4 ][ 7 ].setOccupante( new Re( 4, 0, BIANCO ) );
+        
+        for( int i = 0; i < 8; i++){
+            
+            m[ i ][ 6 ].setOccupante( new Pedone( i, 1, BIANCO ) );
+        
+        } // Fine Inizializzazione Pezzi Bianchi
+        
+        matrice = new MatriceDeiPezzi( m ); // Collegamento Con La Matrice Che Salva Le Posizioni Dei Pezzi
+    
     }
     
-    public GestoreMovimenti(MatriceDeiPezzi matrice){
+    public GestoreMovimenti( MatriceDeiPezzi matrice ){
         
-        this.matrice=matrice;
-        m=matrice.getMatrice();
-        //da implementare gli altri collegamenti MCV 
+        this.matrice = matrice;
+        m = matrice.getMatrice();
+        // Da Implementare Gli Altri Collegamenti MCV
+    
     }
     
-    public GestoreMovimenti(MatriceDeiPezzi matrice,int turno){
-        this.turno=turno;
-        this.matrice=matrice;
-        m=matrice.getMatrice();
-        //da implementare gli altri collegamenti MCV 
+    public GestoreMovimenti( MatriceDeiPezzi matrice, int turno ){
+        
+        this.turno = turno;
+        this.matrice = matrice;
+        m = matrice.getMatrice();
+        // Da Implementare Gli Altri Collegamenti MCV
+    
     }
     
-    //chiamata dopo ogni mossa effettuata
-    public void aggiornaMatriceDeiPezzi(MatriceDeiPezzi nuova){
-        matrice=nuova;
-        m=matrice.getMatrice();
+    public void aggiornaMatriceDeiPezzi( MatriceDeiPezzi nuova ){ // Chiamata Fatta Dopo Ogni Mossa Effettuata
+        
+        matrice = nuova;
+        m = matrice.getMatrice();
+    
     }
     
     public MatriceDeiPezzi getMatrice(){
+        
         return matrice;
+    
     }
     
-    //ritorna la matrice con le posizioni dove il pezzo potrebbe spostarsi
-    public int[][] getPossibiliMovimenti(Pezzo p){
-        if (p instanceof Pedone) 
-            return movimentiPedone((Pedone) p);
-        else
-            if(p instanceof Torre)
-                return movimentiTorre((Torre) p);
-            else 
-                if(p instanceof Alfiere)
-                    return movimentiAlfiere((Alfiere) p);
-                else
-                    if (p instanceof Cavallo)
-                        return movimentiCavallo((Cavallo)p);
-                    else
-                        if (p instanceof Regina)
-                            return movimentiRegina((Regina)p);
-                        else
-                            if(p instanceof Re)
-                                return movimentiRe((Re)p);
+    public int[][] getPossibiliMovimenti( Pezzo p ){ // Ritorna La Matrice Con Le Posizioni Mosse Dove Un Pezzo Puo Spostarsi
         
-        //caso impossibile (da togliere alla fine dell'implementazione)
-        return null;//da implementare il resto (altri sottoclassi di pezzo)
-    }
-    
-    
-    //metodo per controllare il pedone
-    //manca il controllo di quando supero una pedina con un'altra (opzionale)
-    //mancano controlli che impediscono la mossa nel caso di scacco
-    //manca il controllo ultima riga -> trasformazione in un altro pezzo (solo dopo il movimento)
-    //non controllo l'ultima riga xke in quella il pezzo si trasforma e cambiano le sue regole
-    //aggiungere il controllo se il pedone non si è mai mosso può muoversi di 2 quadratini!!!
-    public int[][] movimentiPedone(Pedone p){
-        int[][] scacchiera=new int[8][8];
-        int x,y;
-        x=p.getX();
-        y=p.getY();
-        
-        
-        if(p.getColore() instanceof Bianco){
-            //immediatamente sopra
-            if(!m[x][y+1].isBusy())
-                scacchiera[x][y+1]=1;
+        if( p instanceof Pedone ){
             
-            //in alto a sinistra
-            if((x-1)>=0)//controllo posizione valida(probabilmente ridondante)
-                if(m[x-1][y+1].isBusy() && m[x-1][y+1].getPezzo().getColore() instanceof Nero )
-                    scacchiera[x-1][y+1]=1;
-            
-            //in alto a destra
-            if((x+1)<=MAXLENGTH)//controllo posizione valida (probabilmente ridondante)
-                if(m[x+1][y+1].isBusy() && m[x+1][y+1].getPezzo().getColore() instanceof Nero )
-                    scacchiera[x+1][y+1]=1;
-            
-        }     
+            return movimentiPedone( ( Pedone ) p );
         
+        } else if( p instanceof Torre ){
+            
+            return movimentiTorre( ( Torre ) p );
         
-        //caso del nero
-        else{
-            if(!m[x][y-1].isBusy())
-                scacchiera[x][y-1]=1;
-            if((x-1)>=0)//controllo posizione valida(probabilmente ridondante)
-                if(m[x-1][y-1].isBusy() && m[x-1][y-1].getPezzo().getColore() instanceof Nero )
-                    scacchiera[x+1][y-1]=1;
-            if((x+1)<=7)//controllo posizione valida (probabilmente ridondante)
-                if(m[x+1][y-1].isBusy() && m[x+1][y-1].getPezzo().getColore() instanceof Nero )
-                    scacchiera[x+1][y-1]=1;
+        } else if( p instanceof Alfiere ){
+            
+            return movimentiAlfiere( ( Alfiere ) p );
+        
+        } else if( p instanceof Cavallo ){
+            
+            return movimentiCavallo( ( Cavallo ) p );
+        
+        } else if ( p instanceof Regina ){
+            
+            return movimentiRegina( ( Regina ) p );
+        
+        } else if( p instanceof Re ){
+            
+            return movimentiRe( ( Re ) p );
+        
+        } else {
+            
+            return null; // Da Implementare Il Resto ( Altre Sottoclassi Di Pezzo )
+            // Caso Impossibile ( Da Togliere Alla Fine Della Implementazione )
+        
         }
-        return scacchiera;
+    
     }
+    
+    
+    // Metodo Per Controllare Il Pedone
+    // Manca Il Controllo Di Quando Supero Una Pedina Con Un'Altra
+    // Mancan Il Controllo Che Impedisce La Mossa Nel Caso Di Scacco
+    // Manca Il Controllo Della Ultima Riga -> Trasformazione In Un Altro Pezzo Solo Dopo Il Movimento
+    // Non Controllo L'Ultima Riga Perche Il Pezzo Si Trasforma
+    // Aggiungere Il Controllo Se Il Pedone Non Si E Mai Mosso Puo Moversi Di 2 Quadratini
+    public int[][] movimentiPedone( Pedone p ){
+        
+        int[][] scacchiera = new int[ 8 ][ 8 ];
+        int x, y;
+        
+        x = p.getX();
+        y = p.getY();
+        
+        if( p.getColore() instanceof Bianco ){
+            
+            // Immediatamente sopra
+            if( !m[ x ][ y + 1 ].eOccupato() ){
+                
+                scacchiera[ x ][ y + 1 ] = 1;
+            
+            }
+            
+            // In Alto A Sinistra
+            if( ( x - 1 ) >= 0 ){ // Controllo Posizione Valida ( Probabilmente Ridondante )
+                
+                if( m[ x - 1 ][ y + 1 ].eOccupato() && m[ x - 1][ y + 1 ].getOccupante().getColore() instanceof Nero ){
+                    
+                    scacchiera[ x - 1 ][ y + 1 ] = 1;
+                
+                }
+            
+            }
 
-    private int[][] movimentiTorre(Torre torre) {
-        int[][] scacchiera=new int[8][8];
-        int x,y;
+            // In Alto A Destra
+            if( ( x + 1 ) <= MAXLENGTH ){ // Controllo Posizione Valida ( Probabilmente Ridondante )
+                
+                if( m[ x + 1 ][ y + 1 ].eOccupato() && m[ x + 1 ][ y + 1 ].getOccupante().getColore() instanceof Nero ){
+                    
+                    scacchiera[ x + 1 ][ y + 1 ] = 1;
+                
+                }
+            
+            }
+        
+        } else { // Fine IstanceOf Bianco, Inizio Caso IstanceOf Nero
+            
+            if( !m[ x ][ y - 1 ].eOccupato()){
+                
+                scacchiera[ x ][ y - 1 ] = 1;
+            
+            }
+            
+            if( ( x - 1 ) >= 0 ) // Controllo Posizione Valida ( Probabilmente Ridondante )
+                
+                if( m[ x - 1 ][ y - 1 ].eOccupato() && m[ x - 1 ][ y - 1 ].getOccupante().getColore() instanceof Nero ){
+                    
+                    scacchiera[ x + 1 ][ y - 1 ] = 1;
+                
+                }
+            
+            if( ( x + 1 ) <= MAXLENGTH ){ // Controllo Posizione Valida ( Probabilmente Ridondante )
+                
+                if( m[ x + 1 ][ y - 1 ].eOccupato() && m[ x + 1 ][ y - 1 ].getOccupante().getColore() instanceof Nero ){
+                    
+                    scacchiera[ x + 1 ][ y - 1 ] = 1;
+                
+                }
+            
+            }
+        
+        }
+        
+        return scacchiera;
+    
+    } // Fine movimentiPedone
+    
+    private int[][] movimentiTorre( Torre torre ){
+        
+        int[][] scacchiera = new int[ 8 ][ 8 ];
+        int x, y;
         int temp;
-        x=torre.getX();
-        y=torre.getY();
         
-        
-        //direzione verso destra
-        if(x+1<=MAXLENGTH){
-            //spazi liberi a destra
-            for(temp=x+1;temp<=MAXLENGTH && !(m[temp][y].isBusy());temp++){
-                scacchiera[temp][y]=1;
+        x = torre.getX();
+        y = torre.getY();
+
+        // Direzione Verso Destra
+        if( x + 1 <= MAXLENGTH ){
+
+            // Spazi Liberi A Destra
+            for( temp = x + 1; temp <= MAXLENGTH && !( m[ temp ][ y ].eOccupato()); temp++ ){
+                
+                scacchiera[ temp ][ y ] = 1;
+            
             }
-            //primo spazio occupato a destra
+
+            // Primo Spazio Occupato A Destra
             temp++;
-            if(temp<=MAXLENGTH)//controllo per non uscire fuori dalla scachiera
-                //se lo spazzio è occupato e contiene un pezzo del colore opposto
-                //controllo isBusy() obsoleto
-                if(m[temp][y].isBusy()&&(!m[temp][y].getPezzo().getColore().equals(torre.getColore())))
-                    scacchiera[temp][y]=1;
-        }
-        
-        //direzione verso sinistra
-        if(x-1>=0){
-            for(temp=x-1;temp>=0 && !(m[temp][y].isBusy());temp--){
-                scacchiera[temp][y]=1;
+            
+            if( temp <= MAXLENGTH ){ // Controllo Per Non Andare Fuori Scachiera
+
+                // Se Lo Spazzio E Occupato E Contiene Un Pezzo Del Colore Opposto... Controllo isBusy() Obsoleto
+                if( m[ temp ][ y ].eOccupato() && ( !m[ temp ][ y ].getOccupante().getColore().equals( torre.getColore() ) ) ){
+                    
+                    scacchiera[ temp ][ y ] = 1;
+                
+                }
+            
             }
+        
+        }
+
+        // Direzione Verso Sinistra
+        if( x - 1 >= 0 ){
+            
+            for( temp = x - 1; temp >= 0 && !( m[ temp ][ y ].eOccupato()); temp-- ){
+                
+                scacchiera[ temp ][ y ] = 1;
+            
+            }
+            
             temp--;
-            if(temp>=0)//controllo per non uscire fuori dalla scachiera
-                //se lo spazzio è occupato e contiene un pezzo del colore opposto
-                if(m[temp][y].isBusy()&&(!m[temp][y].getPezzo().getColore().equals(torre.getColore())))
-                    scacchiera[temp][y]=1;
-        }
-        
-        //direzione verso l'alto
-        if(y+1<=MAXLENGTH){
-            for(temp=y+1;temp<=MAXLENGTH && !(m[x][temp].isBusy());temp++){
-                scacchiera[x][temp]=1;
+            
+            if( temp >= 0 ){ // Controllo Per Non Andare Fuori Scachiera
+
+                // Se Lo Spazzio E Occupato E Contiene Un Pezzo Del Colore Opposto
+                if( m[ temp ][ y ].eOccupato() && ( !m[ temp ][ y ].getOccupante().getColore().equals( torre.getColore() ) ) ){
+                    
+                    scacchiera[ temp ][ y ] = 1;
+                
+                }
+            
             }
+        
+        }
+
+        // Direzione Verso L'Alto
+        if( y + 1 <= MAXLENGTH ){
+            
+            for( temp = y + 1; temp <= MAXLENGTH && ! ( m[ x ][ temp ].eOccupato()); temp++ ){
+                
+                scacchiera[ x ][ temp ] = 1;
+            
+            }
+            
             temp++;
-            if(temp<=MAXLENGTH)//controllo per non uscire fuori dalla scachiera
-                //se lo spazzio è occupato e contiene un pezzo del colore opposto
-                if(m[x][temp].isBusy()&&(!m[x][temp].getPezzo().getColore().equals(torre.getColore())))
-                    scacchiera[x][temp]=1;
-        }
-        
-        //direzione verso il bsso
-        if(y-1>=0){
-            for(temp=y-1;temp>=0 && !(m[x][temp].isBusy());temp++){
-                scacchiera[x][temp]=1;
+            
+            if( temp <= MAXLENGTH ){ // Controllo Per Non Uscire Fuori Dalla Scachiera
+
+                // Se Lo Spazzio E Occupato E Contiene Un Pezzo Del Colore Opposto
+                if( m[ x ][ temp ].eOccupato() && ( !m[ x ][ temp ].getOccupante().getColore().equals( torre.getColore() ) ) ){
+                    
+                    scacchiera[ x ][ temp ] = 1;
+                
+                }
+            
             }
+        
+        }
+
+        // Direzione Verso Il Basso
+        if( y - 1 >= 0 ){
+            
+            for( temp = y - 1; temp >= 0 && !( m[ x ][ temp ].eOccupato()); temp++ ){
+                
+                scacchiera[ x ][ temp ] = 1;
+            }
+            
             temp--;
-            if(temp>=0)//controllo per non uscire fuori dalla scachiera
-                //se lo spazzio è occupato e contiene un pezzo del colore opposto
-                if(m[x][temp].isBusy()&&(!m[x][temp].getPezzo().getColore().equals(torre.getColore())))
-                    scacchiera[x][temp]=1;
+            
+            if( temp >= 0 ){//controllo per non uscire fuori dalla scachiera
+
+                // Se Lo Spazzio E Occupato E Contiene Un Pezzo Del Colore Opposto
+                if( m[ x ][ temp ].eOccupato() && ( !m[ x ][ temp ].getOccupante().getColore().equals( torre.getColore() ) ) ){
+                    
+                    scacchiera[ x ][ temp ] = 1;
+                
+                }
+            
+            }
+        
         }
         
         return scacchiera;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private int[][] movimentiAlfiere(Alfiere alfiere) {
-        int[][] scacchiera=new int[8][8];
-        int x,y;
-        int temp1,temp2;
-        x=alfiere.getX();
-        y=alfiere.getY();
-        temp1=x+1;
-        temp2=y+1;
+        // Throw New UnsupportedOperationException
+    
+    } // Fine movimentiTorre
+    
+    private int[][] movimentiAlfiere( Alfiere alfiere ){
         
-        //direzione verso alto a destra
-        //spazi verso alto a destra liberi
-        while(temp1<=MAXLENGTH && temp2<=MAXLENGTH && !m[temp1][temp2].isBusy()){
-            scacchiera[temp1][temp2]=1;
+        int[][] scacchiera = new int[ 8 ][ 8 ];
+        int x, y;
+        int temp1, temp2; // Variabili Di Aiuto Per Spostamenti In Diagonale
+        
+        x = alfiere.getX();
+        y = alfiere.getY();
+        temp1 = x + 1; // Spostamento Sul Asse X
+        temp2 = y + 1; // Spostamento Sul Asse Y
+        
+        // Direzione Verso Alto A Destra, Spazi Verso Alto A Destra Liberi
+        while( temp1 <= MAXLENGTH && temp2 <= MAXLENGTH && !m[ temp1 ][ temp2 ].eOccupato() ){
+            
+            scacchiera[ temp1 ][ temp2 ] = 1;
             temp1++;
             temp2++;
-        }
-        //il primo spazio occupato
-        //incremento effettuato dento il ciclo while
-        //temp1++;
-        //temp2++;
-        //potrebbe essersi verificata la terza condizione del ciclo while ma non le prime 2
-        if(temp1<=MAXLENGTH)
-            if(temp2<=MAXLENGTH)
-                //se lo spazzio è occupato e contiene un pezzo del colore opposto
-                if(m[temp1][temp2].isBusy()&&(!m[temp1][temp2].getPezzo().getColore().equals(alfiere.getColore())))
-                    scacchiera[temp1][temp2]=1;
         
-        //direzione verso basso destra
-        temp1=x+1;
-        temp2=y-1;
-        while(temp1<=MAXLENGTH && temp2>=0 && !m[temp1][temp2].isBusy()){
-            scacchiera[temp1][temp2]=1;
+        }
+        
+        // Il primo spazio occupato
+        // Incremento effettuato dento il ciclo while
+        // Temp1++;
+        // Temp2++;
+        // Potrebbe Essersi Verificata La Terza Condizione Del Ciclo While Ma Non Le Prime Due
+        if( temp1 <=MAXLENGTH && temp2 <= MAXLENGTH ){
+
+                // Se Lo Spazzio E Occupato E Contiene Un Pezzo Del Colore Opposto
+                if( m[ temp1 ][ temp2 ].eOccupato() && ( !m[ temp1 ][ temp2 ].getOccupante().getColore().equals( alfiere.getColore() ) ) ){
+                    
+                    scacchiera[ temp1 ][ temp2 ] = 1;
+                
+                }
+        
+        }
+
+        // Direzione Verso Basso Destra
+        temp1 = x + 1;
+        temp2 = y - 1;
+        
+        while( temp1 <= MAXLENGTH && temp2 >= 0 && !m[ temp1 ][ temp2 ].eOccupato() ){
+            
+            scacchiera[ temp1 ][ temp2 ] = 1;
             temp1++;
             temp2--;
-        }
-        if(temp1<=MAXLENGTH)
-            if(temp2>=0)
-                //se lo spazzio è occupato e contiene un pezzo del colore opposto
-                if(m[temp1][temp2].isBusy()&&(!m[temp1][temp2].getPezzo().getColore().equals(alfiere.getColore())))
-                    scacchiera[temp1][temp2]=1;
         
-        //direzione alto sinistra
-        temp1=x-1;
-        temp2=y+1;
-        while(temp1>=0 && temp2<=MAXLENGTH && !m[temp1][temp2].isBusy()){
-            scacchiera[temp1][temp2]=1;
+        }
+        
+        if( temp1 <= MAXLENGTH && temp2 >= 0 ){
+
+            // Se Lo Spazzio E Occupato E Contiene Un Pezzo Del Colore Opposto
+            if( m[ temp1 ][ temp2 ].eOccupato() && ( !m[ temp1 ][ temp2 ].getOccupante().getColore().equals( alfiere.getColore() ) ) ){
+                
+                scacchiera[ temp1 ][ temp2 ] = 1;
+            }
+        
+        }
+
+        // Direzione Alto Sinistra
+        temp1 = x - 1;
+        temp2 = y + 1;
+        
+        while( temp1 >= 0 && temp2 <= MAXLENGTH && !m[ temp1 ][ temp2 ].eOccupato() ){
+            
+            scacchiera[ temp1 ][ temp2 ] = 1;
             temp1--;
             temp2++;
-        }
-        if(temp1>=0)
-            if(temp2<=MAXLENGTH)
-                //se lo spazzio è occupato e contiene un pezzo del colore opposto
-                if(m[temp1][temp2].isBusy()&&(!m[temp1][temp2].getPezzo().getColore().equals(alfiere.getColore())))
-                    scacchiera[temp1][temp2]=1;
         
-        //direzione basso sinistra
-        temp1=x-1;
-        temp2=y-1;
-        while(temp1>=0 && temp2>=0 && !m[temp1][temp2].isBusy()){
-            scacchiera[temp1][temp2]=1;
+        }
+        
+        if( temp1 >= 0 && temp2 <= MAXLENGTH ){
+
+            // Se Lo Spazzio E Occupato E Contiene Un Pezzo Del Colore Opposto
+            if( m[ temp1 ][ temp2 ].eOccupato() && ( !m[ temp1 ][ temp2 ].getOccupante().getColore().equals( alfiere.getColore() ) ) ){
+                
+                scacchiera[ temp1 ][ temp2 ] = 1;
+            
+            }
+        
+        }
+
+        // Direzione Basso Sinistra
+        temp1 = x - 1;
+        temp2 = y - 1;
+        
+        while( temp1 >= 0 && temp2 >= 0 && !m[ temp1 ][ temp2 ].eOccupato() ){
+            
+            scacchiera[ temp1 ][ temp2 ] = 1;
             temp1--;
             temp2--;
+        
         }
-        if(temp1>=0)
-            if(temp2>=0)
-                //se lo spazzio è occupato e contiene un pezzo del colore opposto
-                if(m[temp1][temp2].isBusy()&&(!m[temp1][temp2].getPezzo().getColore().equals(alfiere.getColore())))
-                    scacchiera[temp1][temp2]=1;
+        
+        if( temp1 >= 0 && temp2 >= 0 ){
+
+            // Se Lo Spazzio E Occupato E Contiene Un Pezzo Del Colore Opposto
+            if( m[ temp1 ][ temp2 ].eOccupato() && ( !m[ temp1 ][ temp2 ].getOccupante().getColore().equals( alfiere.getColore() ) ) ){
+                
+                scacchiera[ temp1 ][ temp2 ] = 1;
+            
+            }
+        
+        }
         
         return scacchiera;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        // Throw New UnsupportedOperationException
+    
+    } // Fine MovimentiAlfiere
 
-    //da migliorare i controlli delle posizioni permesse ragruppando gli if
-    private int[][] movimentiCavallo(Cavallo cavallo) {
-        int[][] scacchiera=new int[8][8];
-        int x,y;
+    // Da Migliorare I Controlli Delle Posizioni Permesse Ragruppando Gli If
+    private int[][] movimentiCavallo( Cavallo cavallo ){
+        
+        int[][] scacchiera = new int[ 8 ][ 8 ];
+        int x, y;
         int temp;
-        x=cavallo.getX();
-        y=cavallo.getY();
-        //alto destra
-        if(x+1<=MAXLENGTH && y+2<=MAXLENGTH)
-            //libero o dell'avversario
-            if (!m[x+1][y+2].isBusy() || (m[x+1][y+2].isBusy() && !m[x+1][y+2].getPezzo().getColore().equals(cavallo.getColore()) ))
-                scacchiera[x+1][y+2]=1;
+        x = cavallo.getX();
+        y = cavallo.getY();
         
-        //alto sinistra
-        if(x-1>=0 && y+2<=MAXLENGTH)
-            //libero o dell'avversario
-            if (!m[x-1][y+2].isBusy() || (m[x-1][y+2].isBusy() && !m[x-1][y+2].getPezzo().getColore().equals(cavallo.getColore()) ))
-                scacchiera[x-1][y+2]=1;
-        
-        //destra alto
-        if(x+2<=MAXLENGTH && y+1<=MAXLENGTH)
-            //libero o dell'avversario
-            if (!m[x+2][y+1].isBusy() || (m[x+2][y+1].isBusy() && !m[x+2][y+1].getPezzo().getColore().equals(cavallo.getColore()) ))
-                scacchiera[x+2][y+1]=1;
-        
-        //destra basso
-        if(x+2<=MAXLENGTH && y-1>=0)
-            //libero o dell'avversario
-            if (!m[x+2][y-1].isBusy() || (m[x+2][y-1].isBusy() && !m[x+2][y-1].getPezzo().getColore().equals(cavallo.getColore()) ))
-                scacchiera[x+2][y-1]=1;
-        
-        
-        //sinistra alto
-        if(x-2>=0 && y+1<=MAXLENGTH)
-            //libero o dell'avversario
-            if (!m[x-2][y+1].isBusy() || (m[x-2][y+1].isBusy() && !m[x-2][y+1].getPezzo().getColore().equals(cavallo.getColore()) ))
-                scacchiera[x-2][y+1]=1;
-        
-        //sinistra basso
-        if(x-2>=0 && y-1>=0)
-            //libero o dell'avversario
-            if (!m[x-2][y-1].isBusy() || (m[x-2][y-1].isBusy() && !m[x-2][y-1].getPezzo().getColore().equals(cavallo.getColore()) ))
-                scacchiera[x-2][y-1]=1;
-        
-        //basso desra
-        if(x+1<=MAXLENGTH && y-2>=0)
-            //libero o dell'avversario
-            if (!m[x+1][y-2].isBusy() || (m[x+1][y-2].isBusy() && !m[x+1][y-2].getPezzo().getColore().equals(cavallo.getColore()) ))
-                scacchiera[x+1][y-2]=1;
-        
-        //basso sinistra
-        if(x-1>=0 && y-2>=0)
-            //libero o dell'avversario
-            if (!m[x-1][y-2].isBusy() || (m[x-1][y-2].isBusy() && !m[x-1][y-2].getPezzo().getColore().equals(cavallo.getColore()) ))
-                scacchiera[x-1][y-2]=1;
-        
-        
-        
-        
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        return scacchiera;
-    }
-
-    private int[][] movimentiRegina(Regina regina) {
-        int[][] scacchiera=new int[8][8];
-        int[][] scacchiera1=new int[8][8];
-        int[][] scacchiera2=new int[8][8];
-        int x,y;
-        x=regina.getX();
-        y=regina.getY();
-        scacchiera1=movimentiTorre(new Torre(x,y,regina.getColore()));
-        scacchiera2=movimentiAlfiere(new Alfiere(x,y,regina.getColore()));
-        
-        //combinazione dei risultati della torre e dell'alfiere
-        for(int i=0;i<MAXLENGTH;i++){
-            for(int j=0;j<MAXLENGTH;j++){
-                if(scacchiera1[i][j]==1 || scacchiera2[i][j]==1)
-                    scacchiera[i][j]=1;
+        // Alto Destra
+        if( x + 1 <= MAXLENGTH && y + 2 <= MAXLENGTH ){ // Libero O Del Avversario
+            
+            if( !m[ x + 1 ][ y + 2 ].eOccupato() || ( m[ x + 1 ][ y + 2 ].eOccupato() && !m[ x + 1 ][ y + 2 ].getOccupante().getColore().equals( cavallo.getColore() ) ) ){
+                
+                scacchiera[ x + 1 ][ y + 2 ] = 1;
+            
             }
+        
+        }
+        
+        // Alto Sinistra
+        if( x - 1 >= 0 && y + 2 <= MAXLENGTH ){ // Libero O Del Avversario
+            
+            if( !m[ x - 1 ][ y + 2 ].eOccupato() || ( m[ x - 1 ][ y + 2 ].eOccupato() && !m[ x - 1 ][ y + 2 ].getOccupante().getColore().equals( cavallo.getColore() ) ) ){
+                
+                scacchiera[ x - 1 ][ y + 2 ] = 1;
+            
+            }
+        
+        }
+
+        // Destra Alto
+        if( x + 2 <= MAXLENGTH && y + 1 <= MAXLENGTH ){ // Libero O Del Avversario
+            
+            if( !m[ x + 2 ][ y + 1 ].eOccupato() || ( m[ x + 2 ][ y + 1 ].eOccupato() && !m[ x + 2 ][ y + 1 ].getOccupante().getColore().equals( cavallo.getColore() ) ) ){
+                
+                scacchiera[ x + 2 ][ y + 1 ] = 1;
+            
+            }
+        
+        }
+
+        // Destra Basso
+        if( x + 2 <= MAXLENGTH && y - 1 >= 0 ){ // Libero O Del Avversario
+            
+            if( !m[ x + 2 ][ y - 1 ].eOccupato() || ( m[ x + 2 ][ y - 1 ].eOccupato() && !m[ x + 2 ][ y - 1 ].getOccupante().getColore().equals( cavallo.getColore() ) ) ){
+                
+                scacchiera[ x + 2 ][ y - 1 ] = 1;
+            
+            }
+        
+        }
+
+        // Sinistra Alto
+        if( x - 2 >= 0 && y + 1 <= MAXLENGTH ){ // Libero O Del Avversario
+            
+            if( !m[ x - 2 ][ y + 1 ].eOccupato() || ( m[ x - 2 ][ y + 1 ].eOccupato() && !m[ x - 2 ][ y + 1 ].getOccupante().getColore().equals( cavallo.getColore() ) ) ){
+                
+                scacchiera[ x - 2 ][ y + 1 ] = 1;
+            
+            }
+        
+        }
+
+        // Sinistra Basso
+        if( x - 2 >= 0 && y - 1 >= 0 ){ // Libero O Del Avversario
+            
+            if( !m[ x - 2 ][ y - 1 ].eOccupato() || ( m[ x - 2 ][ y - 1 ].eOccupato() && !m[ x - 2 ][ y - 1 ].getOccupante().getColore().equals( cavallo.getColore() ) ) ){
+                
+                scacchiera[ x - 2 ][ y - 1 ] = 1;
+            
+            }
+        
+        }
+        
+        // Basso Desra
+        if( x + 1 <= MAXLENGTH && y - 2 >= 0 ){ // Libero O Del Avversario
+            
+            if( !m[ x + 1 ][ y - 2 ].eOccupato() || ( m[ x + 1 ][ y - 2 ].eOccupato() && !m[ x + 1 ][ y - 2 ].getOccupante().getColore().equals( cavallo.getColore() ) ) ){
+                
+                scacchiera[ x + 1 ][ y - 2 ] = 1;
+            
+            }
+        
+        }
+        
+        // Basso Sinistra
+        if( x - 1 >= 0 && y - 2 >= 0 ){ // Libero O Del Avversario
+            
+            if( !m[ x - 1 ][ y - 2 ].eOccupato() || ( m[ x - 1 ][ y - 2 ].eOccupato() && !m[ x - 1 ][ y - 2 ].getOccupante().getColore().equals( cavallo.getColore() ) ) ){
+                
+                scacchiera[ x - 1 ][ y - 2 ] = 1;
+            
+            }
+        
         }
         
         return scacchiera;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    //prendo tutte le posizioni adiacenti togliendo gli spazi occupati da 
-    //pezzi dello stesso colore, tolgo posizioni vuote che potrebbero essere
-    //attaccate da altri pezzi e aggiungo laposizione per scambiare il re
-    //con la torre se nessuno dei 2 si è mai mosso (precisazione: ci sono 2 torri)
-    private int[][] movimentiRe(Re re) {
-        int[][] scacchiera=new int[8][8];
-        int x,y;
-        x=re.getX();
-        y=re.getY();
+        // Throw New UnsupportedOperationException
+    
+    } // Fine movimentiCavallo
+    
+    private int[][] movimentiRegina( Regina regina ){
         
-        //parte destra
-        if(x+1<=MAXLENGTH){
-            if(!m[x+1][y].isBusy() || !m[x+1][y].getPezzo().getColore().equals(re.getColore()))
-                scacchiera[x+1][y]=1;
-            if(y+1<=MAXLENGTH)
-                if(!m[x+1][y+1].isBusy() || !m[x+1][y+1].getPezzo().getColore().equals(re.getColore()))
-                    scacchiera[x+1][y+1]=1;
-            if(y-1>=0)
-                if(!m[x+1][y-1].isBusy() || !m[x+1][y-1].getPezzo().getColore().equals(re.getColore()))
-                    scacchiera[x+1][y-1]=1;
-        }
-        //parte sinistra
-        if(x-1>=0){
-            if(!m[x-1][y].isBusy() || !m[x-1][y].getPezzo().getColore().equals(re.getColore()))
-                scacchiera[x-1][y]=1;
-            if(y+1<=MAXLENGTH)
-                if(!m[x-1][y+1].isBusy() || !m[x-1][y+1].getPezzo().getColore().equals(re.getColore()))
-                    scacchiera[x-1][y+1]=1;
-            if(y-1>=0)
-                if(!m[x-1][y-1].isBusy() || !m[x-1][y-1].getPezzo().getColore().equals(re.getColore()))
-                    scacchiera[x-1][y-1]=1;
-        }
-        //rimanente spazio in alto
-        if(y+1<=MAXLENGTH)
-            if(!m[x][y+1].isBusy() || !m[x][y+1].getPezzo().getColore().equals(re.getColore()))
-                scacchiera[x][y+1]=1;
-        //rimanente spazio in basso
-        if(y-1>=0)
-            if(!m[x][y-1].isBusy() || !m[x][y-1].getPezzo().getColore().equals(re.getColore()))
-                scacchiera[x][y-1]=1;
+        int[][] scacchiera = new int[ 8 ][ 8 ];
+        int[][] scacchiera1 = new int[ 8 ][ 8 ];
+        int[][] scacchiera2 = new int[ 8 ][ 8 ];
         
-        //da implementare ancora i controlli dello scacco inverso/ pericolo
-        for (int i=0;i<=MAXLENGTH;i++){
-            for(int j=0;j<=MAXLENGTH;j++){
-                if(scacchiera[i][j]==1)
-                    scacchiera[i][j]=controlloScacco(i,j,re.getColore());
+        int x, y;
+        
+        x = regina.getX();
+        y = regina.getY();
+        
+        scacchiera1 = movimentiTorre( new Torre( x, y, regina.getColore() ) );
+        scacchiera2 = movimentiAlfiere( new Alfiere( x, y, regina.getColore() ) );
+        
+        // Combinazione Dei Risultati Della Torre E Alfiere
+        for( int i = 0; i < MAXLENGTH; i++ ){
+            
+            for( int j = 0; j < MAXLENGTH; j++ ){
+                
+                if( scacchiera1[ i ][ j ] == 1 || scacchiera2[ i ][ j ] == 1 ){
+                    
+                    scacchiera[ i ][ j ] = 1;
+                
+                }
+            
             }
+        
         }
         
-        //da implementare controllo scambio con una delle 2 torri (arrocco)
-        //in questo caso il re si sposta di 2 caselle verso la torre e la torre gli si mette di fianco dall'altra parte
-        //simulare la scacchiera modificata e vedere se lo scambio non porta ad una situazione di scacco matto
+        return scacchiera;
+        // Throw New UnsupportedOperationException
+    
+    } // Fine movimentoRegina
+
+    // Prendo Tutte Le Posizioni Adiacenti Togliendo Gli Spazi Occupati Da 
+    // Pezzi Dello Stesso Colore, Tolgo Posizioni Vuote Che Potrebbero Essere
+    // Attaccate Da Altri Pezzi E Aggiungo La Posizione Per Scambiare Il Re
+    // Con La Torre Se Nessuno Dei 2 Si E Mosso
+    
+    private int[][] movimentiRe( Re re ){
         
-        if(!re.isMoved())//re mai mosso
-            if(controlloScacco(x,y,re.getColore())==1)//se il re non è sotto scacco
+        int[][] scacchiera = new int[ 8 ][ 8 ];
+        int x, y;
+        
+        x = re.getX();
+        y = re.getY();
+        
+        // Parte Destra
+        if( x + 1 <= MAXLENGTH ){
+            
+            if( !m[ x + 1 ][ y ].eOccupato() || !m[ x + 1 ][ y ].getOccupante().getColore().equals( re.getColore() ) ){
+                
+                scacchiera[ x + 1 ][ y ] = 1;
+            
+            }
+            
+            if( y + 1 <= MAXLENGTH && !m[ x + 1 ][ y + 1 ].eOccupato() || !m[ x + 1 ][ y + 1 ].getOccupante().getColore().equals( re.getColore() ) ){
+                
+                scacchiera[ x + 1 ][ y + 1 ] = 1;
+            
+            }
+            
+            if( y - 1 >= 0 && !m[ x + 1 ][ y - 1 ].eOccupato() || !m[ x + 1 ][ y - 1 ].getOccupante().getColore().equals( re.getColore() ) ){
+                
+                scacchiera[ x + 1 ][ y - 1 ] = 1;
+            
+            }
+        
+        }
+
+        // Parte Sinistra
+        if( x - 1 >= 0){
+            
+            if( !m[ x - 1 ][ y ].eOccupato() || !m[ x - 1 ][ y ].getOccupante().getColore().equals( re.getColore() ) ){
+                
+                scacchiera[ x - 1 ][ y ] = 1;
+            
+            }
+            
+            if( y + 1 <= MAXLENGTH && !m[ x - 1 ][ y + 1 ].eOccupato() || !m[ x - 1 ][ y + 1 ].getOccupante().getColore().equals( re.getColore() ) ){
+                
+                scacchiera[ x - 1 ][ y + 1 ] = 1;
+            
+            }
+            
+            if( y - 1 >= 0 && !m[ x - 1 ][ y - 1 ].eOccupato() || !m[ x - 1 ][ y - 1 ].getOccupante().getColore().equals( re.getColore() ) ){
+                
+                scacchiera[ x - 1 ][ y - 1 ] = 1;
+            
+            }
+        
+        }
+
+        // Rimanente Spazio In Alto
+        if( y + 1 <= MAXLENGTH && !m[ x ][ y + 1 ].eOccupato() || !m[ x ][ y + 1 ].getOccupante().getColore().equals( re.getColore() ) ){
+            
+            scacchiera[ x ][ y + 1 ] = 1;
+        
+        }
+
+        // Rimanente Spazio In Basso
+        if( y - 1 >= 0 && !m[ x ][ y - 1 ].eOccupato() || !m[ x ][ y - 1 ].getOccupante().getColore().equals( re.getColore() ) ){
+            
+            scacchiera[ x ][ y - 1 ] = 1;
+        
+        }
+
+        // Da Implementare Ancora I Controlli Dello Scacco Inverso / Pericolo
+        for( int i = 0; i <= MAXLENGTH; i++ ){
+            
+            for( int j = 0; j <= MAXLENGTH; j++ ){
+                
+                if( scacchiera[ i ][ j ] == 1 ){
+                    
+                    scacchiera[ i ][ j ] = controlloScacco( i, j, re.getColore() );
+                
+                }
+            
+            }
+        
+        }
+
+        // Da Implementare Il Controllo Dello Scambio Con Una Delle 2 Torri ( Arrocco )
+        // In Questo Caso Il Re Si Sposta Di 2 Caselle Verso La Torre E La Torre Gli Si Mette Di Fianco Dall'Altra Parte
+        // Simulare La Scacchiera Modificata E Vedere Se Lo Scambio Non Porta A Una Situazione Di Scacco Matto
+        if( !re.isMoved() && controlloScacco( x, y, re.getColore() ) == 1 ){ // Re Mai Mosso E Non E Sotto Scacco
+
+            // Gli Spazi Fra Re E Torre Sinistra Sono Liberi?
+            if( !m[ 1 ][ re.getY() ].eOccupato() && !m[ 2 ][ re.getY() ].eOccupato() && !m[ 3 ][ re.getY() ].eOccupato() ){
+
+                // A Sinistra Ce Una Torre Nella Sua Posizione Originale
+                if( m[ 0 ][ re.getY() ].getOccupante() instanceof Torre){
+
+                    // Torre A Sinistra Mai Mossa
+                    if( !( ( Torre ) m[ 0 ][ re.getY() ].getOccupante()).isMoved() ){
+
+                        // Controllo Se Tutti Gli Spazi Tra La Posizione Attuale Del Re E Quella Finale Non E Sotto Scacco
+                        if( ( controlloScacco( x - 1, y, re.getColore() ) == 1 ) ){
+                            
+                            if( ( controlloScacco( x - 2, y, re.getColore() ) == 1 ) ){
                                 
-                //gli spazi tra il re e la torre sinistra sono liberi (generalizzato x entrambi i re
-                if(!m[1][re.getY()].isBusy() && !m[2][re.getY()].isBusy() && !m[3][re.getY()].isBusy()){     
-                    //a sinistra c'è una torre nella sua posizione originale
-                    if(m[0][re.getY()].getPezzo() instanceof Torre)
-                        //torre a sinistra mai mossa
-                        if(!((Torre)m[0][re.getY()].getPezzo()).isMoved())
-                            //controllo se tutti gli spazi tra la posizione attuale del re
-                            //e la posizione finale del re non sono sotto scacco
-                            if((controlloScacco(x-1,y,re.getColore())==1))
-                                if((controlloScacco(x-2,y,re.getColore())==1))
-                                    scacchiera[x-2][y]=1;
-                }
+                                scacchiera[ x - 2 ][ y ] = 1;
+                            
+                            }
+                        
+                        }
+                    
+                    }
                 
-                //gli spazi tra il re e la torre destra sono liberi (generalizzato x entrambi i re
-                if(!m[5][re.getY()].isBusy() && !m[6][re.getY()].isBusy()){     
-                    //a sinistra c'è una torre nella sua posizione originale
-                    if(m[7][re.getY()].getPezzo() instanceof Torre)
-                        //torre a sinistra mai mossa
-                        if(!((Torre)m[7][re.getY()].getPezzo()).isMoved())
-                            //controllo se tutti gli spazi tra la posizione attuale del re
-                            //e la posizione finale del re non sono sotto scacco
-                            if((controlloScacco(x+1,y,re.getColore())==1))
-                                if((controlloScacco(x+2,y,re.getColore())==1))
-                                    scacchiera[x+2][y]=1;
                 }
+            
+            }
+
+            // Gli Spazi Tra Re E Torre Destra Sono Liberi?
+            if( !m[ 5 ][ re.getY() ].eOccupato() && !m[ 6 ][ re.getY() ].eOccupato() ){
+
+                // A Sinistra Ce Uma Torre Nella Sua Posizione Originale
+                if( m[ MAXLENGTH ][ re.getY() ].getOccupante() instanceof Torre ){
+
+                    // Torre A Sinistra Mai Mossa
+                    if( !( ( Torre ) m[ MAXLENGTH ][ re.getY() ].getOccupante()).isMoved() ){
+
+                        // Controllo Se Tutti Gli Spazi Tra La Posizione Attuale Del Re E Quella Finale Non E Sotto Scacco
+                        if( ( controlloScacco( x + 1, y, re.getColore() ) == 1 ) ){
+                            
+                            if( ( controlloScacco( x + 2, y, re.getColore() ) == 1 ) ){
+                                
+                                scacchiera[ x + 2 ][ y ] = 1;
+                            
+                            }
+                        
+                        }
+                    
+                    }
+                
+                }
+            
+            }
         
-        
-        
+        }
         
         return scacchiera;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+        // Throw New UnsupportedOperationException
+    
+    } // Fine movimentiRe
 
-    //minimizzare il codice regruppando re e pedone in casi specifici
-    //(come regina con torre e alfiere)
-    //si possono fare delle hiamate per minimizzare il codice
-    public int controlloScacco(int x, int y,Colore colore) {
-        // controllo x torri/regine in orizzontale e verticale
-        int temp1,temp2;
-        //verso destra
-        boolean uscita=false;
-        for(int i=x;i<=MAXLENGTH && !uscita;i++){
-            if(m[i][y].isBusy()){
-                uscita=true;//uscita dal ciclo dopo aver controllato il primo spazio per non fare controlli inutili
-                if(!m[i][y].getPezzo().getColore().equals(colore))
-                    if(m[i][y].getPezzo() instanceof Torre || m[i][y].getPezzo() instanceof Regina)
-                        return 0;
-                
-            } 
-        }
-        //verso sinistra
-        uscita=false;
-        for(int i=x;i>=0 && !uscita;i--){
-            if(m[i][y].isBusy()){
-                uscita=true;//uscita dal ciclo dopo aver controllato il primo spazio per non fare controlli inutili
-                if(!m[i][y].getPezzo().getColore().equals(colore))
-                    if(m[i][y].getPezzo() instanceof Torre || m[i][y].getPezzo() instanceof Regina)
-                        return 0;
-                
-            } 
-        }
-        //verso alto
-        uscita=false;
-        for(int i=y;i<=MAXLENGTH && !uscita;i++){
-            if(m[x][i].isBusy()){
-                uscita=true;//uscita dal ciclo dopo aver controllato il primo spazio per non fare controlli inutili
-                if(!m[x][i].getPezzo().getColore().equals(colore))
-                    if(m[x][i].getPezzo() instanceof Torre || m[x][i].getPezzo() instanceof Regina)
-                        return 0;
-            } 
-        }
-        //verso basso
-        uscita=false;
-        for(int i=y;i>=0 && !uscita;i--){
-            if(m[x][i].isBusy()){
-                uscita=true;//uscita dal ciclo dopo aver controllato il primo spazio per non fare controlli inutili
-                if(!m[x][i].getPezzo().getColore().equals(colore))
-                    if(m[x][i].getPezzo() instanceof Torre || m[x][i].getPezzo() instanceof Regina)
-                        return 0;
-            } 
-        }
+    // Minimizzare Il Codice Ragruppando Re E Pedone In Casi Specifici ( Come Regina Con Torre E Alfiere )
+    // Si Possono Fare Delle Chiamate Per Minimizzare Il Codice
+    private int controlloScacco( int x, int y, Colore colore ){
         
-        //controlli in diagonale x alfieri e regine
+        int temp1, temp2; // Controllo X Torri / Regine In Orizzontale E Verticale
         
-        //verso alto destra
-        temp1=x+1;
-        temp2=y+1;
-        while(temp1<=MAXLENGTH && temp2<=MAXLENGTH && !m[temp1][temp2].isBusy()){
+        // Verso Destra
+        boolean uscita = false;
+        
+        for( int i = x; i <= MAXLENGTH && !uscita; i++ ){
+            
+            if( m[ i ][ y ].eOccupato() ){
+                
+                uscita = true; // Esco Dal Ciclo Dopo Aver Controllato Il Primo Spazio Per Evitare Controlli Innutili
+                
+                if( !m[ i ][ y ].getOccupante().getColore().equals( colore ) ){
+                    
+                    if( m[ i ][ y ].getOccupante() instanceof Torre || m[ i ][ y ].getOccupante() instanceof Regina ){
+                        
+                        return 0;
+                    
+                    }
+                
+                }
+            
+            }
+        
+        }
+
+        // Verso Sinistra
+        uscita = false;
+        
+        for( int i = x; i >= 0 && !uscita; i-- ){
+            
+            if( m[ i ][ y ].eOccupato() ){
+                
+                uscita = true; // Esco Dal Ciclo Dopo Aver Controllato Il Primo Spazio Per Evitare Controlli Innutili
+                
+                if( !m[ i ][ y ].getOccupante().getColore().equals( colore ) ){
+                    
+                    if( m[ i ][ y ].getOccupante() instanceof Torre || m[ i ][ y ].getOccupante() instanceof Regina ){
+                        
+                        return 0;
+                    
+                    }
+                
+                }
+            
+            }
+        
+        }
+
+        // Verso L'Alto
+        uscita = false;
+        
+        for( int i = y; i <= MAXLENGTH && !uscita; i++ ){
+            
+            if( m[ x ][ i ].eOccupato() ){
+                
+                uscita = true; // Esco Dal Ciclo Dopo Aver Controllato Il Primo Spazio Per Evitare Controlli Innutili
+                
+                if( !m[ x ][ i ].getOccupante().getColore().equals( colore ) ){
+                    
+                    if( m[ x ][ i ].getOccupante() instanceof Torre || m[ x ][ i ].getOccupante() instanceof Regina ){
+                        
+                        return 0;
+                    
+                    }
+                
+                }
+            
+            }
+        
+        }
+
+        // Verso Il Basso
+        uscita = false;
+        
+        for( int i = y; i >= 0 && !uscita; i-- ){
+            
+            if( m[ x ][ i ].eOccupato() ){
+                
+                uscita = true; // Esco Dal Ciclo Dopo Aver Controllato Il Primo Spazio Per Evitare Controlli Innutili
+                
+                if( !m[ x ][ i ].getOccupante().getColore().equals( colore ) ){
+                    
+                    if( m[ x ][ i ].getOccupante() instanceof Torre || m[ x ][ i ].getOccupante() instanceof Regina ){
+                        
+                        return 0;
+                    
+                    }
+                
+                }
+            
+            }
+        
+        }
+
+        // Controlli In Diagonale Per Alfieri E Regine
+
+        // Verso Alto A Destra
+        temp1 = x + 1;
+        temp2 = y + 1;
+        
+        while( temp1 <= MAXLENGTH && temp2 <= MAXLENGTH && !m[ temp1 ][ temp2 ].eOccupato() ){
+            
             temp1++;
             temp2++;
-        }
-        if(temp1<=MAXLENGTH && temp2<=MAXLENGTH)
-            if(!m[temp1][temp2].getPezzo().getColore().equals(colore))
-                if(m[temp1][temp2].getPezzo() instanceof Alfiere || m[temp1][temp2].getPezzo() instanceof Regina)
-                    return 0;
         
-        //verso alto sinistra
-        temp1=x-1;
-        temp2=y+1;
-        while(temp1>=0 && temp2<=MAXLENGTH && !m[temp1][temp2].isBusy()){
+        }
+        
+        if( temp1 <= MAXLENGTH && temp2 <= MAXLENGTH && !m[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore ) ){
+            
+            if( m[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || m[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Verso Alto A Sinistra
+        temp1 = x - 1;
+        temp2 = y + 1;
+        
+        while( temp1 >= 0 && temp2 <= MAXLENGTH && !m[ temp1 ][ temp2 ].eOccupato() ){
+            
             temp1--;
             temp2++;
-        }
-        if(temp1>=0 && temp2<=MAXLENGTH)
-            if(!m[temp1][temp2].getPezzo().getColore().equals(colore))
-                if(m[temp1][temp2].getPezzo() instanceof Alfiere || m[temp1][temp2].getPezzo() instanceof Regina)
-                    return 0;
         
-        //verso basso sinistra
-        temp1=x-1;
-        temp2=y-1;
-        while(temp1>=0 && temp2>=0 && !m[temp1][temp2].isBusy()){
+        }
+        
+        if( temp1 >=0 && temp2 <= MAXLENGTH && !m[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore ) ){
+            
+            if( m[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || m[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Verso Basso A Sinistra
+        temp1 = x - 1;
+        temp2 = y - 1;
+        
+        while( temp1 >= 0 && temp2 >= 0 && !m[ temp1 ][ temp2 ].eOccupato() ){
+            
             temp1--;
             temp2--;
-        }
-        if(temp1>=0 && temp2>=0)
-            if(!m[temp1][temp2].getPezzo().getColore().equals(colore))
-                if(m[temp1][temp2].getPezzo() instanceof Alfiere || m[temp1][temp2].getPezzo() instanceof Regina)
-                    return 0;
         
-        //verso basso destra
-        temp1=x+1;
-        temp2=y-1;
-        while(temp1<=MAXLENGTH && temp2>=0 && !m[temp1][temp2].isBusy()){
+        }
+        
+        if( temp1 >= 0 && temp2 >= 0 && !m[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore ) ){
+            
+            if( m[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || m[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Verso Basso A Destra
+        temp1 = x + 1;
+        temp2 = y - 1;
+        
+        while( temp1 <= MAXLENGTH && temp2 >= 0 && !m[ temp1 ][ temp2 ].eOccupato() ){
+            
             temp1++;
             temp2--;
+        
         }
-        if(temp1<=MAXLENGTH && temp2>=0)
-            if(!m[temp1][temp2].getPezzo().getColore().equals(colore))
-                if(m[temp1][temp2].getPezzo() instanceof Alfiere || m[temp1][temp2].getPezzo() instanceof Regina)
+        
+        if( temp1 <= MAXLENGTH && temp2 >= 0 && !m[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore ) ){
+            
+            if( m[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || m[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Controlli Per Il Pedone ( Potrebbe Essere Integrato Nel Alfiere In Casi Specifici )
+        
+        if( colore instanceof Nero ){
+            
+            if( x + 1 <= MAXLENGTH && y + 1 <= MAXLENGTH && m[ x + 1 ][ y + 1 ].eOccupato() && m[ x + 1 ][ y + 1 ].getOccupante() instanceof Pedone ){
+                
+                if( !m[ x + 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) ){
+                    
                     return 0;
+                
+                }
+            
+            }
+            
+            if( x - 1 >= 0 && y + 1 <= MAXLENGTH && m[ x - 1 ][ y + 1 ].eOccupato() && m[ x + 1 ][ y - 1 ].getOccupante() instanceof Pedone ){
+                
+                if(!m[x-1][y+1].getOccupante().getColore().equals(colore)){
+                    
+                    return 0;
+                
+                }
+            
+            }
         
-        //controlli pedone (potrebbe essere integrato nell'alfiere in casi specifici)
+        } else { // Pedone IstanceOf Bianco
+            
+            if( x + 1 <= MAXLENGTH && y - 1 >= 0 && m[ x + 1 ][ y - 1 ].eOccupato() && m[ x + 1 ][ y - 1 ].getOccupante() instanceof Pedone ){
+                
+                if( !m[ x + 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) ){
+                    
+                    return 0;
+                
+                }
+            
+            }
+            
+            if( x - 1 >= 0 && y - 1 >= 0 && m[ x - 1 ][ y - 1 ].eOccupato() && m[ x - 1 ][ y - 1 ].getOccupante() instanceof Pedone ){
+                
+                if( !m[ x - 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) ){
+                    
+                    return 0;
+                
+                }
+            
+            }
         
-        if(colore instanceof Nero){
-            if(x+1<=MAXLENGTH && y+1<=MAXLENGTH)
-                if(m[x+1][y+1].isBusy() && m[x+1][y+1].getPezzo() instanceof Pedone )
-                    if(!m[x+1][y+1].getPezzo().getColore().equals(colore))
-                        return 0;
-            if(x-1>=0 && y+1<=MAXLENGTH)
-                if(m[x-1][y+1].isBusy() && m[x+1][y-1].getPezzo() instanceof Pedone )
-                    if(!m[x-1][y+1].getPezzo().getColore().equals(colore))
-                        return 0;
         }
-        else{
-            if(x+1<=MAXLENGTH && y-1>=0)
-                if(m[x+1][y-1].isBusy() && m[x+1][y-1].getPezzo() instanceof Pedone )
-                    if(!m[x+1][y-1].getPezzo().getColore().equals(colore))
-                        return 0;
-            if(x-1>=0 && y-1>=0)
-                if(m[x-1][y-1].isBusy() && m[x-1][y-1].getPezzo() instanceof Pedone )
-                    if(!m[x-1][y-1].getPezzo().getColore().equals(colore))
-                        return 0;
+
+        // Controlli Del Cavallo
+
+        // Alto A Destra
+        if( x + 1 <= MAXLENGTH && y + 2 <= MAXLENGTH && m[ x + 1 ][ y + 2 ].eOccupato() ){
+            
+            if( !m[ x + 1 ][ y + 2 ].getOccupante().getColore().equals( colore ) && m[ x + 1 ][ y + 2 ].getOccupante() instanceof Cavallo ){
+                
+                return 0;
+            
+            }
+        
         }
+
+        // Alto A Sinistra
+        if( x - 1 >= 0 && y + 2 <= MAXLENGTH && m[ x - 1 ][ y + 2 ].eOccupato() ){
+            
+            if( !m[ x - 1 ][ y + 2 ].getOccupante().getColore().equals( colore ) && m[ x - 1 ][ y + 2 ].getOccupante() instanceof Cavallo ){
+                
+                return 0;
+            
+            }
         
-        //controlli cavallo
-        //alto destra
-        if(x+1<=MAXLENGTH && y+2<=MAXLENGTH)
-            if(m[x+1][y+2].isBusy())
-                if(!m[x+1][y+2].getPezzo().getColore().equals(colore))
-                    if(m[x+1][y+2].getPezzo() instanceof Cavallo)
-                        return 0;
-        //alto sinistra
-        if(x-1>=0 && y+2<=MAXLENGTH)
-            if(m[x-1][y+2].isBusy())
-                if(!m[x-1][y+2].getPezzo().getColore().equals(colore))
-                    if(m[x-1][y+2].getPezzo() instanceof Cavallo)
-                        return 0;
+        }
+
+        // Alto A Destra
+        if( x + 2 <= MAXLENGTH && y + 1 <= MAXLENGTH && m[ x + 2 ][ y + 1 ].eOccupato() ){
+            
+            if( !m[ x + 2 ][ y + 1 ].getOccupante().getColore().equals( colore ) && m[ x + 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){
+                
+                return 0;
+            
+            }
         
-        //destra alto
-        if(x+2<=MAXLENGTH && y+1<=MAXLENGTH)
-            if(m[x+2][y+1].isBusy())
-                if(!m[x+2][y+1].getPezzo().getColore().equals(colore))
-                    if(m[x+2][y+1].getPezzo() instanceof Cavallo)
-                        return 0;
-        //destra basso
-        if(x+2<=MAXLENGTH && y-1>=0)
-            if(m[x+2][y-1].isBusy())
-                if(!m[x+2][y-1].getPezzo().getColore().equals(colore))
-                    if(m[x+2][y+1].getPezzo() instanceof Cavallo)
-                        return 0;
-        //sinistra alto
-        if(x-2>=0 && y+1<=MAXLENGTH)
-            if(m[x-2][y+1].isBusy())
-                if(!m[x-2][y+1].getPezzo().getColore().equals(colore))
-                    if(m[x-2][y+1].getPezzo() instanceof Cavallo)
-                        return 0;
-        //sinistra basso
-        if(x-2>=0 && y-1>=0)
-            if(m[x-2][y-1].isBusy())
-                if(!m[x-2][y-1].getPezzo().getColore().equals(colore))
-                    if(m[x-2][y-1].getPezzo() instanceof Cavallo)
-                        return 0;
-        //basso destra
-        if(x+1<=MAXLENGTH && y-2<=MAXLENGTH)
-            if(m[x+1][y-2].isBusy())
-                if(!m[x+1][y-2].getPezzo().getColore().equals(colore))
-                    if(m[x+1][y-2].getPezzo() instanceof Cavallo)
-                        return 0;
-        //basso sinistra
-        if(x-1>=0 && y-2>=0)
-            if(m[x-1][y-2].isBusy())
-                if(!m[x-1][y-2].getPezzo().getColore().equals(colore))
-                    if(m[x-1][y-2].getPezzo() instanceof Cavallo)
-                        return 0;
+        }
+
+        // Basso A Destra
+        if( x + 2 <= MAXLENGTH && y - 1 >= 0 && m[ x + 2 ][ y - 1 ].eOccupato() ){
+            
+            if( !m[ x + 2 ][ y - 1 ].getOccupante().getColore().equals( colore ) && m[ x + 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){
+                
+                return 0;
+            
+            }
         
-        //controllo re adiacente
-        //destra
-        if(x+1<=MAXLENGTH)
-            if(m[x+1][y].isBusy())
-                if(!m[x+1][y].getPezzo().getColore().equals(colore))
-                    if(m[x+1][y].getPezzo() instanceof Re)
-                        return 0;
-        //sinistra
-        if(x-1>=0)
-            if(m[x-1][y].isBusy())
-                if(!m[x-1][y].getPezzo().getColore().equals(colore))
-                    if(m[x-1][y].getPezzo() instanceof Re)
-                        return 0;
-        //alto
-        if(y+1<=MAXLENGTH)
-            if(m[x][y+1].isBusy())
-                if(!m[x][y+1].getPezzo().getColore().equals(colore))
-                    if(m[x][y+1].getPezzo() instanceof Re)
-                        return 0;
-        //basso
-        if(y-1>=0)
-            if(m[x][y-1].isBusy())
-                if(!m[x][y-1].getPezzo().getColore().equals(colore))
-                    if(m[x][y-1].getPezzo() instanceof Re)
-                        return 0;
-        //alto destra
-        if(x+1<=MAXLENGTH && y+1<=MAXLENGTH)
-            if(m[x+1][y+1].isBusy())
-                if(!m[x+1][y+1].getPezzo().getColore().equals(colore))
-                    if(m[x+1][y+1].getPezzo() instanceof Re)
-                        return 0;
-        //alto sinistra
-        if(x-1>=0 && y+1<=MAXLENGTH)
-            if(m[x-1][y+1].isBusy())
-                if(!m[x-1][y+1].getPezzo().getColore().equals(colore))
-                    if(m[x-1][y+1].getPezzo() instanceof Re)
-                        return 0;
-        //basso destra
-        if(x+1<=MAXLENGTH && y-1>=0)
-            if(m[x+1][y-1].isBusy())
-                if(!m[x+1][y-1].getPezzo().getColore().equals(colore))
-                    if(m[x+1][y-1].getPezzo() instanceof Re)
-                        return 0;
-        //basso sinistra
-        if(x-1>=0 && y-1>=0)
-            if(m[x-1][y-1].isBusy())
-                if(!m[x-1][y-1].getPezzo().getColore().equals(colore))
-                    if(m[x-1][y-1].getPezzo() instanceof Re)
-                        return 0;
+        }
+
+        // Alto A Sinistra
+        if( x - 2 >= 0 && y + 1 <= MAXLENGTH && m[ x - 2 ][ y + 1 ].eOccupato() ){
+            
+            if( !m[ x - 2 ][ y + 1 ].getOccupante().getColore().equals( colore ) && m[ x - 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Basso A Sinistra
+        if( x - 2 >= 0 && y - 1 >= 0 && m[ x - 2 ][ y - 1 ].eOccupato() ){
+            
+            if( !m[ x - 2 ][ y - 1 ].getOccupante().getColore().equals( colore ) && m[ x - 2 ][ y - 1 ].getOccupante() instanceof Cavallo ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Basso A Destra
+        if( x + 1 <= MAXLENGTH && y - 2 <= MAXLENGTH && m[ x + 1 ][ y - 2 ].eOccupato() ){
+            
+            if( !m[ x + 1 ][ y - 2 ].getOccupante().getColore().equals( colore ) && m[ x + 1 ][ y - 2 ].getOccupante() instanceof Cavallo ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Basso A Sinistra
+        if( x - 1 >= 0 && y - 2 >= 0 && m[ x - 1 ][ y - 2 ].eOccupato() ){
+            
+            if( !m[ x - 1 ][ y - 2 ].getOccupante().getColore().equals( colore ) && m[ x - 1 ][ y - 2 ].getOccupante() instanceof Cavallo ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Controllo Del Re Adiacente
+
+        // Destra
+        if( x + 1 <= MAXLENGTH && m[ x + 1 ][ y ].eOccupato() ){
+            
+            if( !m[ x + 1 ][ y ].getOccupante().getColore().equals( colore ) && m[ x + 1 ][ y ].getOccupante() instanceof Re ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Sinistra
+        if( x - 1 >=0 && m[ x - 1 ][ y ].eOccupato() ){
+            
+            if( !m[ x - 1 ][ y ].getOccupante().getColore().equals( colore ) && m[ x - 1 ][ y ].getOccupante() instanceof Re ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Alto
+        if( y + 1 <= MAXLENGTH && m[ x ][ y + 1 ].eOccupato() ){
+            
+            if( !m[ x ][ y + 1 ].getOccupante().getColore().equals( colore ) && m[ x ][ y + 1 ].getOccupante() instanceof Re ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Basso
+        if( y - 1 >= 0 && m[ x ][ y - 1 ].eOccupato() ){
+            
+            if( !m[ x ][ y - 1 ].getOccupante().getColore().equals( colore ) && m[ x ][ y - 1 ].getOccupante() instanceof Re ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Alto A Destra
+        if( x + 1 <= MAXLENGTH && y + 1 <= MAXLENGTH && m[ x + 1 ][ y + 1 ].eOccupato() ){
+            
+            if( !m[ x + 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) && m[ x + 1 ][ y + 1 ].getOccupante() instanceof Re ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Alto A Sinistra
+        if( x - 1 >= 0 && y + 1 <= MAXLENGTH && m[ x - 1 ][ y + 1 ].eOccupato() ){
+            
+            if( !m[ x - 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) && m[ x - 1 ][ y + 1 ].getOccupante() instanceof Re ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Basso A Destra
+        if( x + 1 <= MAXLENGTH && y - 1 >= 0 && m[ x + 1 ][ y - 1 ].eOccupato() ){
+            
+            if( !m[ x + 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) && m[ x + 1 ][ y - 1 ].getOccupante() instanceof Re ){
+                
+                return 0;
+            
+            }
+        
+        }
+
+        // Basso A Sinistra
+        if( x - 1 >= 0 && y - 1 >= 0 && m[ x - 1 ][ y - 1 ].eOccupato() ){
+            
+            if( !m[ x - 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) && m[ x - 1 ][ y - 1 ].getOccupante() instanceof Re ){
+                
+                return 0;
+            
+            }
+        
+        }
         
         return 1;
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Throw New UnsupportedOperationException
+    
     }
     
-    public int controlloScacco(Re r) {
-        return controlloScacco(r.getX(),r.getY(),r.getColore());
+    public int getTurno(){
+        
+        return turno;
+    
     }
     
+    public void setInterfacciaGrafica( InterfacciaGrafica i ){
+        
+        ig = i;
     
-    public void setInterfacciaGrafica(InterfacciaGrafica i){
-        ig=i;
     }
-    
-    public Re getReNero(){
-        return reNero;
-    }
-    
-    public Re getReBianco(){
-        return reBianco;
-    }
+
 }
