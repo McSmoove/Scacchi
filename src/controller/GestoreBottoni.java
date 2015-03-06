@@ -26,6 +26,27 @@ public class GestoreBottoni {
         matriceBottoni=interfacciaGrafica.getMatriceBottoni();
     }
     
+    //blocco spazi iniziale
+    public void bloccoBottoniIniziale(){
+        for(int j=0;j<8;j++){
+            for(int i=0;i<8;i++){
+                //per evitare null pointer exception bisogna dividere l'if in 2 casi per non fare il controllo su un pezzo che non esiste
+                //cerco locazioni vuote
+                if(!(gestoreMovimenti.getMatrice().getSpazio(i,j).eOccupato()))
+                    matriceBottoni[i][j].setEnabled(false);
+                //con l'else sono sicuro che esiste l'occupante
+                else 
+                    //cerco locazioni del colore sbagliato
+                    if(!(gestoreMovimenti.getMatrice().getSpazio(i, j).getOccupante().getColore().equals(gestoreTurni.getTurno())))
+                        matriceBottoni[i][j].setEnabled(false);
+            }
+        }
+    }
+    
+    
+    //blocco spazi generico
+    
+    //blocco spazi dopo aver schiacciato su un pezzo
     //chiamata dopo aver trovato i possibili movimenti del pezzo premuto
     public void bloccoBottoni(Spazio posizioneDelPezzo,int[][] matricePosizioniConsentite){
         //prima disabilito tutti i bottoni
