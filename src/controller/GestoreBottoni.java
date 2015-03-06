@@ -26,7 +26,8 @@ public class GestoreBottoni {
         matriceBottoni=interfacciaGrafica.getMatriceBottoni();
     }
     
-    //blocco spazi iniziale
+    //blocco spazi iniziale/generico (prima di aver schiacciato su un bottone
+    //da chiamare all'inizio di ogni turno
     public void bloccoBottoniIniziale(){
         for(int j=0;j<8;j++){
             for(int i=0;i<8;i++){
@@ -43,8 +44,6 @@ public class GestoreBottoni {
         }
     }
     
-    
-    //blocco spazi generico
     
     //blocco spazi dopo aver schiacciato su un pezzo
     //chiamata dopo aver trovato i possibili movimenti del pezzo premuto
