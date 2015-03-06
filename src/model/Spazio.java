@@ -60,5 +60,13 @@ public class Spazio{ // Cella Della Scacchiera Caratterizzata Dalla Presenza O N
         occupante = p;
     
     }
+    
+    public int getX(){
+        return x;
+    }
+    
+    public int getY(){
+        return y;
+    }
 
 }

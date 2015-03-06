@@ -6,6 +6,7 @@ import model.Bianco;
 import model.Colore;
 import model.MatriceDeiPezzi;
 import model.Nero;
+import model.Spazio;
 import view.InterfacciaGrafica;
 
 /**
@@ -16,12 +17,35 @@ public class GestoreBottoni {
     GestoreTurni gestoreTurni;
     GestoreMovimenti gestoreMovimenti;
     InterfacciaGrafica interfacciaGrafica;
+    JButton[][] matriceBottoni;
     
     public GestoreBottoni(GestoreMovimenti gm, GestoreTurni gt,InterfacciaGrafica ig){
         gestoreMovimenti=gm;
         gestoreTurni=gt;
         interfacciaGrafica=ig;
+        matriceBottoni=interfacciaGrafica.getMatriceBottoni();
+    }
+    
+    //chiamata dopo aver trovato i possibili movimenti del pezzo premuto
+    public void bloccoBottoni(Spazio posizioneDelPezzo,int[][] matricePosizioniConsentite){
+        //prima disabilito tutti i bottoni
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                matriceBottoni[j][i].setEnabled(false);
+            }
+        }
+        //poi abilito quelli che si possono premere
         
+        //abilita il bottone sul quale abbiamo schiacciato (forse non serve->da ridefinire)
+        matriceBottoni[posizioneDelPezzo.getX()][posizioneDelPezzo.getY()].setEnabled(true);
+        
+        //abilito i possibili movimenti del bottone
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(matricePosizioniConsentite[j][i]==1)
+                    matriceBottoni[j][i].setEnabled(true);
+            }
+        } 
     }
     
     //da ridefinire e settare...
