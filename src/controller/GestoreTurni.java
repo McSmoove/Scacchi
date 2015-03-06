@@ -19,7 +19,18 @@ public class GestoreTurni {
     private Colore turno;
     private boolean attivato;
     private Spazio spazioAttivato;
+    GestoreBottoni gestoreBottoni;
     
+    public void setGestoreBottoni(GestoreBottoni gb){
+        gestoreBottoni=gb;
+    }
+    
+    
+    public GestoreTurni(GestoreBottoni gb){
+        gestoreBottoni=gb;
+        turno=new Bianco();
+        attivato=false;
+    }
     
     public GestoreTurni(){
         turno=new Bianco();
@@ -32,6 +43,7 @@ public class GestoreTurni {
     
     public void setTurno(Colore t){
         turno=t;
+        gestoreBottoni.bloccoBottoniIniziale();
     }
     
     public void setTurno(int t){
@@ -43,6 +55,7 @@ public class GestoreTurni {
             else
                 throw new IllegalArgumentException();
         }  
+        gestoreBottoni.bloccoBottoniIniziale();
     }
     
     public void passaTurno(){
@@ -50,6 +63,7 @@ public class GestoreTurni {
             turno=new Nero();
         else
             turno=new Bianco();
+        gestoreBottoni.bloccoBottoniIniziale();
     }
     
     public void attiva(){
