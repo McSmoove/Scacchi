@@ -99,7 +99,7 @@ public class InterfacciaGrafica{
         
         scacchiera.setBorder( new CompoundBorder( new EmptyBorder( 10, 10, 10, 10 ), new LineBorder( Color.ORANGE ) ) );
 
-        JPanel pannelloScacchiera = new JPanel( new GridBagLayout(  ) );
+        JPanel pannelloScacchiera = new JPanel( new GridBagLayout() );
         pannelloScacchiera.add( scacchiera );
         interfacciaGrafica.add( pannelloScacchiera );
 
