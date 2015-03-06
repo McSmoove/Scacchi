@@ -63,7 +63,7 @@ public class InterfacciaGrafica{
         menu.addSeparator();
         menu.add( messaggioInfo );
         
-        scacchiera = new JPanel( new GridLayout( 0, 9 ) ){
+        scacchiera = new JPanel( new GridLayout( 10, 10 ) ){
             
             @Override
             public final Dimension getPreferredSize(){
@@ -99,7 +99,7 @@ public class InterfacciaGrafica{
         
         scacchiera.setBorder( new CompoundBorder( new EmptyBorder( 10, 10, 10, 10 ), new LineBorder( Color.ORANGE ) ) );
 
-        JPanel pannelloScacchiera = new JPanel( new GridBagLayout() );
+        JPanel pannelloScacchiera = new JPanel( new GridBagLayout(  ) );
         pannelloScacchiera.add( scacchiera );
         interfacciaGrafica.add( pannelloScacchiera );
 
@@ -134,15 +134,16 @@ public class InterfacciaGrafica{
         
         } // Fine For Righe
 
-        // Disegno Le Coordinate
-        scacchiera.add( new JLabel() );
-
         // Disegno Le Lettere In Alto
+        scacchiera.add( new JLabel() ); // Primo Spazio Vuoto Per La Riga Contenente Le Lettere In Alto
+        
         for( int i = 0; i < 8; i++ ){
             
             scacchiera.add( new JLabel( colonne.substring( i, i + 1 ), SwingConstants.CENTER ) );
         
         } // Fine For
+        
+        scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Alto
         
         for( int i = 0; i < 8; i++ ){
             
@@ -156,8 +157,21 @@ public class InterfacciaGrafica{
                 }
             
             } // Fine For Righe
-        
+            
+            scacchiera.add( new JLabel( "" + ( 9 - ( i + 1 ) ), SwingConstants.CENTER ) );
+            
         } // Fine For Colonne
+
+        // Disegno Le Lettere In Basso
+        scacchiera.add( new JLabel() ); // Primo Spazio Vuoto Per La Riga Contenente Le Lettere In Basso
+        
+        for( int i = 0; i < 8; i++ ){
+            
+            scacchiera.add( new JLabel( colonne.substring( i, i + 1 ), SwingConstants.CENTER ) );
+        
+        } // Fine For
+        
+        scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Bassp
     
     } // Fine InterfacciaGrafica
 
