@@ -73,27 +73,30 @@ public class GestoreBottoni {
         //identifico il bottone 
         int x=0;
         int y=0;
-        int indice;
+        
         JButton b;
         MatriceDeiPezzi matriceTemporanea;
         GestoreMovimenti gestoreTemporaneo;
         Colore turno=gestoreTurni.getTurno();
         JButton[][] matriceScacchiera=interfacciaGrafica.getMatriceBottoni();
         int indiciBottoni[][]=new int[8][8];
-        indice = (new Integer(e.getActionCommand()));
-        
-        indiciBottoni[0][0]=new Integer(matriceScacchiera[0][0].getActionCommand());
-        //... e tutti gli altri bottoni
-        
-        
-        //in base al bottone modifico i dati che saranno utilizzati per il ricalcolo della nuova matrice
-        //...
         
         b=(JButton)e.getSource();
-        if(b.equals(matriceScacchiera[0][0])){
-             x=0;
-             y=0;
+        
+        //ricerca inversa della posizione del bottone
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(b.equals(matriceScacchiera[j][i])){
+                    x=j;
+                    y=i;
+                    break;
+                }
+                    
+            }
         }
+        
+        
+        System.out.println("DEBUG:\nx:"+x+"\ny:"+y);
         //... tutti gli altri confronti
         
         
