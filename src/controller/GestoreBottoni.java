@@ -47,7 +47,7 @@ public class GestoreBottoni {
     
     //blocco spazi dopo aver schiacciato su un pezzo
     //chiamata dopo aver trovato i possibili movimenti del pezzo premuto
-    public void bloccoBottoni(Spazio posizioneDelPezzo,int[][] matricePosizioniConsentite){
+    public void bloccoBottoniDopoAttivazione(Spazio posizioneDelPezzo,int[][] matricePosizioniConsentite){
         //prima disabilito tutti i bottoni
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
@@ -118,6 +118,7 @@ public class GestoreBottoni {
                         //metto il pezzo premuto nella gestione turno e lo attivo
                         gestoreTurni.setSpazioAttivato(gestoreMovimenti.getMatrice().getMatrice()[x][y]);
                         gestoreTurni.attiva();
+                        bloccoBottoniDopoAttivazione(gestoreMovimenti.getMatrice().getSpazio(x, y), gestoreMovimenti.getPossibiliMovimenti(gestoreMovimenti.getMatrice().getSpazio(x,y).getOccupante()));
                     
                         
                     }
@@ -127,7 +128,7 @@ public class GestoreBottoni {
                             ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero())==1)){
                       
                             //se il movimento salva il re
-                            //devo controllare la matrice modificata, ma prima devo crearla
+                            //devo controllare la matrice simulata, ma prima devo crearla
                             //matriceTemporanea=gestoreMovimenti.getMatrice();
                             
                             

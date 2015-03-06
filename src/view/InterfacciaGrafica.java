@@ -301,6 +301,19 @@ public class InterfacciaGrafica{
             }
         
         }
+        
+        //aggiungo i listener a tutti i bottoni
+        for(int i=0;i<quadratiScacchiera.length;i++){
+            for(int j=0;j<quadratiScacchiera.length;j++){
+                quadratiScacchiera[i][j].addActionListener(new ActionListener() {
+ 
+                    public void actionPerformed(ActionEvent e){
+                        gestoreBottoni.pressionePulsanteScacchiera( e );
+                    }
+                });      
+            }
+            
+        }
     
     } // Fine iniziaPartita
     
@@ -329,6 +342,7 @@ public class InterfacciaGrafica{
     
     } // Fine main
     
+    /*
     public void actionPerformed( ActionEvent e ) {
         
         if( e.getSource() instanceof JButton ){
@@ -338,7 +352,7 @@ public class InterfacciaGrafica{
         }
     
     }
-    
+    */
     public JButton[][] getMatriceBottoni(){
         
         return quadratiScacchiera;
