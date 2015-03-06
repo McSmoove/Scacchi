@@ -968,25 +968,17 @@ public class GestoreMovimenti{
         }
 
         // A Destra In Basso
-        if( x + 2 <= MAXLENGTH && y - 1 >= 0 && mat[ x + 2 ][ y - 1 ].eOccupato() ){
-            
-            if( !mat[ x + 2 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){
-                
+        if( x + 2 <= MAXLENGTH && y - 1 >= 0 && mat[ x + 2 ][ y - 1 ].eOccupato() ){       
+            if( !mat[ x + 2 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){      
                 return 0;
-            
             }
-        
         }
 
         // A Sinistra In Alto
-        if( x - 2 >= 0 && y + 1 <= MAXLENGTH && mat[ x - 2 ][ y + 1 ].eOccupato() ){
-            
-            if( !mat[ x - 2 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){
-                
+        if( x - 2 >= 0 && y + 1 <= MAXLENGTH && mat[ x - 2 ][ y + 1 ].eOccupato() ){    
+            if( !mat[ x - 2 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){    
                 return 0;
-            
             }
-        
         }
 
         // A Sinistra In Basso
@@ -1089,10 +1081,8 @@ public class GestoreMovimenti{
     
     }
     
-    public int controlloScacco(Re r) {
-        
+    public int controlloScacco(Re r) {  
         return controlloScacco( r.getX(), r.getY(), r.getColore(),m );
-    
     }
     
     public LinkedList<Pezzo> getPezziAttaccantiIlRe(Re r,Spazio[][] matrix){
@@ -1461,6 +1451,31 @@ public class GestoreMovimenti{
         
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     
+    }
+    
+    public boolean spostabileIn(Pezzo p,int x, int y){
+        //da implementare
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public LinkedList<Pezzo> getPezziSpostabiliQui(Spazio[][] mat,Spazio s,Colore c){
+        LinkedList<Pezzo> lista;
+        lista=new LinkedList<>();
+        Spazio[][] matrix=mat;
+        Spazio spazio=s;
+        Colore colore=c;
+        int x=spazio.getX();
+        int y=spazio.getY();
+        for(int j=0;j<8;j++){
+            for(int i=0;i<8;i++){
+                if(matrix[i][j].eOccupato())
+                    if(matrix[i][j].getOccupante().getColore().equals(colore))
+                        if(spostabileIn(matrix[i][j].getOccupante(),x,y));  
+                            lista.add(matrix[i][j].getOccupante());
+            }
+        }
+        return lista;
+        
     }
     
     public int[][] getMatricePezziChePrevengonoScacco(int xRe,int yRe,MatriceDeiPezzi matrice,Colore turno){

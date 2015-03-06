@@ -68,5 +68,7 @@ public abstract class Pezzo{
         y = -1;
     
     }
+    
+   
 
 }
