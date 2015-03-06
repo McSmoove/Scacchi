@@ -24,7 +24,7 @@ public class InterfacciaGrafica{
     private final int ALFIERE_NERO = 9;
     private final int REGINA_NERA = 10;
     private final int RE_NERO = 11;
-    
+        
     private final JPanel interfacciaGrafica = new JPanel( new BorderLayout( 3, 3 ) );
     private JButton[][] quadratiScacchiera = new JButton[ 8 ][ 8 ];
     private final Image immagine[] = new Image[ 12 ];
@@ -43,7 +43,7 @@ public class InterfacciaGrafica{
         gm.setInterfacciaGrafica( this ); // Collegamento Gestore-Interfaccia
         
         // Inizializza Interfaccia Grafica ( Costruttore )
-        interfacciaGrafica.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
+       // interfacciaGrafica.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         JToolBar menu = new JToolBar();
         menu.setFloatable( false );
         interfacciaGrafica.add( menu, BorderLayout.PAGE_START );
@@ -169,20 +169,20 @@ public class InterfacciaGrafica{
         
         try{
             
-            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneBianco.png" ) );
-            immagine[ 1 ] = ImageIO.read( getClass().getResource( "../immagini/torreBianca.png" ) );
-            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) );
-            immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) );
-            immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) );
-            immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/reBianco.png" ) );
+            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
+            immagine[ 1 ] = ImageIO.read( getClass().getResource( "../immagini/torreBianca.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
+            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
+            immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
+            immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
+            immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/reBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
 
             // Recupero le immagini pezzi neri
-            immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneNero.png" ) );
-            immagine[ 7 ] = ImageIO.read( getClass().getResource( "../immagini/torreNera.png" ) );
-            immagine[ 8 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) );
-            immagine[ 9 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereNero.png" ) );
-            immagine[ 10 ] = ImageIO.read( getClass().getResource( "../immagini/reginaNera.png" ) );
-            immagine[ 11 ] = ImageIO.read( getClass().getResource( "../immagini/reNero.png" ) );
+            immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
+            immagine[ 7 ] = ImageIO.read( getClass().getResource( "../immagini/torreNera.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
+            immagine[ 8 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
+            immagine[ 9 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
+            immagine[ 10 ] = ImageIO.read( getClass().getResource( "../immagini/reginaNera.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
+            immagine[ 11 ] = ImageIO.read( getClass().getResource( "../immagini/reNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
         
         } catch( IOException e ){}
 
