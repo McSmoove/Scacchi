@@ -209,102 +209,59 @@ public class InterfacciaGrafica{
         
         Pezzo p; // Sposteo In Alto La Dichiarazione
         for( int i = 0; i < 8; i++ ){
-            
             for( int j = 0; j < 8; j++ ){
-                
                 if( matrice.getMatrice()[ i ][ j ].eOccupato() ){
-                    
                     p  = matrice.getMatrice()[ i ][ j ].getOccupante();
-
                     // Pensavo Di Utilizzare Uno Switch
-                    if( p instanceof Pedone ){
-                        
-                        if( p.getColore() instanceof Bianco ){
-                            
+                    if( p instanceof Pedone ){       
+                        if( p.getColore() instanceof Bianco ){    
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ PEDONE_BIANCO ] ) );
-                        
-                        } else {
-                            
+                        } else {     
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ PEDONE_NERO ] ) );
-                        
                         }
-                    
                     }
                     
-                    if( p instanceof Alfiere ){
-                        
-                        if( p.getColore() instanceof Bianco ){
-                            
+                    if( p instanceof Alfiere ){ 
+                        if( p.getColore() instanceof Bianco ){   
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ ALFIERE_BIANCO ] ) );
-                        
-                        } else {
-                            
+                        } else {  
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ ALFIERE_NERO ] ) );
-                        
                         }
-                    
                     }
                     
                     if( p instanceof Torre ){
-                        
-                        if( p.getColore() instanceof Bianco ){
-                            
+                        if( p.getColore() instanceof Bianco ){  
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ TORRE_BIANCA ] ) );
-                        
-                        } else {
-                            
+                        } else { 
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ TORRE_NERA ] ) );
-                        
                         }
-                    
                     }
                     
-                    if( p instanceof Cavallo ){
-                        
+                    if( p instanceof Cavallo ){                 
                         if( p.getColore() instanceof Bianco ){
-                            
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ CAVALLO_BIANCO ] ) );
-                        
-                        } else {
-                            
+                        } else {    
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ CAVALLO_NERO ] ) );
-                        
                         }
-                    
                     }
                     
                     if( p instanceof Regina ){
-                        
                         if( p.getColore() instanceof Bianco ){
-                            
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ REGINA_BIANCA ] ) );
-                        
                         } else {
-                            
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ REGINA_NERA ] ) );
-                        
                         }
-                    
                     }
                     
                     if( p instanceof Re ){
-                        
-                        if( p.getColore() instanceof Bianco ){
-                            
+                        if( p.getColore() instanceof Bianco ){ 
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ RE_BIANCO ] ) );
-                        
-                        } else {
-                            
+                        } else { 
                             quadratiScacchiera[ i ][ j ].setIcon( new ImageIcon( immagine[ RE_NERO ] ) );
-                        
                         }
-                    
                     }
-                
                 }
-            
             }
-        
         }
         
         //aggiungo i listener a tutti i bottoni

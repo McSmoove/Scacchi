@@ -115,8 +115,8 @@ public class GestoreBottoni {
                     
                     //se il re del turno corrente non è sotto scacco
                     
-                    if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco())==0)||
-                       ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero())==0)){
+                    if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),gestoreMovimenti.getMatrice().getMatrice())==0)||
+                       ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),gestoreMovimenti.getMatrice().getMatrice())==0)){
                         
                         //metto il pezzo premuto nella gestione turno e lo attivo
                         gestoreTurni.setSpazioAttivato(gestoreMovimenti.getMatrice().getMatrice()[x][y]);
@@ -127,8 +127,8 @@ public class GestoreBottoni {
                     }
                     //se il re è sotto scacco
                     
-                    else if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco())==1)||
-                            ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero())==1)){
+                    else if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),gestoreMovimenti.getMatrice().getMatrice())==1)||
+                            ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),gestoreMovimenti.getMatrice().getMatrice())==1)){
                       
                             //se il movimento salva il re
                             //devo controllare la matrice simulata, ma prima devo crearla
@@ -152,7 +152,7 @@ public class GestoreBottoni {
                 //se è una locazione vuota
                 if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                     //se è una locazione consentita dal pezzo
-                    
+                    //...
                 }
             }
             

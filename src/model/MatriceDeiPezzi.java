@@ -45,16 +45,11 @@ public class MatriceDeiPezzi{ // La Matrice Rappresentante La Scacchiera
         
         } // Fine Crezione Pezzi Bianchi
         
-        for( int i = 2; i < 6; i++ ){
-            
-            for( int j = 0; j < 8; j++ ){
-                
+        for( int i = 2; i < 6; i++ ){   
+            for( int j = 0; j < 8; j++ ){    
                 scacchiera[j][i]=new Spazio();
-            
             }
-        
         }
-    
     } // Fine matriceDeiPezzi
     
     public MatriceDeiPezzi( Spazio[][] s ){
