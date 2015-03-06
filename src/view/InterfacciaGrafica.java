@@ -38,15 +38,15 @@ public class InterfacciaGrafica{
     
     InterfacciaGrafica(){
         
-        matrice = new MatriceDeiPezzi(); // Inizializzata Con La Scacchiera Di Default
-        gm = new GestoreMovimenti( matrice ); // Collegamento Interfaccia-Gestore
-        gm.setInterfacciaGrafica( this ); // Collegamento Gestore-Interfaccia
+        
+        
         
         // Inizializza Interfaccia Grafica ( Costruttore )
        // interfacciaGrafica.setBorder( new EmptyBorder( 5, 5, 5, 5 ) );
         JToolBar menu = new JToolBar();
         menu.setFloatable( false );
         interfacciaGrafica.add( menu, BorderLayout.PAGE_START );
+        
         
         Action iniziaNuovaPartita = new AbstractAction( "Nuova Partita" ){
             
@@ -177,7 +177,12 @@ public class InterfacciaGrafica{
 
     // Qui Si Inizializzano Le Immagini Eccetera
     private final void iniziaPartita() {
-
+        matrice = new MatriceDeiPezzi(); // Inizializzata Con La Scacchiera Di Default
+        gm = new GestoreMovimenti( matrice ); // Collegamento Interfaccia-Gestore
+        gm.setInterfacciaGrafica( this ); // Collegamento Gestore-Interfaccia
+        gestoreTurni=new GestoreTurni();
+        gestoreBottoni=new GestoreBottoni(gm,gestoreTurni,this);
+        
         // Da Modificare Il Testo In Base Al Turno
         messaggioInfo.setText( "Fai Una Mossa !!!");
         

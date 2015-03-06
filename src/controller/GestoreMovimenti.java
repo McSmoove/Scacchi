@@ -908,7 +908,7 @@ public class GestoreMovimenti{
         
         }
 
-        // Controlli Per Il Pedone ( Potrebbe Essere Integrato Nel Alfiere In Casi Specifici )
+        // Controlli Per Il Pedone ( Potrebbe Essere Integrato Nell'Alfiere In Casi Specifici )
         
         if( colore instanceof Nero ){ // Inizio Controllo Pedoni Neri
             
@@ -1147,6 +1147,13 @@ public class GestoreMovimenti{
     
     }
     
+    public int[][] getMatricePezziChePrevengonoScacco(int xRe,int yRe,MatriceDeiPezzi m,Colore turno){
+        
+        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    }
+    
     public int getTurno(){
         
         return turno;
@@ -1159,4 +1166,5 @@ public class GestoreMovimenti{
     
     }
 
+    
 }
