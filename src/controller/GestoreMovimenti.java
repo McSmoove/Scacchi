@@ -1095,10 +1095,371 @@ public class GestoreMovimenti{
     
     }
     
-    public LinkedList<Pezzo> getPezziAttaccantiIlRe(Re r){
+    public LinkedList<Pezzo> getPezziAttaccantiIlRe(Re r,Spazio[][] matrix){
+        LinkedList<Pezzo> lista; 
+        Spazio[][] mat=matrix;
+        lista = new LinkedList<>();
         Re re=r;
+        int x=re.getX();
+        int y=re.getY();
+        Colore colore=re.getColore();
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int temp1, temp2; 
+        // Controllo Per Torri / Regine In Orizzontale E Verticale
+
+        // Verso Destra
+        boolean uscita = false;
+        for( int i = x; i <= MAXLENGTH && !uscita; i++ ){
+            if( mat[ i ][ y ].eOccupato() ){  
+                uscita = true; // Uscita Dal Ciclo Dopo Aver Controllato Il Primo Spazio Per Non Fare Controlli Inutili
+                if( !mat[ i ][ y ].getOccupante().getColore().equals( colore )){
+                    if( mat[ i ][ y ].getOccupante() instanceof Torre || mat[ i ][ y ].getOccupante() instanceof Regina ){
+                        lista.add(mat[i][y].getOccupante());
+                    }
+                }
+            }
+        }
+
+        // Verso Sinistra
+        uscita = false;
+        
+        for( int i = x; i >= 0 && !uscita; i-- ){
+            if( mat[ i ][ y ].eOccupato() ){
+                uscita = true; // Uscita Dal Ciclo Dopo Aver Controllato Il Primo Spazio Per Non Fare Controlli Inutili
+                if( !mat[ i ][ y ].getOccupante().getColore().equals( colore ) ){
+                    if( mat[ i ][ y ].getOccupante() instanceof Torre || mat[ i ][ y ].getOccupante() instanceof Regina ){
+                        lista.add(mat[i][y].getOccupante());
+                    }
+                }
+            }
+        }
+
+        // Verso L'Alto
+        uscita = false;
+        
+        for( int i = y; i <= MAXLENGTH && !uscita; i++ ){
+            if( mat[ x ][ i ].eOccupato() ){ 
+                uscita = true; // Uscita Dal Ciclo Dopo Aver Controllato Il Primo Spazio Per Non Fare Controlli Inutili
+                if( !mat[ x ][ i ].getOccupante().getColore().equals( colore ) ){  
+                    if( mat[ x ][ i ].getOccupante() instanceof Torre || mat[ x ][ i ].getOccupante() instanceof Regina ){
+                        lista.add(mat[x][i].getOccupante());
+                    }
+                }
+            }
+        }
+
+        // Verso Il Basso
+        uscita = false;
+        
+        for( int i = y; i >= 0 && !uscita; i-- ){
+            
+            if( mat[ x ][ i ].eOccupato() ){
+                
+                uscita = true; // Uscita Dal Ciclo Dopo Aver Controllato Il Primo Spazio Per Non Fare Controlli Inutili
+                
+                if( !mat[ x ][ i ].getOccupante().getColore().equals( colore ) ){
+                    
+                    if( mat[ x ][ i ].getOccupante() instanceof Torre || mat[ x ][ i ].getOccupante() instanceof Regina ){
+                        
+                        lista.add(mat[x][i].getOccupante());
+                    
+                    }
+                
+                }
+            
+            }
+        
+        }
+
+        // Controlli In Diagonale Per Alfieri E Regine
+
+        // Verso L'Alto A Destra
+        temp1 = x + 1;
+        temp2 = y + 1;
+        
+        while( temp1 <= MAXLENGTH && temp2 <= MAXLENGTH && !mat[ temp1 ][ temp2 ].eOccupato() ){
+            
+            temp1++;
+            temp2++;
+        
+        }
+        
+        if( temp1 <= MAXLENGTH && temp2 <= MAXLENGTH && !mat[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore ) ){
+            
+            if( mat[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || mat[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){
+                
+                lista.add(mat[temp1][temp2].getOccupante());
+            
+            }
+        
+        }
+
+        // Verso L'Alto A Sinistra
+        temp1 = x - 1;
+        temp2 = y + 1;
+        
+        while( temp1 >= 0 && temp2 <= MAXLENGTH && !mat[ temp1 ][ temp2 ].eOccupato() ){
+            
+            temp1--;
+            temp2++;
+        
+        }
+        
+        if( temp1 >= 0 && temp2 <= MAXLENGTH && !mat[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore ) ){
+            
+            if( mat[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || mat[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){
+                
+                lista.add(mat[temp1][temp2].getOccupante());
+            
+            }
+        
+        }
+
+        // Verso Il Basso A Sinistra
+        temp1 = x - 1;
+        temp2 = y - 1;
+        
+        while( temp1 >= 0 && temp2 >= 0 && !m[ temp1 ][ temp2 ].eOccupato() ){
+            
+            temp1--;
+            temp2--;
+        
+        }
+        
+        if( temp1 >= 0 && temp2 >= 0 && !mat[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore ) ){
+            
+            if( mat[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || mat[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){
+                
+                lista.add(mat[temp1][temp2].getOccupante());
+            
+            }
+        
+        }
+
+        // Verso Il Basso A Destra
+        temp1 = x + 1;
+        temp2 = y - 1;
+        
+        while( temp1 <= MAXLENGTH && temp2 >= 0 && !mat[ temp1 ][ temp2 ].eOccupato() ){
+            
+            temp1++;
+            temp2--;
+        
+        }
+        
+        if( temp1 <= MAXLENGTH && temp2 >= 0 && !mat[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore ) ){
+            
+            if( mat[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || mat[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){
+                
+                lista.add(mat[temp1][temp2].getOccupante());
+            
+            }
+        
+        }
+
+        // Controlli Per Il Pedone ( Potrebbe Essere Integrato Nell'Alfiere In Casi Specifici )
+        
+        if( colore instanceof Nero ){ // Inizio Controllo Pedoni Neri
+            
+            if( x + 1 <= MAXLENGTH && y + 1 <= MAXLENGTH && mat[ x + 1 ][ y + 1 ].eOccupato() && mat[ x + 1 ][ y + 1 ].getOccupante() instanceof Pedone ){
+                
+                if( !mat[ x + 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) ){
+                    
+                    lista.add(mat[x+1][y+1].getOccupante());
+                
+                }
+            
+            }
+            
+            if( x - 1 >= 0 && y + 1 <= MAXLENGTH && mat[ x - 1 ][ y + 1 ].eOccupato() && mat[ x + 1 ][ y - 1 ].getOccupante() instanceof Pedone ){
+                
+                if( !mat[ x - 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) ){
+                    
+                    lista.add(mat[x-1][y+1].getOccupante());
+                
+                }
+            
+            }
+        
+        } else { // Inizio Controllo Pedoni Bianchi
+            
+            if( x + 1 <= MAXLENGTH && y - 1 >= 0 && mat[ x + 1 ][ y - 1 ].eOccupato() && mat[ x + 1 ][ y - 1 ].getOccupante() instanceof Pedone ){
+                
+                if( !mat[ x + 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) ){
+                    
+                    lista.add(mat[x+1][y-1].getOccupante());
+                }
+            
+            }
+            
+            if( x - 1 >= 0 && y - 1 >= 0 && mat[ x - 1 ][ y - 1 ].eOccupato() && mat[ x - 1 ][ y - 1 ].getOccupante() instanceof Pedone ){
+                
+                if( !mat[ x - 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) ){
+                    
+                    lista.add(mat[x-1][y-1].getOccupante());
+                
+                }
+            
+            }
+        
+        }
+
+        // Controlli Del Cavallo
+
+        //In Alto A Destra
+        if( x + 1 <= MAXLENGTH && y + 2 <= MAXLENGTH && mat[ x + 1 ][ y + 2 ].eOccupato() ){
+            
+            if( !mat[ x + 1 ][ y + 2 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y + 2 ].getOccupante() instanceof Cavallo ){
+                
+                lista.add(mat[x+1][y+2].getOccupante());
+            
+            }
+        
+        }
+
+        //In Alto A Sinistra
+        if( x - 1 >= 0 && y + 2 <= MAXLENGTH && mat[ x - 1 ][ y + 2 ].eOccupato() ){
+            
+            if( !mat[ x - 1 ][ y + 2 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y + 2 ].getOccupante() instanceof Cavallo ){
+                
+                lista.add(mat[x-1][y+2].getOccupante());
+            
+            }
+        
+        }
+
+        // A Destra In Alto
+        if( x + 2 <= MAXLENGTH && y + 1 <= MAXLENGTH && mat[ x + 2 ][ y + 1 ].eOccupato() ){
+            
+            if( !mat[ x + 2 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){
+                
+                lista.add(mat[x+2][y+1].getOccupante());
+            
+            }
+        
+        }
+
+        // A Destra In Basso
+        if( x + 2 <= MAXLENGTH && y - 1 >= 0 && mat[ x + 2 ][ y - 1 ].eOccupato() ){
+            
+            if( !mat[ x + 2 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){
+                
+                lista.add(mat[x+2][y-1].getOccupante());
+            
+            }
+        
+        }
+
+        // A Sinistra In Alto
+        if( x - 2 >= 0 && y + 1 <= MAXLENGTH && mat[ x - 2 ][ y + 1 ].eOccupato() ){
+            
+            if( !mat[ x - 2 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 2 ][ y + 1 ].getOccupante() instanceof Cavallo ){
+                
+                lista.add(mat[x-2][y+1].getOccupante());
+            
+            }
+        
+        }
+
+        // A Sinistra In Basso
+        if( x - 2 >= 0 && y - 1 >= 0 && mat[ x - 2 ][ y - 1 ].eOccupato() ){
+            
+            if( !mat[ x - 2 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 2 ][ y - 1 ].getOccupante() instanceof Cavallo ){
+                
+                lista.add(mat[x-2][y-1].getOccupante());
+            
+            }
+        
+        }
+
+        // In Basso A Destra
+        if( x + 1 <= MAXLENGTH && y - 2 <= MAXLENGTH && mat[ x + 1 ][ y - 2 ].eOccupato() ){
+            
+            if( !mat[ x + 1 ][ y - 2 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y - 2 ].getOccupante() instanceof Cavallo ){
+                
+                lista.add(mat[x+1][y-2].getOccupante());
+            
+            }
+        
+        }
+
+        // In Basso A Sinistra
+        if( x - 1 >= 0 && y - 2 >= 0 && mat[ x - 1 ][ y - 2 ].eOccupato() ){
+            
+            if( !mat[ x - 1 ][ y - 2 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y - 2 ].getOccupante() instanceof Cavallo ){
+                
+                lista.add(mat[x-1][y-2].getOccupante());
+            
+            }
+        
+        }
+
+        // Controllo Re Adiacente
+
+        // Destra
+        if( x + 1 <= MAXLENGTH && mat[ x + 1 ][ y ].eOccupato() ){
+            
+            if( !mat[ x + 1 ][ y ].getOccupante().getColore().equals( colore ) && m[ x + 1 ][ y ].getOccupante() instanceof Re ){
+                
+                lista.add(mat[x+1][y].getOccupante());
+            
+            }
+        
+        }
+
+        // Sinistra
+        if( x - 1 >= 0 && mat[ x - 1 ][ y ].eOccupato() ){          
+            if( !mat[ x - 1 ][ y ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y ].getOccupante() instanceof Re ){
+                lista.add(mat[x-1][y].getOccupante());
+            }
+        }
+
+        // Alto
+        if( y + 1 <= MAXLENGTH && m[ x ][ y + 1 ].eOccupato() ){ 
+            if( !mat[ x ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x ][ y + 1 ].getOccupante() instanceof Re ){             
+                lista.add(mat[x][y+1].getOccupante());
+            }
+        }
+
+        // Basso
+        if( y - 1 >= 0 && mat[ x ][ y - 1 ].eOccupato() ){
+            if( !mat[ x ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x ][ y - 1 ].getOccupante() instanceof Re ){
+                lista.add(mat[x][y-1].getOccupante());
+            }
+        }
+
+        // In Alto A Destra
+        if( x + 1 <= MAXLENGTH && y + 1 <= MAXLENGTH && mat[ x + 1 ][ y + 1 ].eOccupato() ){
+            if( !mat[ x + 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y + 1 ].getOccupante() instanceof Re ){ 
+                lista.add(mat[x+1][y+1].getOccupante());
+            }
+        }
+
+        // In Alto A Sinistra
+        if( x - 1 >= 0 && y + 1 <= MAXLENGTH && mat[ x - 1 ][ y + 1 ].eOccupato() ){
+            if( !mat[ x - 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y + 1 ].getOccupante() instanceof Re ){ 
+                lista.add(mat[x-1][y+1].getOccupante());
+            }
+        }
+
+        // In Basso A Destra
+        if( x + 1 <= MAXLENGTH && y - 1 >= 0 && mat[ x + 1 ][ y - 1 ].eOccupato() ){
+            if( !mat[ x + 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y - 1 ].getOccupante() instanceof Re ){      
+                lista.add(mat[x+1][y-1].getOccupante());
+            }
+        }
+
+        // In Basso A Sinistra
+        if( x - 1 >= 0 && y - 1 >= 0 && mat[ x - 1 ][ y - 1 ].eOccupato() ){         
+            if( !mat[ x - 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y - 1 ].getOccupante() instanceof Re ){   
+                lista.add(mat[x-1][y-1].getOccupante());
+            }
+        }
+        
+        return lista;
+        
+        
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     
     }
     
