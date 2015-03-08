@@ -1454,6 +1454,19 @@ public class GestoreMovimenti{
     }
     
     public boolean spostabileIn(Pezzo p,int x, int y){
+        int xp=p.getX();
+        int yp=p.getY();
+        
+        //devo controllare se nella posizione finale c'è uno spazio libero o un pezzo del colore opposto e poi
+        //tutti gli spazi intermedi x tuti i tipi di pezzo tranne il cavallo
+        /*
+        if(p instanceof Torre){
+            if(x==xp || y==yp)
+                if
+        }
+        */
+        
+        
         //da implementare
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -1475,7 +1488,6 @@ public class GestoreMovimenti{
             }
         }
         return lista;
-        
     }
     
     public int[][] getMatricePezziChePrevengonoScacco(int xRe,int yRe,MatriceDeiPezzi matrice,Colore turno){
@@ -1488,8 +1500,6 @@ public class GestoreMovimenti{
                 matricePosizioni[i][j]=0;
             }
         }
-        
-        
         
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){         
