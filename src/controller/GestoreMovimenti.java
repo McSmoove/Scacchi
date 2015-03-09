@@ -1601,23 +1601,56 @@ public class GestoreMovimenti{
         
         if(p instanceof Pedone){
             //caso di una cella vuota
-            if(!matrice.getMatrice()[x][y].eOccupato())
+            if(!matrice.getMatrice()[x][y].eOccupato()){
                 //un pedone può spostari solo in avanti su celle vuote
-                if(x==xp)
-                    if(p.getColore() instanceof Bianco)
-                        if((Pedone)p.)
+                if(x==xp){
+                    if(p.getColore() instanceof Nero){
+                        if(((Pedone)p).isMoved()){
+                            if(y==yp+1)
+                                return true;
+                        }
+                        //p non si è mai mosso
+                        else if(y==yp+1 || y==yp+2){
+                            if(!matrice.getMatrice()[xp][yp+1].eOccupato())
+                                return true;
+                        }
+                    }
+                    //Bianco
+                    else{
+                        if(((Pedone)p).isMoved()){
+                            if(y==yp-1)
+                                return true;
+                        }
+                        //p non si è mai mosso
+                        else if(y==yp-1 || y==yp-2){
+                            if(!matrice.getMatrice()[xp][yp-1].eOccupato())
+                                return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            //posizione finale occupata da un pezzo avversario
+            else{
+                //posizione consentita nel range orizzontale
+                if(x==xp+1 || x==xp-1){
+                    if(p.getColore() instanceof Nero){
+                        if(y==yp+1)
+                            return true;
+                        return false;
+                    }
+                    if(p.getColore() instanceof Bianco){
+                        if(y==yp-1)
+                            return true;
+                        return false;
+                    }
+                }
+            }
         }
         
+        //caso del Re (non considerato)
+        return false;
         
-        //Re non contato,pedone
-        
-        
-        //considerare tutti gli altri tipi di pezzo...
-        
-        
-        
-        //da implementare
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     public LinkedList<Pezzo> getPezziSpostabiliQui(Spazio[][] mat,Spazio s,Colore c){
