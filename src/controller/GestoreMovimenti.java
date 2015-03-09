@@ -1456,15 +1456,92 @@ public class GestoreMovimenti{
     public boolean spostabileIn(Pezzo p,int x, int y){
         int xp=p.getX();
         int yp=p.getY();
+        int temp;//vriabile temporale per torre
+        int temp1;//variabile temèorale per alfiere
+        int temp2;// " "
         
+        Spazio s=matrice.getMatrice()[x][y];
         //devo controllare se nella posizione finale c'è uno spazio libero o un pezzo del colore opposto e poi
         //tutti gli spazi intermedi x tuti i tipi di pezzo tranne il cavallo
-        /*
-        if(p instanceof Torre){
-            if(x==xp || y==yp)
-                if
+        
+        
+        //caso non considerato nei cicli sotto
+        if(x==xp && y==yp)
+            return true;
+        
+        
+        //controllo se la posizione finale è vuota o contiene un pezzo del colore opposto
+        //(non posso spostarmi in un locazione con un pezzo dello stesso colore)
+        if(!s.eOccupato() || !s.getOccupante().getColore().equals(p.getColore()))
+            //divido i controlli in base al pezzo
+            if(p instanceof Torre){
+                //vedo se la posizione in cui spostarsi è valida
+                if(x==xp){
+                    temp=yp;
+                    //ciclo bidirezionale
+                    while(temp!=y){
+                        if(temp<y)
+                            temp++;
+                        else
+                            temp--;
+                        if(matrice.getMatrice()[x][temp].eOccupato())
+                            return false;
+                    }
+                    return true;
+                }
+                    
+                if(y==yp){
+                    temp=xp;
+                    //ciclo bidirezionale
+                    while(temp!=x){
+                        if(temp<x)
+                            temp++;
+                        else
+                            temp--;
+                        if(matrice.getMatrice()[temp][y].eOccupato())
+                            return false;
+                    }
+                    return true;   
+                }
         }
-        */
+        if(p instanceof Alfiere){
+            //controllo validità posizione
+            temp1=xp;
+            temp2=yp;
+            //primo quadrante
+            if(((double)x/y)==((double)xp/yp)){
+                
+                temp1++;
+                temp2++;
+                while(temp1<x){//comprende anche il caso delle y
+                    if(matrice.getMatrice()[temp1][temp2].eOccupato())
+                        return false;
+                    temp1++;
+                    temp2++;
+                }
+                return true;
+            }
+            
+            //terzo qadrante
+            if(((double)x/y)==-((double)xp/yp)){
+                
+            }
+            
+            //quadrante pari
+            if((double)xp-x/yp-y==1){
+            
+            }
+            
+            //quadrante pari
+            if((double)xp-x/yp-y==-1){
+            
+            }
+                
+            return false;    
+        }
+        
+        //considerare tutti gli altri tipi di pezzo...
+        
         
         
         //da implementare
