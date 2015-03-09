@@ -1,5 +1,6 @@
 package controller;
 
+import static java.lang.Math.abs;
 import java.util.LinkedList;
 import model.*;
 import view.InterfacciaGrafica;
@@ -1453,6 +1454,108 @@ public class GestoreMovimenti{
     
     }
     
+    
+    private boolean percorsoTorre(Pezzo p,int x,int y){
+        int xp=p.getX();
+        int yp=p.getY();
+        int temp;
+        //vedo se la posizione in cui spostarsi è valida
+        if (x == xp) {
+            temp = yp;
+            //ciclo bidirezionale
+            while (temp != y) {
+                if (temp < y) {
+                    temp++;
+                } else {
+                    temp--;
+                }
+                if (matrice.getMatrice()[x][temp].eOccupato()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        if (y == yp) {
+            temp = xp;
+            //ciclo bidirezionale
+            while (temp != x) {
+                if (temp < x) {
+                    temp++;
+                } else {
+                    temp--;
+                }
+                if (matrice.getMatrice()[temp][y].eOccupato()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean percorsoAlfiere(Pezzo p,int x,int y){
+        int temp1,temp2;
+        int xp=p.getX();
+        int yp=p.getY();
+        //controllo validità posizione
+            temp1=xp;
+            temp2=yp;
+            //primo quadrante e terzo quadrante
+            if(((double)(x-xp)/(y-yp))==1){
+                //primo quadrante
+                if(xp<x){
+                    temp1++;
+                    temp2++;
+                    while(temp1<x){//comprende anche il caso delle y
+                        if(matrice.getMatrice()[temp1][temp2].eOccupato())
+                            return false;
+                        temp1++;
+                        temp2++;
+                    }
+                    
+                }
+                //terzo quadrante
+                else if(xp>x){
+                    temp1--;
+                    temp2--;
+                    while(temp1<x){//comprende anche il caso delle y
+                        if(matrice.getMatrice()[temp1][temp2].eOccupato())
+                            return false;
+                        temp1--;
+                        temp2--;
+                    } 
+                }
+                return true;
+            }
+            
+            //secondo quadrante e quarto quadrante
+            if(((double)(x-xp)/(y-yp))==-1){
+                if(xp<x){
+                    temp1++;
+                    temp2--;
+                    while(temp1<x){//comprende anche il caso delle y
+                        if(matrice.getMatrice()[temp1][temp2].eOccupato())
+                            return false;
+                        temp1++;
+                        temp2--;
+                    }
+                }
+                else if(xp>x){
+                    temp1--;
+                    temp2++;
+                    while(temp1>x){//comprende anche il caso delle y
+                        if(matrice.getMatrice()[temp1][temp2].eOccupato())
+                            return false;
+                        temp1--;
+                        temp2++;
+                    }
+                }
+                return true;
+            }
+            return false;  
+    }
+    
     public boolean spostabileIn(Pezzo p,int x, int y){
         int xp=p.getX();
         int yp=p.getY();
@@ -1475,70 +1578,39 @@ public class GestoreMovimenti{
         if(!s.eOccupato() || !s.getOccupante().getColore().equals(p.getColore()))
             //divido i controlli in base al pezzo
             if(p instanceof Torre){
-                //vedo se la posizione in cui spostarsi è valida
-                if(x==xp){
-                    temp=yp;
-                    //ciclo bidirezionale
-                    while(temp!=y){
-                        if(temp<y)
-                            temp++;
-                        else
-                            temp--;
-                        if(matrice.getMatrice()[x][temp].eOccupato())
-                            return false;
-                    }
-                    return true;
-                }
-                    
-                if(y==yp){
-                    temp=xp;
-                    //ciclo bidirezionale
-                    while(temp!=x){
-                        if(temp<x)
-                            temp++;
-                        else
-                            temp--;
-                        if(matrice.getMatrice()[temp][y].eOccupato())
-                            return false;
-                    }
-                    return true;   
-                }
+                return percorsoTorre(p,x,y);
         }
         if(p instanceof Alfiere){
-            //controllo validità posizione
-            temp1=xp;
-            temp2=yp;
-            //primo quadrante
-            if(((double)x/y)==((double)xp/yp)){
-                
-                temp1++;
-                temp2++;
-                while(temp1<x){//comprende anche il caso delle y
-                    if(matrice.getMatrice()[temp1][temp2].eOccupato())
-                        return false;
-                    temp1++;
-                    temp2++;
-                }
-                return true;
+              return percorsoAlfiere(p,x,y);
+        }
+        
+        if(p instanceof Cavallo){
+            //caso base per la verifica successiva
+            if(xp!=x && yp!=y){
+                //funzione di verifica per la correttezza della posizione
+                //(modulo della somma dei 2 delta=3)
+                if(abs((double)x-xp)+abs((double)y-yp)==3)
+                    return true;
             }
-            
-            //terzo qadrante
-            if(((double)x/y)==-((double)xp/yp)){
-                
-            }
-            
-            //quadrante pari
-            if((double)xp-x/yp-y==1){
-            
-            }
-            
-            //quadrante pari
-            if((double)xp-x/yp-y==-1){
-            
-            }
-                
             return false;    
         }
+        
+        if(p instanceof Regina){
+            return percorsoAlfiere(p,x,y)||percorsoTorre(p,x,y);
+        }
+        
+        if(p instanceof Pedone){
+            //caso di una cella vuota
+            if(!matrice.getMatrice()[x][y].eOccupato())
+                //un pedone può spostari solo in avanti su celle vuote
+                if(x==xp)
+                    if(p.getColore() instanceof Bianco)
+                        if((Pedone)p.)
+        }
+        
+        
+        //Re non contato,pedone
+        
         
         //considerare tutti gli altri tipi di pezzo...
         
