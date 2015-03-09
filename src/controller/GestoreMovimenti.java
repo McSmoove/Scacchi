@@ -1701,10 +1701,8 @@ public class GestoreMovimenti{
     
     }
     
-    public int getTurno(){
-        
+    public int getTurno(){    
         return turno;
-    
     }
     
     public void setInterfacciaGrafica( InterfacciaGrafica i ){
