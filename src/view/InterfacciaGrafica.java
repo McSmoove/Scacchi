@@ -25,27 +25,32 @@ public class InterfacciaGrafica{
     private final int REGINA_NERA = 10;
     private final int RE_NERO = 11;
         
-    private final JPanel interfacciaGrafica = new JPanel( new BorderLayout( 3, 3 ) );
-    private JButton[][] quadratiScacchiera = new JButton[ 8 ][ 8 ];
-    private final Image immagine[] = new Image[ 12 ];
+    private JPanel interfacciaGrafica = new JPanel( new BorderLayout( 3, 3 ) );
+    private JPanel pezziBianchi = new JPanel( new GridLayout( 8, 2 ) );
+    private JPanel pezziNeri = new JPanel( new GridLayout( 8, 2 ) );
     private JPanel scacchiera;
-    private JPanel pezziBianchi;
-    private JPanel pezziNeri;
+    
+    private JButton[][] quadratiScacchiera = new JButton[ 8 ][ 8 ];
+    
+    private final Image immagine[] = new Image[ 12 ];
+
     private final JLabel messaggioInfo = new JLabel( "Tocca Al Bianco / Nero" );
+    
     private static final String colonne = "ABCDEFGH";
+    
+    private Border bordo = new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.ORANGE ) );
+    
     private GestoreMovimenti gm;
     private MatriceDeiPezzi matrice;
     private GestoreBottoni gestoreBottoni;
     private GestoreTurni gestoreTurni;
-    private Dimension dimensione;
     
     InterfacciaGrafica(){
         
         // Inizializza Interfaccia Grafica ( Costruttore )
-        interfacciaGrafica.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.ORANGE ) ) );
+        interfacciaGrafica.setBorder( bordo );
         JToolBar menu = new JToolBar();
         menu.setFloatable( false );
-        interfacciaGrafica.add( menu, BorderLayout.PAGE_START );
         
         Action iniziaNuovaPartita = new AbstractAction( "Nuova Partita" ){
             
@@ -57,32 +62,22 @@ public class InterfacciaGrafica{
             }
         
         };
-        
-        menu.add( iniziaNuovaPartita );
-        menu.addSeparator();
-        menu.add( messaggioInfo );
 
         // Panello Pezzi Bianchi
-        pezziBianchi = new JPanel( new GridLayout( 8, 2 ) );
-        pezziBianchi.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.ORANGE ) ) );
-        
         try {
+            
             immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-        } catch (IOException ex) {}
         
+        } catch (IOException ex){}
         
-        for(int i=0;i<16;i++){
+        for( int i = 0; i < 16; i++ ){
         
-            pezziBianchi.add( new JLabel( new ImageIcon( immagine [2] )) );
+            pezziBianchi.add( new JLabel( new ImageIcon( immagine [ 2 ] ) ) );
+        
+        }
+        
+        pezziBianchi.setBorder( bordo );
 
-    } 
-        
-        JPanel pannelloPezziBianchi = new JPanel( new GridBagLayout() );
-        pannelloPezziBianchi.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.ORANGE ) ) );
-        pannelloPezziBianchi.add( pezziBianchi );
-        interfacciaGrafica.add( pannelloPezziBianchi, BorderLayout.WEST );
-        
-        
         // Scacchiera E I Bottoni Associati
         scacchiera = new JPanel( new GridLayout( 10, 10 ) ){
             
@@ -118,8 +113,6 @@ public class InterfacciaGrafica{
             } // Fine getPrefferedSize
         
         };
-        
-        scacchiera.setBorder( new CompoundBorder( new EmptyBorder( 10, 10, 10, 10 ), new LineBorder( Color.ORANGE ) ) );
 
         // Creo I JButton Del Pannello Della Scacchiera
         Insets margineBottoni = new Insets( 0, 0, 0, 0 ); // Per Avere Margini = 0
@@ -191,34 +184,46 @@ public class InterfacciaGrafica{
         
         scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Basso
         
+                
+        scacchiera.setBorder( bordo );
+
+        // Panello Pezzi Neri
+        try {
+            
+            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
+        
+        } catch (IOException ex){}
+        
+        for( int i = 0; i < 16; i++ ){
+            
+            pezziNeri.add( new JLabel( new ImageIcon( immagine[ 2 ] ) ) );
+        
+        }
+        
+        pezziNeri.setBorder( bordo );
+
+        // Aggiungo I Componenti Al Pannello
+
+        JPanel ciao = new JPanel();
+        // ciao.add( scacchiera ); // Per Tornare Ai Quadrati
+        
+        menu.add( iniziaNuovaPartita );
+        menu.addSeparator();
+        menu.add( messaggioInfo );
+        
+        interfacciaGrafica.add( menu, BorderLayout.PAGE_START );
+        
+        interfacciaGrafica.add( pezziBianchi, BorderLayout.WEST );
+        
+        scacchiera.doLayout();
         interfacciaGrafica.add( scacchiera, BorderLayout.CENTER );
         
-        // Panello Pezzi Neri
-        pezziNeri = new JPanel( new GridLayout( 8, 2 ) );
-        pezziNeri.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.ORANGE ) ) );
-        
-        try {
-            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-        } catch (IOException ex) {}
-        
-        
-        for(int i=0;i<16;i++){
-        
-            pezziNeri.add( new JLabel( new ImageIcon( immagine [2] )) );
-
-    } 
-        
-        JPanel pannelloPezziNeri = new JPanel( new GridBagLayout() );
-        pannelloPezziNeri.setBorder( new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.ORANGE ) ) );
-        pannelloPezziNeri.add( pezziNeri );
-        interfacciaGrafica.add( pannelloPezziNeri, BorderLayout.EAST );
-
-        
+        interfacciaGrafica.add( pezziNeri, BorderLayout.EAST );
     
     } // Fine InterfacciaGrafica
 
     // Qui Si Inizializzano Le Immagini Eccetera
-    private final void iniziaPartita(){
+    private void iniziaPartita(){
         
         matrice = new MatriceDeiPezzi(); // Inizializzata Con La Scacchiera Di Default
         gm = new GestoreMovimenti( matrice ); // Collegamento Interfaccia-Gestore
@@ -312,6 +317,7 @@ public class InterfacciaGrafica{
             for(int j=0;j<quadratiScacchiera.length;j++){
                 quadratiScacchiera[i][j].addActionListener(new ActionListener() {
  
+                    @Override
                     public void actionPerformed(ActionEvent e){
                         gestoreBottoni.pressionePulsanteScacchiera( e );
                     }
@@ -334,7 +340,7 @@ public class InterfacciaGrafica{
                 
                 frame.setLocationByPlatform( true );
                 frame.setMinimumSize( frame.getMinimumSize() );
-                frame.pack(); 
+                frame.pack();
                 
                 frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
                 frame.setVisible( true );
