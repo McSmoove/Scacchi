@@ -1683,20 +1683,31 @@ public class GestoreMovimenti{
             }
         }
         
+        //scorro la scacchiera
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){         
                 if(j!=xRe && i!=yRe)
+                    //prendo gli spazi non vuoti
                     if(originale.getSpazio(j, i).eOccupato())
-                        //prendo tutti i pezzi del colore giusto
+                        //prendo tutti i pezzi del colore del turno corrente
                         if(originale.getSpazio(j, i).getOccupante().getColore().equals(turno))
+                            //setto a 1 le posizioni dove i pezzi sono del colore giusto
                             matricePosizioni[j][i]=1;
             }
         }
         
         //scarto i pezzi che non possono salvare il re (e da qualche altra parte controllerò se la posizione sclta da loro va bene)
+        //QUI metterò le chiamate...
+        
         
         //forse utilizzo l'algoritmo + efficace che non usa combinazioni inutili
         
+        /*si può salvare il re cosi:
+            1)Il re può spostarsi (si salva da solo)
+            2)Mi metto tra l'attaccante e il Re
+            3)Mangio l'attaccante
+            
+        */
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     
     }
