@@ -25,7 +25,7 @@ public class InterfacciaGrafica{
     private final int REGINA_NERA = 10;
     private final int RE_NERO = 11;
         
-    private JPanel interfacciaGrafica = new JPanel( new BorderLayout( 3, 3 ) );
+    private JPanel interfacciaGrafica = new JPanel( new BorderLayout() );
     private JPanel pezziBianchi = new JPanel( new GridLayout( 8, 2 ) );
     private JPanel pezziNeri = new JPanel( new GridLayout( 8, 2 ) );
     private JPanel scacchiera;
@@ -45,24 +45,8 @@ public class InterfacciaGrafica{
     private GestoreBottoni gestoreBottoni;
     private GestoreTurni gestoreTurni;
     
-    InterfacciaGrafica(){
-        
-        // Inizializza Interfaccia Grafica ( Costruttore )
-        interfacciaGrafica.setBorder( bordo );
-        JToolBar menu = new JToolBar();
-        menu.setFloatable( false );
-        
-        Action iniziaNuovaPartita = new AbstractAction( "Nuova Partita" ){
-            
-            @Override
-            public void actionPerformed( ActionEvent e ){ 
-                
-                iniziaPartita();
-            
-            }
-        
-        };
-
+    InterfacciaGrafica(){ // Inizializza Interfaccia Grafica ( Costruttore )
+       
         // Panello Pezzi Bianchi
         try {
             
@@ -71,12 +55,10 @@ public class InterfacciaGrafica{
         } catch (IOException ex){}
         
         for( int i = 0; i < 16; i++ ){
-        
+            
             pezziBianchi.add( new JLabel( new ImageIcon( immagine [ 2 ] ) ) );
         
         }
-        
-        pezziBianchi.setBorder( bordo );
 
         // Scacchiera E I Bottoni Associati
         scacchiera = new JPanel( new GridLayout( 10, 10 ) ){
@@ -183,9 +165,6 @@ public class InterfacciaGrafica{
         } // Fine For
         
         scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Basso
-        
-                
-        scacchiera.setBorder( bordo );
 
         // Panello Pezzi Neri
         try {
@@ -200,26 +179,44 @@ public class InterfacciaGrafica{
         
         }
         
-        pezziNeri.setBorder( bordo );
-
-        // Aggiungo I Componenti Al Pannello
-
-        JPanel ciao = new JPanel();
-        // ciao.add( scacchiera ); // Per Tornare Ai Quadrati
+        JToolBar menu = new JToolBar();
+        menu.setFloatable( false );
+        
+        Action iniziaNuovaPartita = new AbstractAction( "Nuova Partita" ){
+            
+            @Override
+            public void actionPerformed( ActionEvent e ){ 
+                
+                iniziaPartita();
+            
+            }
+        
+        };
         
         menu.add( iniziaNuovaPartita );
         menu.addSeparator();
         menu.add( messaggioInfo );
-        
         interfacciaGrafica.add( menu, BorderLayout.PAGE_START );
+
+        // Aggiungo I Componenti Al Pannello Main
+        JPanel pannelloMain = new JPanel( new GridBagLayout() );
+        GridBagConstraints posizione = new GridBagConstraints();
         
-        interfacciaGrafica.add( pezziBianchi, BorderLayout.WEST );
+        posizione.fill = GridBagConstraints.EAST;
+        pezziBianchi.setBorder( bordo );
+        pannelloMain.add( pezziBianchi, posizione );
         
-        scacchiera.doLayout();
-        interfacciaGrafica.add( scacchiera, BorderLayout.CENTER );
+        posizione.fill = GridBagConstraints.CENTER;
+        scacchiera.setBorder( bordo );
+        pannelloMain.add( scacchiera, posizione );
         
-        interfacciaGrafica.add( pezziNeri, BorderLayout.EAST );
-    
+        posizione.fill = GridBagConstraints.WEST;
+        pezziNeri.setBorder( bordo );
+        pannelloMain.add( pezziNeri, posizione );
+        
+        interfacciaGrafica.add( pannelloMain, BorderLayout.CENTER );
+        interfacciaGrafica.setBorder( bordo );
+
     } // Fine InterfacciaGrafica
 
     // Qui Si Inizializzano Le Immagini Eccetera
