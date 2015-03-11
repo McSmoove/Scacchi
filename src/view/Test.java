@@ -1,16 +1,16 @@
 package view;
 
-import controller.*;
+import controller.GestoreBottoni;
+import controller.GestoreMovimenti;
+import controller.GestoreTurni;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.swing.*;
-import javax.swing.border.*;
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import model.*;
 
-public class InterfacciaGrafica{
+public class Test{
     
     private final int PEDONE_BIANCO = 0;
     private final int TORRE_BIANCA = 1;
@@ -24,54 +24,43 @@ public class InterfacciaGrafica{
     private final int ALFIERE_NERO = 9;
     private final int REGINA_NERA = 10;
     private final int RE_NERO = 11;
-        
-    private JPanel interfacciaGrafica = new JPanel( new BorderLayout() );
-    private JPanel pezziBianchi = new JPanel( new GridLayout( 8, 2 ) );
-    private JPanel pezziNeri = new JPanel( new GridLayout( 8, 2 ) );
-    private JPanel scacchiera;
-    
-    private JButton[][] quadratiScacchiera = new JButton[ 8 ][ 8 ];
     
     private final Image immagine[] = new Image[ 12 ];
     private final Image extra[] = new Image[ 3 ];
-    
-    private final JLabel messaggioInfo = new JLabel( "Tocca Al Bianco / Nero" );
-    
+    private JFrame scacchiera = new JFrame();
+    private JButton[][] quadratiScacchiera = new JButton[ 8 ][ 8 ];
     private static final String colonne = "ABCDEFGH";
-    
-    private Border bordo = new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.ORANGE ) );
-    
+
     private GestoreMovimenti gm;
     private MatriceDeiPezzi matrice;
     private GestoreBottoni gestoreBottoni;
     private GestoreTurni gestoreTurni;
     
-    InterfacciaGrafica(){ // Inizializza Interfaccia Grafica ( Costruttore )
-    
-        // Panello Pezzi Bianchi
-        try {
+    Test(){
+        
+        try{
             
+            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
+            immagine[ 1 ] = ImageIO.read( getClass().getResource( "../immagini/torreBianca.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
             immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-        
-        } catch (IOException ex){}
-        
-        for( int i = 0; i < 16; i++ ){
-            
-            pezziBianchi.add( new JLabel( new ImageIcon( immagine [ 2 ] ) ) );
-        
-        }
-        
-        try {
-            
+            immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
+            immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
+            immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/reBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
+
+            // Recupero le immagini pezzi neri
+            immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
+            immagine[ 7 ] = ImageIO.read( getClass().getResource( "../immagini/torreNera.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
+            immagine[ 8 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
+            immagine[ 9 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
+            immagine[ 10 ] = ImageIO.read( getClass().getResource( "../immagini/reginaNera.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
+            immagine[ 11 ] = ImageIO.read( getClass().getResource( "../immagini/reNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
             extra[0] = ImageIO.read( getClass().getResource( "../immagini/bianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
             extra[1] = ImageIO.read( getClass().getResource( "../immagini/nero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-            // extra[2] = ImageIO.read( getClass().getResource( "../immagini/scacchiera.png" ) ); // Semmai Decidiamo Di Implementare La Sccacchiera
         
-        } catch (IOException ex) {}
-
-        // Scacchiera E I Bottoni Associati
-        scacchiera = new JPanel( new GridLayout( 10, 10 ) ){
-            
+        } catch( IOException e ){}
+       
+            scacchiera.setLayout( new GridLayout(8, 8) );
+            /**
             @Override
             public final Dimension getPreferredSize(){
                
@@ -102,10 +91,44 @@ public class InterfacciaGrafica{
                 return new Dimension( scelta, scelta );
             
             } // Fine getPrefferedSize
+       
+            // Semmai Decidiamo Di Implementare La Scacchiera Come Immagine Statica
+            /**
+            @Override
+            protected void paintComponent(Graphics g) {
+                
+                super.paintComponent(g);
+                
+                int h = extra[2].getHeight(null);
+                int w = extra[2].getWidth(null);
+
+                // Immagine Scalata In Orizzontale
+                if ( w > this.getWidth() ){
+                    
+                    extra[2] = extra[2].getScaledInstance( getWidth(), -1, Image.SCALE_DEFAULT );
+                    h = extra[2].getHeight(null);
+                
+                }
+
+                // Scalo In Verticonale
+                if ( h > this.getHeight() ){
+                    
+                    extra[2] = extra[2].getScaledInstance( -1, getHeight(), Image.SCALE_DEFAULT );
+                
+                }
+
+                // Centro Le Immagini
+                int x = (getWidth() - extra[2].getWidth(null)) / 2;
+                int y = (getHeight() - extra[2].getHeight(null)) / 2;
+                
+                g.drawImage( extra[2], x, y, null ); // Disegno La Immagine
+            
+            }
+            */
         
-        };
         
-        // Creo I JButton Del Pannello Della Scacchiera
+        //};
+        
         Insets margineBottoni = new Insets( 0, 0, 0, 0 ); // Per Avere Margini = 0
         
         for (int i = 0; i < quadratiScacchiera.length; i++ ){
@@ -121,19 +144,19 @@ public class InterfacciaGrafica{
                 
                 // Coloro Lo Sfondo Dei Quadrati Se Sono Pari O Dispari
                 if ( ( j % 2 == 1 && i % 2 == 1 ) || ( j % 2 == 0 && i % 2 == 0 ) ){
-
+                    
                     bottone.setBackground( Color.WHITE );
                     bottone.setIcon( new ImageIcon( extra[0] ) );
                 
                 } else {
 
-                    bottone.setBackground( Color.BLACK );
-                    bottone.setIcon( new ImageIcon( extra[1] ) );
+                   bottone.setBackground( Color.BLACK );
+                   bottone.setIcon( new ImageIcon( extra[1] ) );
                 
                 } // Fine If Else Con I Quadrati Colorati
-                
+
                 bottone.setOpaque(true);
-                bottone.setContentAreaFilled( false );
+                bottone.setContentAreaFilled(false);
                 bottone.setBorderPainted( true );
                
                 quadratiScacchiera[ j ][ i ] = bottone;
@@ -141,133 +164,29 @@ public class InterfacciaGrafica{
             } // Fine For Colonne
         
         } // Fine For Righe
-
-        // Disegno Le Lettere In Alto
-        scacchiera.add( new JLabel() ); // Primo Spazio Vuoto Per La Riga Contenente Le Lettere In Alto
-        
-        for( int i = 0; i < 8; i++ ){
             
-            scacchiera.add( new JLabel( colonne.substring( i, i + 1 ), SwingConstants.CENTER ) );
-        
-        } // Fine For
-        
-        scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Alto
-        
+
         for( int i = 0; i < 8; i++ ){
             
             for ( int j = 0; j < 8; j++ ){
                 
                 switch ( j ){
                     
-                    case 0: scacchiera.add( new JLabel( "" + ( 9 - ( i + 1 ) ), SwingConstants.CENTER ) );
                     default: scacchiera.add( quadratiScacchiera[ j ][ i ] );
                 
                 }
             
             } // Fine For Righe
             
-            scacchiera.add( new JLabel( "" + ( 9 - ( i + 1 ) ), SwingConstants.CENTER ) );
-            
         } // Fine For Colonne
 
-        // Disegno Le Lettere In Basso
-        scacchiera.add( new JLabel() ); // Primo Spazio Vuoto Per La Riga Contenente Le Lettere In Basso
-        
-        for( int i = 0; i < 8; i++ ){
-            
-            scacchiera.add( new JLabel( colonne.substring( i, i + 1 ), SwingConstants.CENTER ) );
-        
-        } // Fine For
-        
-        scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Basso
-
-        // Panello Pezzi Neri
-        try {
-            
-            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-        
-        } catch (IOException ex){}
-        
-        for( int i = 0; i < 16; i++ ){
-            
-            pezziNeri.add( new JLabel( new ImageIcon( immagine[ 2 ] ) ) );
-        
-        }
-        
-        JToolBar menu = new JToolBar();
-        menu.setFloatable( false );
-        
-        Action iniziaNuovaPartita = new AbstractAction( "Nuova Partita" ){
-            
-            @Override
-            public void actionPerformed( ActionEvent e ){ 
-                
-                iniziaPartita();
-            
-            }
-        
-        };
-        
-        menu.add( iniziaNuovaPartita );
-        menu.addSeparator();
-        menu.add( messaggioInfo );
-        interfacciaGrafica.add( menu, BorderLayout.PAGE_START );
-
-        // Aggiungo I Componenti Al Pannello Main
-        JPanel pannelloMain = new JPanel( new GridBagLayout() );
-        GridBagConstraints posizione = new GridBagConstraints();
-        
-        posizione.fill = GridBagConstraints.EAST;
-        pezziBianchi.setBorder( bordo );
-        pannelloMain.add( pezziBianchi, posizione );
-        
-        posizione.fill = GridBagConstraints.CENTER;
-        scacchiera.setBorder( bordo );
-        pannelloMain.add( scacchiera, posizione );
-        
-        posizione.fill = GridBagConstraints.WEST;
-        pezziNeri.setBorder( bordo );
-        pannelloMain.add( pezziNeri, posizione );
-        
-        interfacciaGrafica.add( pannelloMain, BorderLayout.CENTER );
-        interfacciaGrafica.setBorder( bordo );
-
-    } // Fine InterfacciaGrafica
-
-    // Qui Si Inizializzano Le Immagini Eccetera
-    private void iniziaPartita(){
-        
         matrice = new MatriceDeiPezzi(); // Inizializzata Con La Scacchiera Di Default
         gm = new GestoreMovimenti( matrice ); // Collegamento Interfaccia-Gestore
-        gm.setInterfacciaGrafica( this ); // Collegamento Gestore-Interfaccia
         gestoreTurni=new GestoreTurni();
-        gestoreBottoni=new GestoreBottoni(gm,gestoreTurni,this);
         
-        // Da Modificare Il Testo In Base Al Turno
-        messaggioInfo.setText( "Fai Una Mossa !!!");
         
-        try{
-            
-            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
-            immagine[ 1 ] = ImageIO.read( getClass().getResource( "../immagini/torreBianca.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
-            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-            immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
-            immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
-            immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/reBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-
-            // Recupero le immagini pezzi neri
-            immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
-            immagine[ 7 ] = ImageIO.read( getClass().getResource( "../immagini/torreNera.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
-            immagine[ 8 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-            immagine[ 9 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
-            immagine[ 10 ] = ImageIO.read( getClass().getResource( "../immagini/reginaNera.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
-            immagine[ 11 ] = ImageIO.read( getClass().getResource( "../immagini/reNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
+        Pezzo p;
         
-        } catch( IOException e ){}
-
-        // Qui Si Metteranno I Pezzi Collegandoli Alle Immagini
-        
-        Pezzo p; // Sposteo In Alto La Dichiarazione
         for( int i = 0; i < 8; i++ ){
             for( int j = 0; j < 8; j++ ){
                 if( matrice.getMatrice()[ i ][ j ].eOccupato() ){
@@ -372,62 +291,20 @@ public class InterfacciaGrafica{
             }
         }
         
-        //aggiungo i listener a tutti i bottoni
-        for(int i=0;i<quadratiScacchiera.length;i++){
-            for(int j=0;j<quadratiScacchiera.length;j++){
-                quadratiScacchiera[i][j].addActionListener(new ActionListener() {
+        scacchiera.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        scacchiera.setMinimumSize( new Dimension( 500, 500 ) );
+        scacchiera.setLocationByPlatform( true );
+        scacchiera.pack();
+        scacchiera.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+        scacchiera.setVisible( true );
+    
+    }
  
-                    @Override
-                    public void actionPerformed(ActionEvent e){
-                        gestoreBottoni.pressionePulsanteScacchiera( e );
-                    }
-                });      
-            }
-            
-        }
-    
-    } // Fine iniziaPartita
-    
-    public void start() {
-        
-        Runnable run = new Runnable(){
-            
-            @Override
-            public void run(){
-
-                JFrame frame = new JFrame( "Scacchi Beta !!!" );
-                frame.add( interfacciaGrafica );
-                
-                frame.setLocationByPlatform( true );
-                frame.setMinimumSize( frame.getMinimumSize() );
-                frame.pack();
-                
-                frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-                frame.setVisible( true );
-            
-            }
-        
-        };
+    public static void main(String[] args) {
+         Runnable run = () -> {
+             new Test();
+         };
         
         SwingUtilities.invokeLater(run);
-    
-    } // Fine main
-    
-    /*
-    public void actionPerformed( ActionEvent e ) {
-        
-        if( e.getSource() instanceof JButton ){
-            
-            gestoreBottoni.pressionePulsanteScacchiera( e );
-        
-        }
-    
     }
-    */
-    public JButton[][] getMatriceBottoni(){
-        
-        return quadratiScacchiera;
-    
-    }
-
-} // Fine Classe InterfacciaGrafica
+}
