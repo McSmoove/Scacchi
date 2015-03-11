@@ -729,6 +729,8 @@ public class GestoreMovimenti{
 
     // Minimizzare Il Codice Ragruppando Re E Pedone In Casi Specifici ( Come Regina Con Torre E Alfiere )
     // Si Possono Fare Delle Chiamate Per Minimizzare Il Codice
+    //0=c'è scacco
+    //1=non c'è scacco
     public int controlloScacco( int x, int y, Colore colore,Spazio[][] matrix){
         Spazio[][] mat=matrix;
         
@@ -1675,6 +1677,7 @@ public class GestoreMovimenti{
     public int[][] getMatricePezziChePrevengonoScacco(int xRe,int yRe,MatriceDeiPezzi matrice,Colore turno){
         MatriceDeiPezzi originale=matrice;
         LinkedList<Pezzo> listaAttaccanti=new LinkedList<>();
+        LinkedList<Pezzo> listaSalvatori=new LinkedList<>();
         Re re=(Re) originale.getSpazio(xRe, yRe).getOccupante();
         int[][] matricePosizioni=new int[8][8];
         
@@ -1699,45 +1702,169 @@ public class GestoreMovimenti{
         }
         
         //guardo i pezzi del colore opposto che possono fare scacco al re
-        if(re.getColore() instanceof Bianco)
-            getPezziSpostabiliQui(originale.getMatrice(),originale.getSpazio(xRe, yRe),new Nero());
-        else
-            getPezziSpostabiliQui(originale.getMatrice(),originale.getSpazio(xRe, yRe),new Bianco());
-        /*
-        for(int i=0;i<8;i++){
-            for(int j=0;j<8;j++){
-                if(originale.getSpazio(i, j).eOccupato())
-                    if(originale.getSpazio(i, j).getOccupante().getColore().equals(originale.getSpazio(xRe, yRe).getOccupante().getColore()))
-                        if()
-                        listaAttaccanti.add(originale.getSpazio(i, j).getOccupante());
-            }
-        }
-        */
-        
-        
-        
         //(chi può spostarsi nella sua locazione)
         //li salvo in una lista
+        if(re.getColore() instanceof Bianco)
+            listaAttaccanti=getPezziSpostabiliQui(originale.getMatrice(),originale.getSpazio(xRe, yRe),new Nero());
+        else
+            listaAttaccanti=getPezziSpostabiliQui(originale.getMatrice(),originale.getSpazio(xRe, yRe),new Bianco());
+        
         //per ogni pezzo mio vedo chi può neutralizzarli tutti contemporaneamente e li salvo in un'altra lista
         //ritorno la lista coi pezzi che salvano il re
-        
-        
-        
-        //scarto i pezzi che non possono salvare il re (e da qualche altra parte controllerò se la posizione sclta da loro va bene)
-        //QUI metterò le chiamate...
-        
-        
+
         //forse utilizzo l'algoritmo + efficace che non usa combinazioni inutili
         
         /*si può salvare il re cosi:
             1)Il re può spostarsi (si salva da solo)
             2)Mi metto tra l'attaccante e il Re
             3)Mangio l'attaccante
-            
+        Per fare il punto 2 potrei salvarmi le posizioni intermedie tra gli attaccanti e il re (esclusa la torre)    
+        
         */
+        //1)
+        if(reSiSalvaDaScacco(re,originale.getMatrice()))
+            listaSalvatori.add(re);
+        
+        //2)
+        
+        //...
+        //NON funziona se tra gli attaccanti c'è un cavallo
+        //guardo il tipo di pezzo dell'attaccante o degli attaccanti
+        //sommo le 2 matrici ricevute avendo tutte le posizioni che intercorrono tra i 2 attaccanti
+        //le posizioni di intersezione saranno le posizioni nelle quali spostarsi per evitare lo scacco
+        //il numero nelle celle da usare deve essere uguale al numero di attaccanti
+        //nel caso contrario il metodo 2 non può funzionare
+        //mi ricavo le posizioni intermedie
+        
+        
+        //3)
+        //c'è solo un elemento nella lista (non posso prevenire lo scacco eliminando tutti gli attaccanti contemporaneamente)
+        if(!listaAttaccanti.iterator().hasNext()){
+            for(int i=0;i<8;i++){
+                for(int j=0;j<8;j++){
+                    if(matricePosizioni[i][j]==1)
+                        if(spostabileIn(matrice.getSpazio(i, j).getOccupante(),listaAttaccanti.getFirst().getX(),listaAttaccanti.getFirst().getY()))
+                            listaSalvatori.add(matrice.getSpazio(i, j).getOccupante());
+                }
+            }
+            
+            /*
+            for(Pezzo p:listaSalvatori){
+                if(spostabileIn(p,listaAttaccanti.getFirst().getX(),listaAttaccanti.getFirst().getY()))
+                    listaSalvatori.add(p);
+            }*/
+        }
+        
+        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     
     }
+    private boolean reSiSalvaDaScacco(Re re,Spazio[][] matrice){
+        Spazio[][] originale=matrice;
+        Spazio[][] matSimulata;
+        int x=re.getX();
+        int y=re.getY();
+        
+        boolean scacco=true;
+        //vedo se l'attaccante è adiacente al re? (non posso farlo senza avere la lista degli attaccanti[elaborioso])
+        //sposto il re nelle locazioni nelle quali può andare e controllo se rimane la situazione di scacco
+        
+        //provo in alto a sinistra
+        if(x>0 && y>0){
+            matSimulata=matrice;
+            matSimulata[x-1][y-1].setOccupante(new Re(x-1,y-1,re.getColore()));
+            matSimulata[x][y].setOccupante(null);
+            matSimulata[x][y].setOccupato(false);
+            if(controlloScacco(x-1,y-1,re.getColore(),matSimulata)==0)
+                    scacco=true;
+            else
+                return true;
+        }
+        //provo in alto
+        if(y>0){ 
+            matSimulata=matrice;
+            matSimulata[x][y-1].setOccupante(new Re(x,y-1,re.getColore()));
+            matSimulata[x][y].setOccupante(null);
+            matSimulata[x][y].setOccupato(false);
+            if(controlloScacco(x,y-1,re.getColore(),matSimulata)==0)
+                    scacco=true;
+            else
+                return true;
+        }
+        //provo in alto a destra
+        if(x<8 && y>0){ 
+            matSimulata=matrice;
+            matSimulata[x][y-1].setOccupante(new Re(x+1,y-1,re.getColore()));
+            matSimulata[x][y].setOccupante(null);
+            matSimulata[x][y].setOccupato(false);
+            if(controlloScacco(x,y-1,re.getColore(),matSimulata)==0)
+                    scacco=true;
+            else
+                return true;
+        }
+        
+        //provo a sinistra
+        if(x>0){ 
+            matSimulata=matrice;
+            matSimulata[x-1][y].setOccupante(new Re(x-1,y,re.getColore()));
+            matSimulata[x][y].setOccupante(null);
+            matSimulata[x][y].setOccupato(false);
+            if(controlloScacco(x-1,y,re.getColore(),matSimulata)==0)
+                    scacco=true;
+            else
+                return true;
+        }
+        
+        //provo a destra
+        if(x<8){ 
+            matSimulata=matrice;
+            matSimulata[x+1][y].setOccupante(new Re(x+1,y,re.getColore()));
+            matSimulata[x][y].setOccupante(null);
+            matSimulata[x][y].setOccupato(false);
+            if(controlloScacco(x+1,y,re.getColore(),matSimulata)==0)
+                    scacco=true;
+            else
+                return true;
+        }
+        
+        //provo in basso a sinistra
+        if(y<8 && x>0){ 
+            matSimulata=matrice;
+            matSimulata[x-1][y+1].setOccupante(new Re(x-1,y+1,re.getColore()));
+            matSimulata[x][y].setOccupante(null);
+            matSimulata[x][y].setOccupato(false);
+            if(controlloScacco(x-1,y+1,re.getColore(),matSimulata)==0)
+                    scacco=true;
+            else
+                return true;
+        }
+        
+        //provo in basso
+        if(y<8){ 
+            matSimulata=matrice;
+            matSimulata[x][y+1].setOccupante(new Re(x,y+1,re.getColore()));
+            matSimulata[x][y].setOccupante(null);
+            matSimulata[x][y].setOccupato(false);
+            if(controlloScacco(x,y+1,re.getColore(),matSimulata)==0)
+                    scacco=true;
+            else
+                return true;
+        }
+        
+        //provo in basso a destra
+        if(y<8 && x<8){ 
+            matSimulata=matrice;
+            matSimulata[x+1][y+1].setOccupante(new Re(x+1,y+1,re.getColore()));
+            matSimulata[x][y].setOccupante(null);
+            matSimulata[x][y].setOccupato(false);
+            if(controlloScacco(x+1,y+1,re.getColore(),matSimulata)==0)
+                    scacco=true;
+            else
+                return true;
+        }
+        return false; 
+    }
+    
     
     public int getTurno(){    
         return turno;

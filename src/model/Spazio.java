@@ -7,7 +7,7 @@ package model;
 
 public class Spazio{ // Cella Della Scacchiera Caratterizzata Dalla Presenza O Non Di Una Pedina E Del Suo Tipo
     
-    private final boolean occupato;
+    private boolean occupato;
     private Pezzo occupante;
     private int x, y;
     
@@ -59,6 +59,10 @@ public class Spazio{ // Cella Della Scacchiera Caratterizzata Dalla Presenza O N
         
         occupante = p;
     
+    }
+    
+    public void setOccupato(boolean b){
+        occupato=b;
     }
     
     public int getX(){
