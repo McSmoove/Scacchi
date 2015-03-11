@@ -1695,6 +1695,13 @@ public class GestoreMovimenti{
                             matricePosizioni[j][i]=1;
             }
         }
+        //guardo i pezzi del colore opposto che possono fare scacco al re
+        //(chi può spostarsi nella sua locazione)
+        //li salvo in una lista
+        //per ogni pezzo mio vedo chi può neutralizzarli tutti contemporaneamente e li salvo in un'altra lista
+        //ritorno la lista coi pezzi che salvano il re
+        
+        
         
         //scarto i pezzi che non possono salvare il re (e da qualche altra parte controllerò se la posizione sclta da loro va bene)
         //QUI metterò le chiamate...
