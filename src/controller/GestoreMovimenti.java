@@ -1674,6 +1674,8 @@ public class GestoreMovimenti{
     
     public int[][] getMatricePezziChePrevengonoScacco(int xRe,int yRe,MatriceDeiPezzi matrice,Colore turno){
         MatriceDeiPezzi originale=matrice;
+        LinkedList<Pezzo> listaAttaccanti=new LinkedList<>();
+        Re re=(Re) originale.getSpazio(xRe, yRe).getOccupante();
         int[][] matricePosizioni=new int[8][8];
         
         //azzero la matrice per sicurezza
@@ -1695,7 +1697,25 @@ public class GestoreMovimenti{
                             matricePosizioni[j][i]=1;
             }
         }
+        
         //guardo i pezzi del colore opposto che possono fare scacco al re
+        if(re.getColore() instanceof Bianco)
+            getPezziSpostabiliQui(originale.getMatrice(),originale.getSpazio(xRe, yRe),new Nero());
+        else
+            getPezziSpostabiliQui(originale.getMatrice(),originale.getSpazio(xRe, yRe),new Bianco());
+        /*
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(originale.getSpazio(i, j).eOccupato())
+                    if(originale.getSpazio(i, j).getOccupante().getColore().equals(originale.getSpazio(xRe, yRe).getOccupante().getColore()))
+                        if()
+                        listaAttaccanti.add(originale.getSpazio(i, j).getOccupante());
+            }
+        }
+        */
+        
+        
+        
         //(chi può spostarsi nella sua locazione)
         //li salvo in una lista
         //per ogni pezzo mio vedo chi può neutralizzarli tutti contemporaneamente e li salvo in un'altra lista
