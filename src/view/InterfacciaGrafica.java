@@ -1,6 +1,5 @@
 package view;
 
-import controller.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -9,8 +8,12 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.imageio.ImageIO;
 import model.*;
+import controller.*;
 
 public class InterfacciaGrafica{
+    
+    private final int bianco = 0;
+    private final int nero = 1;
     
     private final int PEDONE_BIANCO = 0;
     private final int TORRE_BIANCA = 1;
@@ -30,16 +33,17 @@ public class InterfacciaGrafica{
     private JPanel pezziNeri = new JPanel( new GridLayout( 8, 2 ) );
     private JPanel scacchiera;
     
-    private JButton[][] quadratiScacchiera = new JButton[ 8 ][ 8 ];
+    private ImageButton[][] quadratiScacchiera = new ImageButton[ 8 ][ 8 ];
     
     private final Image immagine[] = new Image[ 12 ];
-    private final Image extra[] = new Image[ 3 ];
+    private final Image colore[] = new Image[ 3 ]; // Una In Piu Se Vogliamo Implementare La Scacchiera, Altrimenti Vale 2
+    private MergeIcon[] mergeIco = new MergeIcon[ 24 ];
     
     private final JLabel messaggioInfo = new JLabel( "Tocca Al Bianco / Nero" );
     
     private static final String colonne = "ABCDEFGH";
     
-    private Border bordo = new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.ORANGE ) );
+    private Border bordo = new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.RED ) );
     
     private GestoreMovimenti gm;
     private MatriceDeiPezzi matrice;
@@ -47,30 +51,67 @@ public class InterfacciaGrafica{
     private GestoreTurni gestoreTurni;
     
     InterfacciaGrafica(){ // Inizializza Interfaccia Grafica ( Costruttore )
-    
-        // Panello Pezzi Bianchi
-        try {
+        
+        try{
             
-            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
+            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneBianco.png" ) );
+            immagine[ 1 ] = ImageIO.read( getClass().getResource( "../immagini/torreBianca.png" ) );
+            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) );
+            immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) );
+            immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) );
+            immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/reBianco.png" ) );
+
+            // Recupero le immagini pezzi neri
+            immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneNero.png" ) );
+            immagine[ 7 ] = ImageIO.read( getClass().getResource( "../immagini/torreNera.png" ) );
+            immagine[ 8 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) );
+            immagine[ 9 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereNero.png" ) );
+            immagine[ 10 ] = ImageIO.read( getClass().getResource( "../immagini/reginaNera.png" ) );
+            immagine[ 11 ] = ImageIO.read( getClass().getResource( "../immagini/reNero.png" ) );
+            
+            colore[0] = ImageIO.read( getClass().getResource( "../immagini/bianco.png" ) );
+            colore[1] = ImageIO.read( getClass().getResource( "../immagini/nero.png" ) );
+            colore[2] = ImageIO.read( getClass().getResource( "../immagini/scacchiera.png" ) ); // Semmai Decidiamo Di Implementare La Sccacchiera Come Immaagine
         
-        } catch (IOException ex){}
+        } catch( IOException e ){}
         
+        mergeIco[0] = new MergeIcon( colore[0],immagine[PEDONE_BIANCO] );
+        mergeIco[1] = new MergeIcon( colore[1],immagine[PEDONE_BIANCO] );
+        mergeIco[2] = new MergeIcon( colore[0],immagine[PEDONE_NERO] );
+        mergeIco[3] = new MergeIcon( colore[1],immagine[PEDONE_NERO] );
+        mergeIco[4] = new MergeIcon( colore[0],immagine[TORRE_BIANCA] );
+        mergeIco[5] = new MergeIcon( colore[1],immagine[TORRE_BIANCA] );
+        mergeIco[6] = new MergeIcon( colore[0],immagine[TORRE_NERA] );
+        mergeIco[7] = new MergeIcon( colore[1],immagine[TORRE_NERA] );
+        mergeIco[8] = new MergeIcon( colore[0],immagine[CAVALLO_BIANCO] );
+        mergeIco[9] = new MergeIcon( colore[1],immagine[CAVALLO_BIANCO] );
+        mergeIco[10] = new MergeIcon( colore[0],immagine[CAVALLO_NERO] );
+        mergeIco[11] = new MergeIcon( colore[1],immagine[CAVALLO_NERO] );
+        mergeIco[12] = new MergeIcon( colore[0],immagine[ALFIERE_BIANCO] );
+        mergeIco[13] = new MergeIcon( colore[1],immagine[ALFIERE_BIANCO] );
+        mergeIco[14] = new MergeIcon( colore[0],immagine[ALFIERE_NERO] );
+        mergeIco[15] = new MergeIcon( colore[1],immagine[ALFIERE_NERO] );
+        mergeIco[16] = new MergeIcon( colore[0],immagine[REGINA_BIANCA] );
+        mergeIco[17] = new MergeIcon( colore[1],immagine[REGINA_BIANCA] );
+        mergeIco[18] = new MergeIcon( colore[0],immagine[REGINA_NERA] );
+        mergeIco[19] = new MergeIcon( colore[1],immagine[REGINA_NERA] );
+        mergeIco[20] = new MergeIcon( colore[0],immagine[RE_BIANCO] );
+        mergeIco[21] = new MergeIcon( colore[1],immagine[RE_BIANCO] );
+        mergeIco[22] = new MergeIcon( colore[0],immagine[RE_NERO] );
+        mergeIco[23] = new MergeIcon( colore[1],immagine[RE_NERO] );
+        
+        // Panello Pezzi Bianchi
         for( int i = 0; i < 16; i++ ){
             
-            pezziBianchi.add( new JLabel( new ImageIcon( immagine [ 2 ] ) ) );
+            pezziBianchi.add( new JLabel( new ImageIcon( immagine[ TORRE_BIANCA ].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
         
         }
-        
-        try {
-            
-            extra[0] = ImageIO.read( getClass().getResource( "../immagini/bianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-            extra[1] = ImageIO.read( getClass().getResource( "../immagini/nero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-            // extra[2] = ImageIO.read( getClass().getResource( "../immagini/scacchiera.png" ) ); // Semmai Decidiamo Di Implementare La Sccacchiera
-        
-        } catch (IOException ex) {}
 
         // Scacchiera E I Bottoni Associati
         scacchiera = new JPanel( new GridLayout( 10, 10 ) ){
+            
+            Dimension pref = new Dimension();
+            Image back = null; // Per Lo Sfondo Se Decidiamo Implementarlo
             
             @Override
             public final Dimension getPreferredSize(){
@@ -93,15 +134,29 @@ public class InterfacciaGrafica{
                 
                 }
                 
-                int w = ( int )dimensioneCambiata.getWidth();
-                int h = ( int )dimensioneCambiata.getHeight();
+                int larghezza = ( int )dimensioneCambiata.getWidth();
+                int altezza = ( int )dimensioneCambiata.getHeight();
                 
                 // Prendo La Piu Piccola Tra Altezza E Larghezza Per Ridimensionare
-                int scelta = ( w > h ? h : w );
-                
+                int scelta = ( larghezza > altezza ? altezza : larghezza );
+                pref.setSize( scelta, scelta );
                 return new Dimension( scelta, scelta );
             
             } // Fine getPrefferedSize
+            
+            /**
+            // Semmai Decidiamo Di Implementare La Scacchiera Come Immagine Statica
+            // Sembra MOLTO PESANTE, Ridisegna Il Componente In Runtime Tante Volte
+            @Override
+            protected void paintComponent( Graphics g ){
+                
+                super.paintComponent( g );
+                back = extra[ 2 ].getScaledInstance( pref.height, pref.width, Image.SCALE_FAST );
+                g.drawImage( back, 0, 0, null ); // Disegno L'Immagine
+            
+            }
+        
+            */
         
         };
         
@@ -112,27 +167,27 @@ public class InterfacciaGrafica{
             
             for ( int j = 0; j < quadratiScacchiera[ i ].length; j++ ){
                 
-                JButton bottone = new JButton();
+                ImageButton bottone = new ImageButton();
                 bottone.setMargin( margineBottoni );
                 
-                // I Pezzi Sono Da 64x64 Pixel E Trasparenti ( Posso Modificare )
+                // I Pezzi Sono Da 64x64 Pixel E Trasparenti, Valori Default Lunghezza Scacchiera
                 ImageIcon immaginePezzo = new ImageIcon( new BufferedImage( 64, 64, BufferedImage.TYPE_INT_ARGB ) );
                 bottone.setIcon( immaginePezzo );
                 
                 // Coloro Lo Sfondo Dei Quadrati Se Sono Pari O Dispari
                 if ( ( j % 2 == 1 && i % 2 == 1 ) || ( j % 2 == 0 && i % 2 == 0 ) ){
 
-                    bottone.setBackground( Color.WHITE );
-                    bottone.setIcon( new ImageIcon( extra[0] ) );
+                    bottone.setBackground( Color.WHITE ); // Utile A Controlli Futuri, Lo Sfondo Ce Ma Mascherato Dall'Immagine
+                    bottone.setImage( colore[ bianco ] );
                 
                 } else {
 
-                    bottone.setBackground( Color.BLACK );
-                    bottone.setIcon( new ImageIcon( extra[1] ) );
+                    bottone.setBackground( Color.BLACK ); // Utile A Controlli Futuri, Lo Sfondo Ce Ma Mascherato Dall'Immagine
+                    bottone.setImage( colore[ nero ] );
                 
                 } // Fine If Else Con I Quadrati Colorati
                 
-                bottone.setOpaque(true);
+                bottone.setOpaque( true );
                 bottone.setContentAreaFilled( false );
                 bottone.setBorderPainted( true );
                
@@ -152,6 +207,8 @@ public class InterfacciaGrafica{
         } // Fine For
         
         scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Alto
+        
+        JPanel pulsanti = new JPanel( new GridLayout( 8, 8 ) );
         
         for( int i = 0; i < 8; i++ ){
             
@@ -182,15 +239,9 @@ public class InterfacciaGrafica{
         scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Basso
 
         // Panello Pezzi Neri
-        try {
-            
-            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-        
-        } catch (IOException ex){}
-        
         for( int i = 0; i < 16; i++ ){
             
-            pezziNeri.add( new JLabel( new ImageIcon( immagine[ 2 ] ) ) );
+            pezziNeri.add( new JLabel( new ImageIcon( immagine[ TORRE_NERA ].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
         
         }
         
@@ -212,7 +263,7 @@ public class InterfacciaGrafica{
         menu.addSeparator();
         menu.add( messaggioInfo );
         interfacciaGrafica.add( menu, BorderLayout.PAGE_START );
-
+        
         // Aggiungo I Componenti Al Pannello Main
         JPanel pannelloMain = new JPanel( new GridBagLayout() );
         GridBagConstraints posizione = new GridBagConstraints();
@@ -227,11 +278,12 @@ public class InterfacciaGrafica{
         
         posizione.fill = GridBagConstraints.WEST;
         pezziNeri.setBorder( bordo );
+        // scacchiera.setSize( new Dimension( 600, 600 ) );
         pannelloMain.add( pezziNeri, posizione );
         
         interfacciaGrafica.add( pannelloMain, BorderLayout.CENTER );
         interfacciaGrafica.setBorder( bordo );
-
+    
     } // Fine InterfacciaGrafica
 
     // Qui Si Inizializzano Le Immagini Eccetera
@@ -245,29 +297,10 @@ public class InterfacciaGrafica{
         
         // Da Modificare Il Testo In Base Al Turno
         messaggioInfo.setText( "Fai Una Mossa !!!");
-        
-        try{
-            
-            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
-            immagine[ 1 ] = ImageIO.read( getClass().getResource( "../immagini/torreBianca.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
-            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-            immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
-            immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
-            immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/reBianco.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-
-            // Recupero le immagini pezzi neri
-            immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
-            immagine[ 7 ] = ImageIO.read( getClass().getResource( "../immagini/torreNera.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
-            immagine[ 8 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-            immagine[ 9 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_DEFAULT );
-            immagine[ 10 ] = ImageIO.read( getClass().getResource( "../immagini/reginaNera.png" ) ).getScaledInstance( 64, 64, Image.SCALE_FAST );
-            immagine[ 11 ] = ImageIO.read( getClass().getResource( "../immagini/reNero.png" ) ).getScaledInstance( 64, 64, Image.SCALE_SMOOTH );
-        
-        } catch( IOException e ){}
 
         // Qui Si Metteranno I Pezzi Collegandoli Alle Immagini
-        
         Pezzo p; // Sposteo In Alto La Dichiarazione
+        
         for( int i = 0; i < 8; i++ ){
             for( int j = 0; j < 8; j++ ){
                 if( matrice.getMatrice()[ i ][ j ].eOccupato() ){
@@ -276,15 +309,15 @@ public class InterfacciaGrafica{
                     if( p instanceof Pedone ){       
                         if( p.getColore() instanceof Bianco ){
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ PEDONE_BIANCO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[0] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ PEDONE_BIANCO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[1] ) );
                             }
                         } else {
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ PEDONE_NERO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[2] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ PEDONE_NERO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[3] ) );
                             }
                         }
                     }
@@ -292,15 +325,15 @@ public class InterfacciaGrafica{
                     if( p instanceof Alfiere ){ 
                         if( p.getColore() instanceof Bianco ){
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ ALFIERE_BIANCO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[12] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ ALFIERE_BIANCO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[13] ) );
                             }
                         } else {
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ ALFIERE_NERO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[14] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ ALFIERE_NERO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[15] ) );
                             }
                         }
                     }
@@ -308,15 +341,15 @@ public class InterfacciaGrafica{
                     if( p instanceof Torre ){
                         if( p.getColore() instanceof Bianco ){
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ TORRE_BIANCA ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[4] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ TORRE_BIANCA ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[5] ) );
                             }
                         } else {
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ TORRE_NERA ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[6] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ TORRE_NERA ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[7] ) );
                             }
                         }
                     }
@@ -324,15 +357,15 @@ public class InterfacciaGrafica{
                     if( p instanceof Cavallo ){                 
                         if( p.getColore() instanceof Bianco ){
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ CAVALLO_BIANCO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[8] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ CAVALLO_BIANCO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[9] ) );
                             }
                         } else {
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ CAVALLO_NERO ] ) ) );
+                                    quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[10] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ CAVALLO_NERO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[11] ) );
                             }
                         }
                     }
@@ -340,15 +373,15 @@ public class InterfacciaGrafica{
                     if( p instanceof Regina ){
                         if( p.getColore() instanceof Bianco ){
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ REGINA_BIANCA ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[16] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ REGINA_BIANCA ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[17] ) );
                             }
                         } else {
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ REGINA_NERA ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[18] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ REGINA_NERA ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[19] ) );
                             }
                         }
                     }
@@ -356,15 +389,15 @@ public class InterfacciaGrafica{
                     if( p instanceof Re ){
                         if( p.getColore() instanceof Bianco ){ 
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ RE_BIANCO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[20] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ RE_BIANCO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[21] ) );
                             }
                         } else {
                             if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[0] ), new ImageIcon( immagine[ RE_NERO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[22] ) );
                             } else {
-                                quadratiScacchiera[ i ][ j ].setIcon( new CombinaIcone( new ImageIcon( extra[1] ), new ImageIcon( immagine[ RE_NERO ] ) ) );
+                                quadratiScacchiera[ i ][ j ].setImage( MergeIcon.iconToImage( mergeIco[23] ) );
                             }
                         }
                     }
@@ -400,7 +433,6 @@ public class InterfacciaGrafica{
                 
                 frame.setLocationByPlatform( true );
                 frame.setMinimumSize( frame.getMinimumSize() );
-                frame.pack();
                 
                 frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
                 frame.setVisible( true );
