@@ -73,10 +73,18 @@ public class MatriceDeiPezzi{ // La Matrice Rappresentante La Scacchiera
     public void spostaPezzo(Pezzo p,int x, int y){
         int xp=p.getX();
         int yp=p.getY();
+        
+        /*
+        scacchiera[x][y]=scacchiera[xp][yp];
+        scacchiera[x][y].setX(x);
+        scacchiera[x][y].setY(y);
+        */
         p.setX(x);
         p.setY(y);
         scacchiera[xp][yp].setOccupato(false);
+        scacchiera[xp][yp].setOccupante(null);
         scacchiera[x][y].setOccupante(p);
         scacchiera[x][y].setOccupato(true);
+        
     }
 }

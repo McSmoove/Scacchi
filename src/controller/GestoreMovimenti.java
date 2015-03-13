@@ -1881,8 +1881,10 @@ public class GestoreMovimenti{
         matrice=m;
     }
 
-    boolean scaccoMatto() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean scaccoMatto() {
+        System.out.println("DEBUG: scaccoMatto non implementato");
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
     
     

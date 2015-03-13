@@ -302,7 +302,7 @@ public class InterfacciaGrafica{
         // Qui Si Metteranno I Pezzi Collegandoli Alle Immagini
         
         
-        aggiornaBottoni(gm.getMatrice().getMatrice());
+        aggiornaBottoni(gm.getMatrice());
         
         //aggiungo i listener a tutti i bottoni
         for(int i=0;i<quadratiScacchiera.length;i++){
@@ -371,12 +371,12 @@ public class InterfacciaGrafica{
     
 
 
-    public void aggiornaBottoni(Spazio[][] matrice) {
+    public void aggiornaBottoni(MatriceDeiPezzi matrice) {
         Pezzo p; // Sposteo In Alto La Dichiarazione
         for( int i = 0; i < 8; i++ ){
             for( int j = 0; j < 8; j++ ){
-                if( matrice[ i ][ j ].eOccupato() ){
-                    p  = matrice[ i ][ j ].getOccupante();
+                if( matrice.getMatrice()[ i ][ j ].eOccupato() ){
+                    p  = matrice.getMatrice()[ i ][ j ].getOccupante();
                     // Pensavo Di Utilizzare Uno Switch
                     if( p instanceof Pedone ){       
                         if( p.getColore() instanceof Bianco ){
@@ -473,6 +473,15 @@ public class InterfacciaGrafica{
                             }
                         }
                     }
+                }
+                //posizione vuota
+                //(bisogna aggiornare per eliminare texture obsolete)
+                else{
+                    if( quadratiScacchiera[ i ][ j ].getBackground() == Color.WHITE ){
+                                quadratiScacchiera[ i ][ j ].setImage( colore[0]);
+                            } else {
+                                quadratiScacchiera[ i ][ j ].setImage( colore[1]);
+                            }
                 }
             }
         }
