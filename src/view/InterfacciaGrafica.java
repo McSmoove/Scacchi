@@ -300,12 +300,83 @@ public class InterfacciaGrafica{
         messaggioInfo.setText( "Fai Una Mossa !!!");
 
         // Qui Si Metteranno I Pezzi Collegandoli Alle Immagini
-        Pezzo p; // Sposteo In Alto La Dichiarazione
         
+        
+        aggiornaBottoni(gm.getMatrice().getMatrice());
+        
+        //aggiungo i listener a tutti i bottoni
+        for(int i=0;i<quadratiScacchiera.length;i++){
+            for(int j=0;j<quadratiScacchiera.length;j++){
+                quadratiScacchiera[i][j].addActionListener(new ActionListener() {
+ 
+                    @Override
+                    public void actionPerformed(ActionEvent e){
+                        gestoreBottoni.pressionePulsanteScacchiera( e );
+                    }
+                });      
+            }
+            
+        }
+    
+    } // Fine iniziaPartita
+    
+    public void start() {
+        
+        Runnable run = new Runnable(){
+            
+            @Override
+            public void run(){
+
+                JFrame frame = new JFrame( "Scacchi Beta !!!" );
+                frame.add( interfacciaGrafica );
+                
+                frame.setLocationByPlatform( true );
+                frame.setMinimumSize( frame.getMinimumSize() );
+                
+                frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
+                frame.setVisible( true );
+            
+            }
+        
+        };
+        
+        SwingUtilities.invokeLater(run);
+    
+    } // Fine main
+    
+    /*
+    public void actionPerformed( ActionEvent e ) {
+        
+        if( e.getSource() instanceof JButton ){
+            
+            gestoreBottoni.pressionePulsanteScacchiera( e );
+        
+        }
+    
+    }
+    */
+    public JButton[][] getMatriceBottoni(){
+        
+        return quadratiScacchiera;
+    
+    }
+
+    public void finePartita() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void setMessaggio(String s){
+        messaggioInfo.setText(s);
+    }
+    
+
+
+    public void aggiornaBottoni(Spazio[][] matrice) {
+        Pezzo p; // Sposteo In Alto La Dichiarazione
         for( int i = 0; i < 8; i++ ){
             for( int j = 0; j < 8; j++ ){
-                if( matrice.getMatrice()[ i ][ j ].eOccupato() ){
-                    p  = matrice.getMatrice()[ i ][ j ].getOccupante();
+                if( matrice[ i ][ j ].eOccupato() ){
+                    p  = matrice[ i ][ j ].getOccupante();
                     // Pensavo Di Utilizzare Uno Switch
                     if( p instanceof Pedone ){       
                         if( p.getColore() instanceof Bianco ){
@@ -405,70 +476,6 @@ public class InterfacciaGrafica{
                 }
             }
         }
-        
-        //aggiungo i listener a tutti i bottoni
-        for(int i=0;i<quadratiScacchiera.length;i++){
-            for(int j=0;j<quadratiScacchiera.length;j++){
-                quadratiScacchiera[i][j].addActionListener(new ActionListener() {
- 
-                    @Override
-                    public void actionPerformed(ActionEvent e){
-                        gestoreBottoni.pressionePulsanteScacchiera( e );
-                    }
-                });      
-            }
-            
-        }
-    
-    } // Fine iniziaPartita
-    
-    public void start() {
-        
-        Runnable run = new Runnable(){
-            
-            @Override
-            public void run(){
-
-                JFrame frame = new JFrame( "Scacchi Beta !!!" );
-                frame.add( interfacciaGrafica );
-                
-                frame.setLocationByPlatform( true );
-                frame.setMinimumSize( frame.getMinimumSize() );
-                
-                frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-                frame.setVisible( true );
-            
-            }
-        
-        };
-        
-        SwingUtilities.invokeLater(run);
-    
-    } // Fine main
-    
-    /*
-    public void actionPerformed( ActionEvent e ) {
-        
-        if( e.getSource() instanceof JButton ){
-            
-            gestoreBottoni.pressionePulsanteScacchiera( e );
-        
-        }
-    
-    }
-    */
-    public JButton[][] getMatriceBottoni(){
-        
-        return quadratiScacchiera;
-    
-    }
-
-    public void finePartita() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    public void setMessaggio(String s){
-        messaggioInfo.setText(s);
     }
 
 } // Fine Classe InterfacciaGrafica

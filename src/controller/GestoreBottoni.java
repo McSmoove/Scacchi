@@ -186,8 +186,13 @@ public class GestoreBottoni {
                             //sposto il pezzo, aggiorno la matrice della scacchiera e tutto, cambio il turno
                         */
                         if(true){
+                            gestoreTurni.getSpazioAttivato().setOccupato(false);
+                            //contrassegno lo spazio occupato prima come non occupato
+                            matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);
                             gestoreMovimenti.setMatrice(matriceSimulata);
                             gestoreTurni.passaTurno();
+                            //aggiorna la visuale
+                            interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice().getMatrice());
                         }
                         
                         
@@ -214,6 +219,8 @@ public class GestoreBottoni {
                             gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante().distruggi();
                             //sposto effettivamente il pezzo 
                             gestoreMovimenti.setMatrice(matriceSimulata);
+                            //contrassegno lo spazio occupato prima come non occupato
+                            matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);
                             gestoreTurni.passaTurno();
                             //verifico scacco matto
                             if(gestoreMovimenti.scaccoMatto())
