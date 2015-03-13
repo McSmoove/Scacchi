@@ -1,5 +1,7 @@
 package model;
 
+import static java.lang.Math.abs;
+
 /**
  *
  * @author Viktor
@@ -69,6 +71,210 @@ public abstract class Pezzo{
     
     }
     
-   
+    public boolean spostabileIn(int x, int y,Spazio[][] matrice){
+        int xp=this.x;
+        int yp=this.y;
+        int temp;//vriabile temporale per torre
+        int temp1;//variabile temèorale per alfiere
+        int temp2;// " "
+        
+        Spazio s=matrice[x][y];
+        //devo controllare se nella posizione finale c'è uno spazio libero o un pezzo del colore opposto e poi
+        //tutti gli spazi intermedi x tuti i tipi di pezzo tranne il cavallo
+        
+        
+        //caso non considerato nei cicli sotto
+        if(x==xp && y==yp)
+            return true;
+        
+        
+        //controllo se la posizione finale è vuota o contiene un pezzo del colore opposto
+        //(non posso spostarmi in un locazione con un pezzo dello stesso colore)
+        if(!s.eOccupato() || !s.getOccupante().getColore().equals(this.getColore()))
+            //divido i controlli in base al pezzo
+            if(this instanceof Torre){
+                return percorsoTorre(this,x,y,matrice);
+        }
+        if(this instanceof Alfiere){
+              return percorsoAlfiere(this,x,y,matrice);
+        }
+        
+        if(this instanceof Cavallo){
+            //caso base per la verifica successiva
+            if(xp!=x && yp!=y){
+                //funzione di verifica per la correttezza della posizione
+                //(modulo della somma dei 2 delta=3)
+                if(abs((double)x-xp)+abs((double)y-yp)==3)
+                    return true;
+            }
+            return false;    
+        }
+        
+        if(this instanceof Regina){
+            return percorsoAlfiere(this,x,y,matrice)||percorsoTorre(this,x,y,matrice);
+        }
+        
+        if(this instanceof Pedone){
+            //caso di una cella vuota
+            if(!matrice[x][y].eOccupato()){
+                //un pedone può spostari solo in avanti su celle vuote
+                if(x==xp){
+                    if(this.getColore() instanceof Nero){
+                        if(((Pedone)this).isMoved()){
+                            if(y==yp+1)
+                                return true;
+                        }
+                        //p non si è mai mosso
+                        else if(y==yp+1 || y==yp+2){
+                            if(!matrice[xp][yp+1].eOccupato())
+                                return true;
+                        }
+                    }
+                    //Bianco
+                    else{
+                        if(((Pedone)this).isMoved()){
+                            if(y==yp-1)
+                                return true;
+                        }
+                        //p non si è mai mosso
+                        else if(y==yp-1 || y==yp-2){
+                            if(!matrice[xp][yp-1].eOccupato())
+                                return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            //posizione finale occupata da un pezzo avversario
+            else{
+                //posizione consentita nel range orizzontale
+                if(x==xp+1 || x==xp-1){
+                    if(this.getColore() instanceof Nero){
+                        if(y==yp+1)
+                            return true;
+                        return false;
+                    }
+                    if(this.getColore() instanceof Bianco){
+                        if(y==yp-1)
+                            return true;
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        //caso del Re (non considerato)
+        return false;
+        
+    }
+    
+    private boolean percorsoTorre(Pezzo p,int x,int y,Spazio[][]matrice){
+        int xp=p.getX();
+        int yp=p.getY();
+        int temp;
+        //vedo se la posizione in cui spostarsi è valida
+        if (x == xp) {
+            temp = yp;
+            //ciclo bidirezionale
+            while (temp != y) {
+                if (temp < y) {
+                    temp++;
+                } else {
+                    temp--;
+                }
+                if (matrice[x][temp].eOccupato()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        if (y == yp) {
+            temp = xp;
+            //ciclo bidirezionale
+            while (temp != x) {
+                if (temp < x) {
+                    temp++;
+                } else {
+                    temp--;
+                }
+                if (matrice[temp][y].eOccupato()) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean percorsoAlfiere(Pezzo p,int x,int y,Spazio[][] matrice){
+        int temp1,temp2;
+        int xp=p.getX();
+        int yp=p.getY();
+        //controllo validità posizione
+            temp1=xp;
+            temp2=yp;
+            //primo quadrante e terzo quadrante
+            if(((double)(x-xp)/(y-yp))==1){
+                //primo quadrante
+                if(xp<x){
+                    temp1++;
+                    temp2++;
+                    while(temp1<x){//comprende anche il caso delle y
+                        if(matrice[temp1][temp2].eOccupato())
+                            return false;
+                        temp1++;
+                        temp2++;
+                    }
+                    
+                }
+                //terzo quadrante
+                else if(xp>x){
+                    temp1--;
+                    temp2--;
+                    while(temp1<x){//comprende anche il caso delle y
+                        if(matrice[temp1][temp2].eOccupato())
+                            return false;
+                        temp1--;
+                        temp2--;
+                    } 
+                }
+                return true;
+            }
+            
+            //secondo quadrante e quarto quadrante
+            if(((double)(x-xp)/(y-yp))==-1){
+                if(xp<x){
+                    temp1++;
+                    temp2--;
+                    while(temp1<x){//comprende anche il caso delle y
+                        if(matrice[temp1][temp2].eOccupato())
+                            return false;
+                        temp1++;
+                        temp2--;
+                    }
+                }
+                else if(xp>x){
+                    temp1--;
+                    temp2++;
+                    while(temp1>x){//comprende anche il caso delle y
+                        if(matrice[temp1][temp2].eOccupato())
+                            return false;
+                        temp1--;
+                        temp2++;
+                    }
+                }
+                return true;
+            }
+            return false;  
+    }
+    
+    public void setX(int x){
+        this.x=x;
+    }
+    
+    public void setY(int y){
+        this.y=y;
+    }
 
 }

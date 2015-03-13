@@ -6,6 +6,7 @@ import model.Bianco;
 import model.Colore;
 import model.MatriceDeiPezzi;
 import model.Nero;
+import model.Pezzo;
 import model.Spazio;
 import view.InterfacciaGrafica;
 
@@ -75,11 +76,13 @@ public class GestoreBottoni {
         int y=0;
         
         JButton b;
-        MatriceDeiPezzi matriceTemporanea;
+        //Pezzo morente;
+        MatriceDeiPezzi matriceSimulata=null;
         GestoreMovimenti gestoreTemporaneo;
         Colore turno=gestoreTurni.getTurno();
         JButton[][] matriceScacchiera=interfacciaGrafica.getMatriceBottoni();
         int indiciBottoni[][]=new int[8][8];
+        //Spazio[][] matriceSimulata;
         
         b=(JButton)e.getSource();
         
@@ -110,41 +113,52 @@ public class GestoreBottoni {
             if(gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                 //se ciò che contiene ha lo stesso colore del turno corrente
                 if(turno.equals(gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getColore())){
-                    
-                    
-                    
                     //se il re del turno corrente non è sotto scacco
                     
-                    if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),gestoreMovimenti.getMatrice().getMatrice())==0)||
-                       ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),gestoreMovimenti.getMatrice().getMatrice())==0)){
+                    if(((turno instanceof Bianco) && 
+                            gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),gestoreMovimenti.getReBianco().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)||
+                       ((turno instanceof Nero) && 
+                            gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),gestoreMovimenti.getReNero().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)){
                         
                         //metto il pezzo premuto nella gestione turno e lo attivo
-                        gestoreTurni.setSpazioAttivato(gestoreMovimenti.getMatrice().getMatrice()[x][y]);
-                        gestoreTurni.attiva();
-                        bloccoBottoniDopoAttivazione(gestoreMovimenti.getMatrice().getSpazio(x, y), gestoreMovimenti.getPossibiliMovimenti(gestoreMovimenti.getMatrice().getSpazio(x,y).getOccupante()));
+                        attivaPosizione(x,y);
                     
                         
                     }
-                    //se il re è sotto scacco
                     
+                    //se il re è sotto scacco
                     else if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),gestoreMovimenti.getMatrice().getMatrice())==1)||
                             ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),gestoreMovimenti.getMatrice().getMatrice())==1)){
                       
-                            //se il movimento salva il re
+                            //se il pezzo può salvare il re
                             //devo controllare la matrice simulata, ma prima devo crearla
                             //matriceTemporanea=gestoreMovimenti.getMatrice();
-                            
-                            
-                            
+                            //in base al turno
+                            if(turno instanceof Bianco){
+                                if(gestoreMovimenti.getMatricePezziChePrevengonoScacco(gestoreMovimenti.getReBianco().getX(),
+                                                                                       gestoreMovimenti.getReBianco().getY(),
+                                                                                       gestoreMovimenti.getMatrice(),new Bianco())[x][y]==1)
+                                    attivaPosizione(x,y);
+                                //altrimenti non faccio niente
+                            }
+                            //Nero
+                            else if(gestoreMovimenti.getMatricePezziChePrevengonoScacco(gestoreMovimenti.getReBianco().getX(),
+                                                                                       gestoreMovimenti.getReBianco().getY(),
+                                                                                       gestoreMovimenti.getMatrice(),new Nero())[x][y]==1)
+                                    attivaPosizione(x,y);     
+                                //else... altrimenti non faccio niente
                         }
-                        //altrimenti...
+                        
                 }
+                //else... altrimenti non faccio niente
             }
+            //else... altrimenti non faccio niente
         }
-        //altrimenti (quindi è stato premuto)
+        //altrimenti (quindi è stato premuto precedentemente un pezzo valido)
         else{
             //se la posizione dove premo è quella dove ho premuto prima
             if(gestoreMovimenti.getMatrice().getMatrice()[x][y].equals(gestoreTurni.getSpazioAttivato())){
+                //imposto come se niente fosse stato premuto
                 gestoreTurni.disattiva();
             }
             //altrimenti se è una posizione diversa
@@ -152,7 +166,53 @@ public class GestoreBottoni {
                 //se è una locazione vuota
                 if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                     //se è una locazione consentita dal pezzo
-                    //...
+                    if(gestoreTurni.getSpazioAttivato().getOccupante().spostabileIn(x, y, gestoreMovimenti.getMatrice().getMatrice())){
+                        //se spostando il pezzo in questa locazione non ho scacco/scacco matto
+                        //(devo simulare la scachiera dopo la mossa)
+                        matriceSimulata=gestoreMovimenti.getMatrice();
+                        matriceSimulata.spostaPezzo(gestoreTurni.getSpazioAttivato().getOccupante(), x, y);
+                        
+                        if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),matriceSimulata.getMatrice())==1)||
+                            ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),matriceSimulata.getMatrice())==1)){
+                            //sposto il pezzo, aggiorno la matrice della scacchiera e tutto, cambio il turno
+                            gestoreMovimenti.setMatrice(matriceSimulata);
+                            gestoreTurni.passaTurno();
+                        }
+                    }
+                    //se non è una locazione consentita dal pezzo
+                    else{
+                        //imposto come se niente fosse stato premuto
+                        gestoreTurni.disattiva();
+                    }
+                }
+                //se è una locazione non vuota
+                else{
+                    //se contiene un pezzo del colore diverso
+                    if(!turno.equals(gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getColore())){
+                        //se non provoca scacco del proprio colore -> scacco matto
+                        //(faccio la simulazione)
+                        matriceSimulata=gestoreMovimenti.getMatrice();
+                        matriceSimulata.spostaPezzo(gestoreTurni.getSpazioAttivato().getOccupante(), x, y);
+                        
+                        if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),matriceSimulata.getMatrice())==1)||
+                            ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),matriceSimulata.getMatrice())==1)){
+                            //mangia il pezzo in questa locazione
+                            gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante().distruggi();
+                            //sposto effettivamente il pezzo 
+                            gestoreMovimenti.setMatrice(matriceSimulata);
+                            gestoreTurni.passaTurno();
+                            //verifico scacco matto
+                            if(gestoreMovimenti.scaccoMatto())
+                                interfacciaGrafica.finePartita();
+                            else
+                                gestoreTurni.passaTurno();
+                        }
+                    }
+                    //se contiene un pezzo del colore corrente
+                    else{
+                        //imposto come se niente fosse stato premuto
+                        gestoreTurni.disattiva();
+                    }
                 }
             }
             
@@ -160,6 +220,16 @@ public class GestoreBottoni {
         
         
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    //metto il pezzo premuto nella gestione turno e lo attivo
+    private void attivaPosizione(int x,int y){
+        gestoreTurni.setSpazioAttivato(gestoreMovimenti.getMatrice().getMatrice()[x][y]);
+        gestoreTurni.attiva();
+        bloccoBottoniDopoAttivazione(gestoreMovimenti.getMatrice().getSpazio(x, y), gestoreMovimenti.getPossibiliMovimenti(gestoreMovimenti.getMatrice().getSpazio(x,y).getOccupante()));
+    }
+    
+    
 }
+

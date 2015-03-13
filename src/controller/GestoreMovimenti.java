@@ -1876,5 +1876,13 @@ public class GestoreMovimenti{
     
     }
 
+    public void setMatrice(MatriceDeiPezzi m){
+        matrice=m;
+    }
+
+    boolean scaccoMatto() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     
 }
