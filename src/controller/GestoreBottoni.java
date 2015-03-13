@@ -30,7 +30,7 @@ public class GestoreBottoni {
     //blocco spazi iniziale/generico (prima di aver schiacciato su un bottone
     //da chiamare all'inizio di ogni turno
     public void bloccoBottoniIniziale(){
-        System.err.println("DEBUG: blocco bottoni iniziale////");
+        System.err.println("DEBUG: blocco bottoni iniziale");
         for(int j=0;j<8;j++){
             for(int i=0;i<8;i++){
                 //per evitare null pointer exception bisogna dividere l'if in 2 casi per non fare il controllo su un pezzo che non esiste
@@ -178,12 +178,19 @@ public class GestoreBottoni {
                         matriceSimulata=gestoreMovimenti.getMatrice();
                         matriceSimulata.spostaPezzo(gestoreTurni.getSpazioAttivato().getOccupante(), x, y);
                         
-                        if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),matriceSimulata.getMatrice())==1)||
-                            ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),matriceSimulata.getMatrice())==1)){
+                        /*
+                        if(((turno instanceof Bianco) && 
+                                gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),matriceSimulata.getMatrice())==1)||
+                            ((turno instanceof Nero) && 
+                                gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),matriceSimulata.getMatrice())==1)){
                             //sposto il pezzo, aggiorno la matrice della scacchiera e tutto, cambio il turno
+                        */
+                        if(true){
                             gestoreMovimenti.setMatrice(matriceSimulata);
                             gestoreTurni.passaTurno();
                         }
+                        
+                        
                     }
                     //se non è una locazione consentita dal pezzo
                     else{
@@ -234,7 +241,8 @@ public class GestoreBottoni {
     private void attivaPosizione(int x,int y){
         gestoreTurni.setSpazioAttivato(gestoreMovimenti.getMatrice().getMatrice()[x][y]);
         gestoreTurni.attiva();
-        bloccoBottoniDopoAttivazione(gestoreMovimenti.getMatrice().getSpazio(x, y), gestoreMovimenti.getPossibiliMovimenti(gestoreMovimenti.getMatrice().getSpazio(x,y).getOccupante()));
+        System.err.println("DEBUG: non blocco le posizioni nel metodo attivaPosizione");
+        //bloccoBottoniDopoAttivazione(gestoreMovimenti.getMatrice().getSpazio(x, y), gestoreMovimenti.getPossibiliMovimenti(gestoreMovimenti.getMatrice().getSpazio(x,y).getOccupante()));
     }
     
     public InterfacciaGrafica getInterfacciaGrafica(){

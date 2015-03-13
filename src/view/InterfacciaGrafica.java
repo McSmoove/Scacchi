@@ -294,6 +294,7 @@ public class InterfacciaGrafica{
         gm.setInterfacciaGrafica( this ); // Collegamento Gestore-Interfaccia
         gestoreTurni=new GestoreTurni();
         gestoreBottoni=new GestoreBottoni(gm,gestoreTurni,this);
+        gestoreTurni.setGestoreBottoni(gestoreBottoni);
         
         // Da Modificare Il Testo In Base Al Turno
         messaggioInfo.setText( "Fai Una Mossa !!!");
