@@ -32,5 +32,10 @@ public class Bianco extends Colore{
         return false;
     
     }
+    
+    @Override
+    public String toString(){
+        return "BIANCO";
+    }
 
 }

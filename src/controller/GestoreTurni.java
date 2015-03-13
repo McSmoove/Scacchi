@@ -44,14 +44,19 @@ public class GestoreTurni {
     public void setTurno(Colore t){
         turno=t;
         gestoreBottoni.bloccoBottoniIniziale();
+        gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al "+t.toString());
     }
     
     public void setTurno(int t){
-        if(t==Colore.BIANCO)
+        if(t==Colore.BIANCO){
             turno=new Bianco();
+            gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Bianco");
+        }
         else{
-            if(t==Colore.NERO)
+            if(t==Colore.NERO){
                 turno=new Nero();
+                gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Nero");
+            }
             else
                 throw new IllegalArgumentException();
         }  
@@ -59,11 +64,17 @@ public class GestoreTurni {
     }
     
     public void passaTurno(){
-        if(turno instanceof Bianco)
+        if(turno instanceof Bianco){
             turno=new Nero();
-        else
+            gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Nero");
+        }
+        else{
             turno=new Bianco();
+            gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Bianco");
+        }
         gestoreBottoni.bloccoBottoniIniziale();
+        //volevo usare repaint
+        gestoreBottoni.getInterfacciaGrafica().notify();
     }
     
     public void attiva(){

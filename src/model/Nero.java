@@ -32,9 +32,12 @@ public class Nero extends Colore{
 
     @Override
     public int hashCode(){ // La Equals Vuole La hashCode()
-        
         return colore;
+    }
     
+    @Override
+    public String toString(){
+        return "NERO";
     }
 
 }

@@ -732,6 +732,7 @@ public class GestoreMovimenti{
     //0=c'è scacco
     //1=non c'è scacco
     public int controlloScacco( int x, int y, Colore colore,Spazio[][] matrix){
+        System.err.println("DEBUG: inizia controlloScacco");
         Spazio[][] mat=matrix;
         
         int temp1, temp2; 
