@@ -159,18 +159,18 @@ public class GestoreMovimenti{
         if( p.getColore() instanceof Bianco ){
             
             // Immediatamente sopra
-            if( !m[ x ][ y + 1 ].eOccupato() ){
-                
-                scacchiera[ x ][ y + 1 ] = 1;
+            if( !m[ x ][ y - 1 ].eOccupato() ){
+                System.err.println("DEBUG: spostamento in avanti con pedone bianco ok");
+                scacchiera[ x ][ y - 1 ] = 1;
             
             }
             
             // In Alto A Sinistra
             if( ( x - 1 ) >= 0 ){ // Controllo Posizione Valida ( Probabilmente Ridondante )
                 
-                if( m[ x - 1 ][ y + 1 ].eOccupato() && m[ x - 1][ y + 1 ].getOccupante().getColore() instanceof Nero ){
+                if( m[ x - 1 ][ y - 1 ].eOccupato() && m[ x - 1][ y - 1 ].getOccupante().getColore() instanceof Nero ){
                     
-                    scacchiera[ x - 1 ][ y + 1 ] = 1;
+                    scacchiera[ x - 1 ][ y - 1 ] = 1;
                 
                 }
             
@@ -179,9 +179,9 @@ public class GestoreMovimenti{
             // In Alto A Destra
             if( ( x + 1 ) <= MAXLENGTH ){ // Controllo Posizione Valida ( Probabilmente Ridondante )
                 
-                if( m[ x + 1 ][ y + 1 ].eOccupato() && m[ x + 1 ][ y + 1 ].getOccupante().getColore() instanceof Nero ){
+                if( m[ x + 1 ][ y - 1 ].eOccupato() && m[ x + 1 ][ y - 1 ].getOccupante().getColore() instanceof Nero ){
                     
-                    scacchiera[ x + 1 ][ y + 1 ] = 1;
+                    scacchiera[ x + 1 ][ y - 1 ] = 1;
                 
                 }
             
@@ -189,25 +189,25 @@ public class GestoreMovimenti{
         
         } else { // Fine IstanceOf Bianco, Inizio Caso IstanceOf Nero
             
-            if( !m[ x ][ y - 1 ].eOccupato()){
-                
-                scacchiera[ x ][ y - 1 ] = 1;
+            if( !m[ x ][ y + 1 ].eOccupato()){
+                System.err.println("DEBUG: spostamento in avanti con pedone nero ok");
+                scacchiera[ x ][ y + 1 ] = 1;
             
             }
             
             if( ( x - 1 ) >= 0 ) // Controllo Posizione Valida ( Probabilmente Ridondante )
                 
-                if( m[ x - 1 ][ y - 1 ].eOccupato() && m[ x - 1 ][ y - 1 ].getOccupante().getColore() instanceof Nero ){
+                if( m[ x - 1 ][ y + 1 ].eOccupato() && m[ x - 1 ][ y + 1 ].getOccupante().getColore() instanceof Nero ){
                     
-                    scacchiera[ x + 1 ][ y - 1 ] = 1;
+                    scacchiera[ x + 1 ][ y + 1 ] = 1;
                 
                 }
             
             if( ( x + 1 ) <= MAXLENGTH ){ // Controllo Posizione Valida ( Probabilmente Ridondante )
                 
-                if( m[ x + 1 ][ y - 1 ].eOccupato() && m[ x + 1 ][ y - 1 ].getOccupante().getColore() instanceof Nero ){
+                if( m[ x + 1 ][ y + 1 ].eOccupato() && m[ x + 1 ][ y + 1 ].getOccupante().getColore() instanceof Nero ){
                     
-                    scacchiera[ x + 1 ][ y - 1 ] = 1;
+                    scacchiera[ x + 1 ][ y + 1 ] = 1;
                 
                 }
             

@@ -260,7 +260,7 @@ public class GestoreBottoni {
     private void attivaPosizione(int x,int y){
         gestoreTurni.setSpazioAttivato(gestoreMovimenti.getMatrice().getMatrice()[x][y]);
         gestoreTurni.attiva();
-        System.err.println("DEBUG: non blocco le posizioni nel metodo attivaPosizione");
+        System.err.println("DEBUG: non blocco le posizioni nel metodo attivaPosizione (contiene dei bug)");
         //bloccoBottoniDopoAttivazione(gestoreMovimenti.getMatrice().getSpazio(x, y), gestoreMovimenti.getPossibiliMovimenti(gestoreMovimenti.getMatrice().getSpazio(x,y).getOccupante()));
     }
     
