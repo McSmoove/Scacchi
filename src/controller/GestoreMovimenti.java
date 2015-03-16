@@ -132,14 +132,25 @@ public class GestoreMovimenti{
     
     public Re getReNero(){
         
-        return reNero;
+        return getRe(new Nero());
     
     }
     
     public Re getReBianco(){
         
-        return reBianco;
+        return getRe(new Bianco());
     
+    }
+    
+    private Re getRe(Colore c){
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(m[i][j].getOccupante() instanceof Re)
+                    if(m[i][j].getOccupante().getColore().equals(c))
+                        return (Re)m[i][j].getOccupante();
+            }
+        }
+        return null;
     }
 
     // Metodo Per Controllare Il Pedone
