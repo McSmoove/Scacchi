@@ -123,6 +123,13 @@ public class GestoreBottoni {
                        ((turno instanceof Nero) && 
                             gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),gestoreMovimenti.getReNero().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)){
                         */
+                    //variante al posto di controllo scacco, getPezziAttaccantiIlRe
+                    /*
+                    if(((turno instanceof Bianco) && 
+                            (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReBianco(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty()))||
+                        (turno instanceof Nero) && 
+                            (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReNero(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty())){
+                    */
                     if(true){
                         //abilito le posizioni dove può muoversi il pezzo(non implementato)
                         //metto il pezzo premuto nella gestione turno e lo attivo

@@ -1656,6 +1656,7 @@ public class GestoreMovimenti{
         
     }
     
+    //passa come parametro il colore considerato != colore Re
     public LinkedList<Pezzo> getPezziSpostabiliQui(Spazio[][] mat,Spazio s,Colore c){
         LinkedList<Pezzo> lista;
         lista=new LinkedList<>();
