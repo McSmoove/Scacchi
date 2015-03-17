@@ -65,9 +65,15 @@ public class MatriceDeiPezzi{ // La Matrice Rappresentante La Scacchiera
     }
     
     public Spazio getSpazio( int x,int y ){
-        
         return scacchiera[ x ][ y ];
+    }
     
+    public void setSpazio(int x,int y,Spazio s){
+        scacchiera[x][y]=s;
+    }
+    
+    public void setSpazio(Spazio s){
+        scacchiera[s.getX()][s.getY()]=s;
     }
 
     public void spostaPezzo(Pezzo p,int x, int y){

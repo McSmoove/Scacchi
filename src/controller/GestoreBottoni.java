@@ -73,7 +73,7 @@ public class GestoreBottoni {
     
     //da ridefinire e settare...
     public void pressionePulsanteScacchiera(ActionEvent e){
-        //identifico il bottone 
+        //identifico il bottone dove premo
         int x=0;
         int y=0;
         
@@ -100,15 +100,9 @@ public class GestoreBottoni {
             }
         }
         
-        
         System.out.println("DEBUG:\nx:"+x+"\ny:"+y);
-        //... tutti gli altri confronti
         
-        
-        
-        //elaboro il risultato
-        //...
-        
+
         //guardo se nello stesso turno non è abilitato un bottone
         if(!gestoreTurni.isAttivato()){
             //guardo se lo spazio contiene qualcosa
@@ -207,7 +201,7 @@ public class GestoreBottoni {
                     //se non è una locazione consentita dal pezzo
                     else{
                         //imposto come se niente fosse stato premuto
-                        System.err.println("DEBUG: premuto su una posizione non consentita -> annulla tutto");
+                        //System.err.println("DEBUG: premuto su una posizione non consentita -> annulla tutto");
                         gestoreTurni.disattiva();
                     }
                 }
@@ -216,12 +210,18 @@ public class GestoreBottoni {
                     System.err.print("DEBUG: schiaccio su una locazione non vuota");
                     //se è una locazione consentita dal pezzo e contiene un pezzo del colore diverso
                     if(gestoreTurni.getSpazioAttivato().getOccupante().spostabileIn(x, y, gestoreMovimenti.getMatrice().getMatrice())){
-                        
-                        
                             System.err.println(" del colore diverso");
                             //se non provoca scacco del proprio colore -> scacco matto
                             //(faccio la simulazione)
-                            matriceSimulata=gestoreMovimenti.getMatrice();
+                            
+                            matriceSimulata=new MatriceDeiPezzi(new Spazio[8][8]);
+                            //copio la matrice originale senza tenere le referenze
+                            for(int i=0;i<8;i++){
+                                for(int j=0;j<8;j++){
+                                    matriceSimulata.setSpazio(i, j,new Spazio(gestoreMovimenti.getMatrice().getSpazio(i,j)));
+                                }
+                            }
+                            
                             matriceSimulata.spostaPezzo(gestoreTurni.getSpazioAttivato().getOccupante(), x, y);
                         
                             System.err.println("DEBUG: non faccio controllo scacco QUI");
@@ -234,7 +234,8 @@ public class GestoreBottoni {
                             if(true){    
                             
                                 //mangia il pezzo in questa locazione
-                                gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante().distruggi();
+                                
+                                gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante().distruggi(interfacciaGrafica);
                                 //sposto effettivamente il pezzo 
                                 gestoreMovimenti.setMatrice(matriceSimulata);
                                 //contrassegno lo spazio occupato prima come non occupato

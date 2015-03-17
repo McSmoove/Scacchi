@@ -1,6 +1,7 @@
 package model;
 
 import static java.lang.Math.abs;
+import view.InterfacciaGrafica;
 
 /**
  *
@@ -64,12 +65,15 @@ public abstract class Pezzo{
     
     }
     
-    public void distruggi(){ // Metodo Chiamato Alla Distruzione Di Un Pezzo
-        
+    // Metodo Chiamato Alla Distruzione Di Un Pezzo
+    //(distruggo il pezzo mettendolo in una locazione non valida
+    // e aggiorno la lista dei pezzi morti nell'interfaccia grafica)
+    public void distruggi(InterfacciaGrafica interfacciaGrafica){ 
         x = -1;
         y = -1;
-    
+        interfacciaGrafica.aggiungiPezzoMorto(this);
     }
+    
     
     public boolean spostabileIn(int x, int y,Spazio[][] matrice){
         int xp=this.x;

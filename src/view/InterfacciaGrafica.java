@@ -100,12 +100,14 @@ public class InterfacciaGrafica{
         mergeIco[22] = new MergeIcon( colore[0],immagine[RE_NERO] );
         mergeIco[23] = new MergeIcon( colore[1],immagine[RE_NERO] );
         
+        /*
         // Panello Pezzi Bianchi
         for( int i = 0; i < 16; i++ ){
             
             pezziBianchi.add( new JLabel( new ImageIcon( immagine[ TORRE_BIANCA ].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
         
         }
+        */
 
         // Scacchiera E I Bottoni Associati
         scacchiera = new JPanel( new GridLayout( 10, 10 ) ){
@@ -238,12 +240,14 @@ public class InterfacciaGrafica{
         
         scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Basso
 
+        /*
         // Panello Pezzi Neri
         for( int i = 0; i < 16; i++ ){
             
             pezziNeri.add( new JLabel( new ImageIcon( immagine[ TORRE_NERA ].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
         
         }
+        */
         
         JToolBar menu = new JToolBar();
         menu.setFloatable( false );
@@ -369,7 +373,40 @@ public class InterfacciaGrafica{
         messaggioInfo.setText(s);
     }
     
-
+    public void aggiungiPezzoMorto(Pezzo p){
+        int valore=0;
+        if(p.getColore() instanceof Bianco){
+            if(p instanceof Pedone)
+                valore=PEDONE_BIANCO;
+            else if(p instanceof Torre)
+                    valore=TORRE_BIANCA;
+            else if(p instanceof Alfiere)
+                    valore=ALFIERE_BIANCO;
+            else if(p instanceof Cavallo)
+                    valore=CAVALLO_BIANCO;
+            else if(p instanceof Re)
+                    valore=RE_BIANCO;
+            else if(p instanceof Regina)
+                    valore=REGINA_BIANCA;
+            pezziBianchi.add( new JLabel( new ImageIcon( immagine[valore].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
+        }
+        else{
+            if(p instanceof Pedone)
+                valore=PEDONE_NERO;
+            else if(p instanceof Torre)
+                    valore=TORRE_NERA;
+            else if(p instanceof Alfiere)
+                    valore=ALFIERE_NERO;
+            else if(p instanceof Cavallo)
+                    valore=CAVALLO_NERO;
+            else if(p instanceof Re)
+                    valore=RE_NERO;
+            else if(p instanceof Regina)
+                    valore=REGINA_NERA; 
+            pezziNeri.add( new JLabel( new ImageIcon( immagine[valore].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
+        }
+             
+    }
 
     public void aggiornaBottoni(MatriceDeiPezzi matrice) {
         Pezzo p; // Sposteo In Alto La Dichiarazione

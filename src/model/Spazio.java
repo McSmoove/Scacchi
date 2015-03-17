@@ -17,6 +17,18 @@ public class Spazio{ // Cella Della Scacchiera Caratterizzata Dalla Presenza O N
     
     }
     
+    public Spazio(Spazio s){
+        this.x=s.getX();
+        this.y=s.getY();
+        if(s.eOccupato()){
+            occupato=true;
+            occupante=s.getOccupante();
+        }
+        else
+            occupato=false;
+        
+    }
+    
     public Spazio( int x,int y ){
         
         occupato = false;
