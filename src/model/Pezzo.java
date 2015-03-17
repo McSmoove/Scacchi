@@ -1,5 +1,6 @@
 package model;
 
+import controller.GestoreMovimenti;
 import static java.lang.Math.abs;
 import view.InterfacciaGrafica;
 
@@ -124,10 +125,29 @@ public abstract class Pezzo{
             return percorsoPedone(matrice[xp][yp].getOccupante(),x,y,matrice);
         }
         
+        if(this instanceof Re){
+            return percorsoRe(this,x,y,matrice)||percorsoTorre(this,x,y,matrice);
+        }
+        
         //caso del Re non considerato
         //da implementare...
         return false;
         
+    }
+    
+    private boolean percorsoRe(Pezzo p,int x,int y,Spazio[][] matrice){
+        int xp=p.getX();
+        int yp=p.getY();
+        //escludo il caso base
+        if(x!=xp && y!=yp){
+            //posizioni adiacenti al re
+            if((x==xp+1 || x==xp-1 || x==xp)&&(y==yp+1 || y==yp-1 || y==yp)){
+                if(!matrice[x][y].eOccupato() ||
+                    (matrice[x][y].eOccupato() && !matrice[x][y].getOccupante().getColore().equals(p.getColore())))
+                    return true;
+            }      
+        }
+        return false;
     }
     
     private boolean percorsoPedone(Pezzo p,int x,int y,Spazio[][]matrice){
