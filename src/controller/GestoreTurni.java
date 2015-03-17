@@ -74,8 +74,7 @@ public class GestoreTurni {
         }
         System.err.println("DEBUG:non chiamo il blocco bottoni ");
         //gestoreBottoni.bloccoBottoniIniziale();
-        //volevo usare repaint (a quanto pare non si può usare)
-        //gestoreBottoni.getInterfacciaGrafica().notify();
+        
         attivato=false;
     }
     

@@ -176,7 +176,7 @@ public class GestoreBottoni {
                     if(gestoreTurni.getSpazioAttivato().getOccupante().spostabileIn(x, y, gestoreMovimenti.getMatrice().getMatrice())){
                         //se spostando il pezzo in questa locazione non ho scacco/scacco matto
                         //(devo simulare la scachiera dopo la mossa)
-                        matriceSimulata=gestoreMovimenti.getMatrice();
+                        matriceSimulata=coppiaMatrice(gestoreMovimenti.getMatrice());
                         matriceSimulata.spostaPezzo(gestoreTurni.getSpazioAttivato().getOccupante(), x, y);
                         
                         /*
@@ -214,13 +214,7 @@ public class GestoreBottoni {
                             //se non provoca scacco del proprio colore -> scacco matto
                             //(faccio la simulazione)
                             
-                            matriceSimulata=new MatriceDeiPezzi(new Spazio[8][8]);
-                            //copio la matrice originale senza tenere le referenze
-                            for(int i=0;i<8;i++){
-                                for(int j=0;j<8;j++){
-                                    matriceSimulata.setSpazio(i, j,new Spazio(gestoreMovimenti.getMatrice().getSpazio(i,j)));
-                                }
-                            }
+                            matriceSimulata=coppiaMatrice(gestoreMovimenti.getMatrice());
                             
                             matriceSimulata.spostaPezzo(gestoreTurni.getSpazioAttivato().getOccupante(), x, y);
                         
@@ -247,11 +241,17 @@ public class GestoreBottoni {
                                 interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
                             
                                 //verifico scacco matto
-                                if(gestoreMovimenti.scaccoMatto())
+                                if(gestoreMovimenti.scaccoMatto()){
                                     interfacciaGrafica.finePartita();
-                                else
+                                }
+                                else{
+                                    System.err.println("DEBUG: non ho scacco matto e passo il turno");
                                     gestoreTurni.passaTurno();
-                            
+                                    //soluzione facile per togliere il bug 
+                                    //del caso in cui mangiando un pezzo
+                                    //non viene cambiato il turno
+                                    gestoreTurni.passaTurno();
+                                }
                         }
                     }
                     //se contiene un pezzo del colore corrente
@@ -279,6 +279,17 @@ public class GestoreBottoni {
     
     public InterfacciaGrafica getInterfacciaGrafica(){
         return interfacciaGrafica;
+    }
+    
+    private MatriceDeiPezzi coppiaMatrice(MatriceDeiPezzi m){
+         MatriceDeiPezzi matriceSimulata=new MatriceDeiPezzi(new Spazio[8][8]);
+                            //copio la matrice originale senza tenere le referenze
+                            for(int i=0;i<8;i++){
+                                for(int j=0;j<8;j++){
+                                    matriceSimulata.setSpazio(i, j,new Spazio(gestoreMovimenti.getMatrice().getSpazio(i,j)));
+                                }
+                            }
+                            return matriceSimulata;
     }
     
 }
