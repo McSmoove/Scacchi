@@ -1535,7 +1535,7 @@ public class GestoreMovimenti{
         return false;
     }
     
-    /*
+    
     private boolean percorsoAlfiere(Pezzo p,int x,int y){
         int temp1,temp2;
         int xp=p.getX();
@@ -1597,9 +1597,9 @@ public class GestoreMovimenti{
             }
             return false;  
     }
-    */
+    
 
-    /*
+    
     public boolean spostabileIn(Pezzo p,int x, int y){
         int xp=p.getX();
         int yp=p.getY();
@@ -1692,11 +1692,48 @@ public class GestoreMovimenti{
             }
         }
         
-        //caso del Re (non considerato)
+        if(p instanceof Re){
+            
+            //escludo il caso base
+        
+            if(x!=xp || y!=yp){
+            //posizioni adiacenti al re
+                if((x==xp+1 || x==xp-1 || x==xp)&&(y==yp+1 || y==yp-1 || y==yp)){
+                    System.err.println("posizione adiacente al re");
+                    if(!matrice.getSpazio(x,y).eOccupato() ||
+                        (matrice.getSpazio(x,y).eOccupato() && 
+                            !matrice.getSpazio(x,y).getOccupante().getColore().equals(p.getColore())))
+                        return true;
+                }
+                System.err.println("DEBUG: posizione non adiacente al re");
+                //arrocco
+                //devo aggiungere la condizione
+                //secondo la quale le posizioni tra il re e la torre non sono sotto scacco
+                //re mai mosso
+                if(!((Re)p).isMoved()){
+                    if(x==xp+2){
+                        if(matrice.getSpazio(7, y).eOccupato())
+                            if(!((Torre)matrice.getSpazio(7, y).getOccupante()).isMoved())
+                                if(!matrice.getSpazio(5, y).eOccupato() && !matrice.getSpazio(6, y).eOccupato())
+                                    return true;
+                    }
+                    if(x==xp-2){
+                        if(matrice.getSpazio(0,y).eOccupato())
+                            if(!((Torre)matrice.getSpazio(0, y).getOccupante()).isMoved())
+                                if(!matrice.getSpazio(1, y).eOccupato() && 
+                                !matrice.getSpazio(2, y).eOccupato() &&
+                                !matrice.getSpazio(3, y).eOccupato())
+                                    return true;
+                    }
+                }
+            }
+            return false;
+        }
+        
         return false;
         
     }
-    */
+    
     
     //passa come parametro il colore considerato != colore Re
     public LinkedList<Pezzo> getPezziSpostabiliQui(Spazio[][] mat,Spazio s,Colore c){
