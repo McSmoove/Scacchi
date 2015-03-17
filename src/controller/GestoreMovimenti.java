@@ -681,9 +681,7 @@ public class GestoreMovimenti{
                             scacchiera[i][j]=0;
                     }
                 }
-            
             }
-        
         }
 
         // Da Implementare Il Controllo Dello Scambio Con Una Delle 2 Torri ( Arrocco )

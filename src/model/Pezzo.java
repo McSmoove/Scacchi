@@ -77,7 +77,7 @@ public abstract class Pezzo{
         int temp;//vriabile temporale per torre
         int temp1;//variabile temèorale per alfiere
         int temp2;// " "
-        
+        System.err.print("DEBUG: spostabileIn()");
         Spazio s=matrice[x][y];
         //devo controllare se nella posizione finale c'è uno spazio libero o un pezzo del colore opposto e poi
         //tutti gli spazi intermedi x tuti i tipi di pezzo tranne il cavallo
@@ -115,30 +115,33 @@ public abstract class Pezzo{
         }
         
         if(this instanceof Pedone){
+            System.err.println(" di pedone");
             //caso di una cella vuota
             if(!matrice[x][y].eOccupato()){
                 //un pedone può spostari solo in avanti su celle vuote
                 if(x==xp){
                     if(this.getColore() instanceof Nero){
+                        //si è già mosso
                         if(((Pedone)this).isMoved()){
                             if(y==yp+1)
                                 return true;
                         }
                         //p non si è mai mosso
-                        else if(y==yp+1 || y==yp+2){
-                            if(!matrice[xp][yp+1].eOccupato())
+                        else 
+                            if(y==yp+1 || y==yp+2){
                                 return true;
                         }
                     }
                     //Bianco
                     else{
+                        //il pedone si è già mosso
                         if(((Pedone)this).isMoved()){
-                            if(y==yp-1)
+                            if((y==yp-1) && !matrice[x][y].eOccupato())
                                 return true;
                         }
                         //p non si è mai mosso
                         else if(y==yp-1 || y==yp-2){
-                            if(!matrice[xp][yp-1].eOccupato())
+                            if(!matrice[x][y].eOccupato())
                                 return true;
                         }
                     }
@@ -160,6 +163,7 @@ public abstract class Pezzo{
                         return false;
                     }
                 }
+                return false;
             }
         }
         
