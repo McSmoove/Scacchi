@@ -598,7 +598,7 @@ public class GestoreMovimenti{
         
         x = re.getX();
         y = re.getY();
-        
+        System.err.println("DEBUG: entrato in getMovimentiRe");
         // Parte Destra
         if( x + 1 <= MAXLENGTH ){
             
@@ -658,7 +658,8 @@ public class GestoreMovimenti{
             scacchiera[ x ][ y - 1 ] = 1;
         
         }
-
+        System.err.println("DEBUG: calcolato le posizioni dove spostarsi senza considerare gli spazi sotto scacco");
+        System.err.println(scacchiera.toString());
         // Da Implementare Ancora I Controlli Dello Scacco Inverso / Pericolo
         for( int i = 0; i <= MAXLENGTH; i++ ){
             
@@ -666,8 +667,19 @@ public class GestoreMovimenti{
                 
                 if( scacchiera[ i ][ j ] == 1 ){
                     
-                    scacchiera[ i ][ j ] = controlloScacco( i, j, re.getColore(),m );
-                
+                    //scacchiera[ i ][ j ] = controlloScacco( i, j, re.getColore(),m );
+                    
+                    //getPezziAttaccantiIlRe(re,this.matrice.getMatrice());
+                    //vedo se ci sono pezzi del colore opposto che possono muoversi nella locazione dove potrebbe spostarsi il Re
+                    //se è cosi contrassegno la posizione come non consentita
+                    if(re.getColore() instanceof Bianco){
+                        if(!(getPezziSpostabiliQui(matrice.getMatrice(),matrice.getSpazio(i, j),new Nero()).isEmpty()))
+                            scacchiera[i][j]=0;
+                    }
+                    else{
+                        if(!(getPezziSpostabiliQui(matrice.getMatrice(),matrice.getSpazio(i, j),new Bianco()).isEmpty()))
+                            scacchiera[i][j]=0;
+                    }
                 }
             
             }
@@ -689,6 +701,7 @@ public class GestoreMovimenti{
                     if( !( ( Torre ) m[ 0 ][ re.getY() ].getOccupante()).isMoved() ){
 
                         // Controllo Se Tutti Gli Spazi Tra La Posizione Attuale Del Re E Quella Finale Non E Sotto Scacco
+                        /*
                         if( ( controlloScacco( x - 1, y, re.getColore(),m ) == 1 ) ){
                             
                             if( ( controlloScacco( x - 2, y, re.getColore(),m ) == 1 ) ){
@@ -698,7 +711,22 @@ public class GestoreMovimenti{
                             }
                         
                         }
-                    
+                        */
+                        //sostituisco il codice sopra con una chiamata alternativa
+                        if(re.getColore() instanceof Bianco){
+                            if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x-1, y), new Nero()).isEmpty() ) ){
+                                if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x-2, y), new Nero()).isEmpty() )  ){
+                                    scacchiera[ x - 2 ][ y ] = 1;
+                                }
+                            }
+                        }
+                        else{
+                            if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x-1, y), new Bianco()).isEmpty() ) ){
+                                if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x-2, y), new Bianco()).isEmpty() )  ){
+                                    scacchiera[ x - 2 ][ y ] = 1;
+                                }
+                            }
+                        }
                     }
                 
                 }
@@ -715,22 +743,23 @@ public class GestoreMovimenti{
                     if( !( ( Torre ) m[ MAXLENGTH ][ re.getY() ].getOccupante()).isMoved() ){
 
                         // Controllo Se Tutti Gli Spazi Tra La Posizione Attuale Del Re E Quella Finale Non E Sotto Scacco
-                        if( ( controlloScacco( x + 1, y, re.getColore(),m ) == 1 ) ){
-                            
-                            if( ( controlloScacco( x + 2, y, re.getColore(),m ) == 1 ) ){
-                                
-                                scacchiera[ x + 2 ][ y ] = 1;
-                            
+                        if(re.getColore() instanceof Bianco){
+                            if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x+1, y), new Nero()).isEmpty() ) ){
+                                if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x+2, y), new Nero()).isEmpty() )  ){
+                                    scacchiera[ x + 2 ][ y ] = 1;
+                                }
                             }
-                        
                         }
-                    
+                        else{
+                            if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x+1, y), new Bianco()).isEmpty() ) ){
+                                if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x+2, y), new Bianco()).isEmpty() )  ){
+                                    scacchiera[ x + 2 ][ y ] = 1;
+                                }
+                            }
+                        }
                     }
-                
                 }
-            
             }
-        
         }
         
         return scacchiera;
