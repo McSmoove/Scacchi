@@ -25,8 +25,12 @@ public class Re extends Pezzo{
     
     public boolean isMoved(){
         
-        return maiMosso;
+        return !maiMosso;
     
+    }
+    
+    public void setMoved(){
+        maiMosso=false;
     }
     
     public void moved( boolean m ){

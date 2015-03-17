@@ -25,9 +25,11 @@ public class Pedone extends Pezzo{
     
     
     public boolean isMoved(){
-        
-        return maiMossa;
+        return !maiMossa;
+    }
     
+    public void setMoved(){
+        maiMossa=false;
     }
     
     public void moved( boolean m ){

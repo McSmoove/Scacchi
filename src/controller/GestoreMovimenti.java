@@ -1535,6 +1535,7 @@ public class GestoreMovimenti{
         return false;
     }
     
+    /*
     private boolean percorsoAlfiere(Pezzo p,int x,int y){
         int temp1,temp2;
         int xp=p.getX();
@@ -1596,7 +1597,9 @@ public class GestoreMovimenti{
             }
             return false;  
     }
-    
+    */
+
+    /*
     public boolean spostabileIn(Pezzo p,int x, int y){
         int xp=p.getX();
         int yp=p.getY();
@@ -1693,6 +1696,7 @@ public class GestoreMovimenti{
         return false;
         
     }
+    */
     
     //passa come parametro il colore considerato != colore Re
     public LinkedList<Pezzo> getPezziSpostabiliQui(Spazio[][] mat,Spazio s,Colore c){
@@ -1707,7 +1711,7 @@ public class GestoreMovimenti{
             for(int i=0;i<8;i++){
                 if(matrix[i][j].eOccupato())
                     if(matrix[i][j].getOccupante().getColore().equals(colore))
-                        if(spostabileIn(matrix[i][j].getOccupante(),x,y));  
+                        if(matrix[i][j].getOccupante().spostabileIn(x, y, matrix))  
                             lista.add(matrix[i][j].getOccupante());
             }
         }
@@ -1783,7 +1787,7 @@ public class GestoreMovimenti{
             for(int i=0;i<8;i++){
                 for(int j=0;j<8;j++){
                     if(matricePosizioni[i][j]==1)
-                        if(spostabileIn(matrice.getSpazio(i, j).getOccupante(),listaAttaccanti.getFirst().getX(),listaAttaccanti.getFirst().getY()))
+                        if(matrice.getSpazio(i, j).getOccupante().spostabileIn(listaAttaccanti.getFirst().getX(),listaAttaccanti.getFirst().getY(),m))
                             listaSalvatori.add(matrice.getSpazio(i, j).getOccupante());
                 }
             }

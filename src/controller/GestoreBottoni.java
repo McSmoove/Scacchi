@@ -6,8 +6,11 @@ import model.Bianco;
 import model.Colore;
 import model.MatriceDeiPezzi;
 import model.Nero;
+import model.Pedone;
 import model.Pezzo;
+import model.Re;
 import model.Spazio;
+import model.Torre;
 import view.InterfacciaGrafica;
 
 /**
@@ -191,7 +194,19 @@ public class GestoreBottoni {
                             //contrassegno lo spazio occupato prima come non occupato
                             //matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);
                             gestoreMovimenti.setMatrice(matriceSimulata);
-                            gestoreTurni.passaTurno();
+                            
+                            //se il pezzo spostato precedentemente è un pedone o un re e se aveva il flag spostato=false
+                            if((gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Pedone &&
+                                (((Pedone)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())) ||
+                                (gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Re &&
+                                (((Re)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())) ||
+                                (gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Torre &&
+                                (((Torre)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved()))){
+					//spostato=true;
+                                    ((Pedone)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).setMoved();
+                                }
+                                gestoreTurni.passaTurno();
+                            
                             //aggiorna la visuale
                             interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
                         }
@@ -245,12 +260,24 @@ public class GestoreBottoni {
                                     interfacciaGrafica.finePartita();
                                 }
                                 else{
+                                    //se il pezzo spostato precedentemente è un pedone o un re e se aveva il flag spostato=false
+                                    if((gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Pedone &&
+                                        (((Pedone)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())) ||
+                                        (gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Re &&
+                                            (((Re)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())) ||
+                                        (gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Torre &&
+                                            (((Torre)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())))
+					//spostato=true;
+                                        ((Pedone)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).setMoved();
+								
                                     System.err.println("DEBUG: non ho scacco matto e passo il turno");
                                     gestoreTurni.passaTurno();
                                     //soluzione facile per togliere il bug 
                                     //del caso in cui mangiando un pezzo
                                     //non viene cambiato il turno
                                     gestoreTurni.passaTurno();
+                                    
+                                    
                                 }
                         }
                     }

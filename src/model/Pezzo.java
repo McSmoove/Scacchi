@@ -121,12 +121,25 @@ public abstract class Pezzo{
         if(this instanceof Pedone){
             System.err.println(" di pedone");
             //caso di una cella vuota
-            if(!matrice[x][y].eOccupato()){
+            return percorsoPedone(matrice[xp][yp].getOccupante(),x,y,matrice);
+        }
+        
+        //caso del Re non considerato
+        //da implementare...
+        return false;
+        
+    }
+    
+    private boolean percorsoPedone(Pezzo p,int x,int y,Spazio[][]matrice){
+        int xp=p.getX();
+        int yp=p.getY();
+        if(!matrice[x][y].eOccupato()){
+                System.err.println("DEBUG: percorsoPedone()");
                 //un pedone può spostari solo in avanti su celle vuote
                 if(x==xp){
                     if(this.getColore() instanceof Nero){
                         //si è già mosso
-                        if(((Pedone)this).isMoved()){
+                        if(((Pedone) p).isMoved()){
                             if(y==yp+1)
                                 return true;
                         }
@@ -169,13 +182,9 @@ public abstract class Pezzo{
                 }
                 return false;
             }
-        }
         
-        //caso del Re (non considerato)
-        return false;
+    }    
         
-    }
-    
     private boolean percorsoTorre(Pezzo p,int x,int y,Spazio[][]matrice){
         int xp=p.getX();
         int yp=p.getY();
