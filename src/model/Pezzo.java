@@ -121,32 +121,59 @@ public abstract class Pezzo{
         
         if(this instanceof Pedone){
             System.err.println(" di pedone");
+            
             //caso di una cella vuota
             return percorsoPedone(matrice[xp][yp].getOccupante(),x,y,matrice);
         }
         
         if(this instanceof Re){
-            return percorsoRe(this,x,y,matrice)||percorsoTorre(this,x,y,matrice);
+            System.err.println(" di re");
+            return percorsoRe(this,x,y,matrice);
         }
         
-        //caso del Re non considerato
-        //da implementare...
+        
         return false;
         
     }
     
     private boolean percorsoRe(Pezzo p,int x,int y,Spazio[][] matrice){
+        System.err.println("DEBUG: percorsoRe in Pezzo");
         int xp=p.getX();
         int yp=p.getY();
         //escludo il caso base
-        if(x!=xp && y!=yp){
+        
+        if(x!=xp || y!=yp){
             //posizioni adiacenti al re
             if((x==xp+1 || x==xp-1 || x==xp)&&(y==yp+1 || y==yp-1 || y==yp)){
+                System.err.println("posizione adiacente al re");
                 if(!matrice[x][y].eOccupato() ||
                     (matrice[x][y].eOccupato() && !matrice[x][y].getOccupante().getColore().equals(p.getColore())))
                     return true;
-            }      
+            }
+            System.err.println("DEBUG: posizione non adiacente al re");
+            //arrocco
+            //devo aggiungere la condizione
+            //secondo la quale le posizioni tra il re e la torre non sono sotto scacco
+            //re mai mosso
+            if(!((Re)p).isMoved()){
+                if(x==xp+2){
+                    if(matrice[7][y].eOccupato())
+                        if(!((Torre)matrice[7][y].getOccupante()).isMoved())
+                            if(!matrice[5][y].eOccupato() && !matrice[6][y].eOccupato())
+                                return true;
+                }
+                if(x==xp-2){
+                    if(matrice[0][y].eOccupato())
+                        if(!((Torre)matrice[0][y].getOccupante()).isMoved())
+                            if(!matrice[1][y].eOccupato() && 
+                               !matrice[2][y].eOccupato() &&
+                               !matrice[3][y].eOccupato())
+                                return true;
+                }
+            }
+            
         }
+        
         return false;
     }
     
@@ -313,5 +340,6 @@ public abstract class Pezzo{
     public void setY(int y){
         this.y=y;
     }
+
 
 }

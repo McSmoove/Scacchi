@@ -30,6 +30,7 @@ public class GestoreBottoni {
         matriceBottoni=interfacciaGrafica.getMatriceBottoni();
     }
     
+    
     //blocco spazi iniziale/generico (prima di aver schiacciato su un bottone
     //da chiamare all'inizio di ogni turno
     public void bloccoBottoniIniziale(){
@@ -49,9 +50,10 @@ public class GestoreBottoni {
         }
     }
     
-    
+    /*
     //blocco spazi dopo aver schiacciato su un pezzo
     //chiamata dopo aver trovato i possibili movimenti del pezzo premuto
+    //non serve dato che controllo ogni pezzo prima di ogni mossa
     public void bloccoBottoniDopoAttivazione(Spazio posizioneDelPezzo,int[][] matricePosizioniConsentite){
         System.err.println("DEBUG: chiamataBloccoBottoniDopoAttivazione");
         //prima disabilito tutti i bottoni
@@ -73,6 +75,7 @@ public class GestoreBottoni {
             }
         } 
     }
+    */
     
     //da ridefinire e settare...
     public void pressionePulsanteScacchiera(ActionEvent e){
@@ -177,6 +180,7 @@ public class GestoreBottoni {
                     System.err.println("DEBUG: premuto su una locazione vuota");
                     //se è una locazione consentita dal pezzo
                     if(gestoreTurni.getSpazioAttivato().getOccupante().spostabileIn(x, y, gestoreMovimenti.getMatrice().getMatrice())){
+                        System.err.println("DEBUG: premuto in una posizione valida");
                         //se spostando il pezzo in questa locazione non ho scacco/scacco matto
                         //(devo simulare la scachiera dopo la mossa)
                         matriceSimulata=coppiaMatrice(gestoreMovimenti.getMatrice());
@@ -210,11 +214,16 @@ public class GestoreBottoni {
                             //aggiorna la visuale
                             interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
                         }
-                        
+                        //se provoco scacco matto
+                        else{
+                            //imposto come se niente fosse stato premuto
+                            gestoreTurni.disattiva();
+                        }
                         
                     }
                     //se non è una locazione consentita dal pezzo
                     else{
+                        System.err.println("DEBUG: premuto in una posizione non consentita dal pezzo");
                         //imposto come se niente fosse stato premuto
                         //System.err.println("DEBUG: premuto su una posizione non consentita -> annulla tutto");
                         gestoreTurni.disattiva();
@@ -279,6 +288,11 @@ public class GestoreBottoni {
                                     
                                     
                                 }
+                        }
+                        //se provoco scacco matto
+                        else{
+                            //imposto come se niente fosse stato premuto
+                            gestoreTurni.disattiva();  
                         }
                     }
                     //se contiene un pezzo del colore corrente

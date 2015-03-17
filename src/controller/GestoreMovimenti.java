@@ -592,7 +592,7 @@ public class GestoreMovimenti{
     // Con La Torre Se Nessuno Dei 2 Si E Mosso
     
     private int[][] movimentiRe( Re re ){
-        
+        System.err.println("DEBUG: movimentiRe in GestoreMovimenti");
         int[][] scacchiera = new int[ 8 ][ 8 ];
         int x, y;
         
