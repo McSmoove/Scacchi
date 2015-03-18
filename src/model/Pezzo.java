@@ -95,46 +95,43 @@ public abstract class Pezzo{
         
         //controllo se la posizione finale è vuota o contiene un pezzo del colore opposto
         //(non posso spostarmi in un locazione con un pezzo dello stesso colore)
-        if(!s.eOccupato() || !s.getOccupante().getColore().equals(this.getColore()))
+        if(!s.eOccupato() || !s.getOccupante().getColore().equals(this.getColore())){
             //divido i controlli in base al pezzo
-            if(this instanceof Torre){
-                return percorsoTorre(this,x,y,matrice);
-        }
-        if(this instanceof Alfiere){
-              return percorsoAlfiere(this,x,y,matrice);
-        }
-        
-        if(this instanceof Cavallo){
-            //da implementare il controllo se la ella contiene qualcosa 
-            //e se è di un colore diverso dall'attuale
-            System.err.println("modificare Qui spostabilein cavallo");
-            //caso base per la verifica successiva
-            if(xp!=x && yp!=y){
-                //funzione di verifica per la correttezza della posizione
-                //(modulo della somma dei 2 delta=3)
-                if(abs((double)x-xp)+abs((double)y-yp)==3)
-                    return true;
+            if (this instanceof Torre) {
+                return percorsoTorre(this, x, y, matrice);
             }
-            return false;    
+            if (this instanceof Alfiere) {
+                return percorsoAlfiere(this, x, y, matrice);
+            }
+
+            if (this instanceof Cavallo) {
+                //caso base per la verifica successiva
+                if (xp != x && yp != y) {
+                //funzione di verifica per la correttezza della posizione
+                    //(modulo della somma dei 2 delta=3)
+                    if (abs((double) x - xp) + abs((double) y - yp) == 3) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            if (this instanceof Regina) {
+                return percorsoAlfiere(this, x, y, matrice) || percorsoTorre(this, x, y, matrice);
+            }
+
+            if (this instanceof Pedone) {
+                System.err.println(" di pedone");
+
+                //caso di una cella vuota
+                return percorsoPedone(matrice[xp][yp].getOccupante(), x, y, matrice);
+            }
+
+            if (this instanceof Re) {
+                System.err.println(" di re");
+                return percorsoRe(this, x, y, matrice);
+            }
         }
-        
-        if(this instanceof Regina){
-            return percorsoAlfiere(this,x,y,matrice)||percorsoTorre(this,x,y,matrice);
-        }
-        
-        if(this instanceof Pedone){
-            System.err.println(" di pedone");
-            
-            //caso di una cella vuota
-            return percorsoPedone(matrice[xp][yp].getOccupante(),x,y,matrice);
-        }
-        
-        if(this instanceof Re){
-            System.err.println(" di re");
-            return percorsoRe(this,x,y,matrice);
-        }
-        
-        
         return false;
         
     }

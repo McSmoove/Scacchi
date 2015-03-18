@@ -1598,7 +1598,6 @@ public class GestoreMovimenti{
             return false;  
     }
     
-
     
     public boolean spostabileIn(Pezzo p,int x, int y){
         int xp=p.getX();
@@ -1619,55 +1618,112 @@ public class GestoreMovimenti{
         
         //controllo se la posizione finale è vuota o contiene un pezzo del colore opposto
         //(non posso spostarmi in un locazione con un pezzo dello stesso colore)
-        if(!s.eOccupato() || !s.getOccupante().getColore().equals(p.getColore()))
+        if(!s.eOccupato() || !s.getOccupante().getColore().equals(p.getColore())){
             //divido i controlli in base al pezzo
-            if(p instanceof Torre){
-                return percorsoTorre(p,x,y);
-        }
-        if(p instanceof Alfiere){
-              return percorsoAlfiere(p,x,y);
-        }
-        
-        if(p instanceof Cavallo){
-            //caso base per la verifica successiva
-            if(xp!=x && yp!=y){
-                //funzione di verifica per la correttezza della posizione
-                //(modulo della somma dei 2 delta=3)
-                if(abs((double)x-xp)+abs((double)y-yp)==3)
-                    return true;
+            if (p instanceof Torre) {
+                return percorsoTorre(p, x, y);
             }
-            return false;    
+            if (p instanceof Alfiere) {
+                return percorsoAlfiere(p, x, y);
+            }
+
+            if (p instanceof Cavallo) {
+                //caso base per la verifica successiva
+                if (xp != x && yp != y) {
+                //funzione di verifica per la correttezza della posizione
+                    //(modulo della somma dei 2 delta=3)
+                    if (abs((double) x - xp) + abs((double) y - yp) == 3) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            if (p instanceof Regina) {
+                return percorsoAlfiere(p, x, y) || percorsoTorre(p, x, y);
+            }
+
+            if (p instanceof Pedone) {
+                return percorsoPedone(matrice.getSpazio(xp, yp).getOccupante(), x, y, matrice.getMatrice());
+            }
+
+            if (p instanceof Re) {
+
+            //escludo il caso base
+                if (x != xp || y != yp) {
+                    //posizioni adiacenti al re
+                    if ((x == xp + 1 || x == xp - 1 || x == xp) && (y == yp + 1 || y == yp - 1 || y == yp)) {
+                        System.err.println("posizione adiacente al re");
+                        if (!matrice.getSpazio(x, y).eOccupato()
+                                || (matrice.getSpazio(x, y).eOccupato()
+                                && !matrice.getSpazio(x, y).getOccupante().getColore().equals(p.getColore()))) {
+                            return true;
+                        }
+                    }
+                    System.err.println("DEBUG: posizione non adiacente al re");
+                //arrocco
+                    //devo aggiungere la condizione
+                    //secondo la quale le posizioni tra il re e la torre non sono sotto scacco
+                    //re mai mosso
+                    if (!((Re) p).isMoved()) {
+                        if (x == xp + 2) {
+                            if (matrice.getSpazio(7, y).eOccupato()) {
+                                if (!((Torre) matrice.getSpazio(7, y).getOccupante()).isMoved()) {
+                                    if (!matrice.getSpazio(5, y).eOccupato() && !matrice.getSpazio(6, y).eOccupato()) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                        if (x == xp - 2) {
+                            if (matrice.getSpazio(0, y).eOccupato()) {
+                                if (!((Torre) matrice.getSpazio(0, y).getOccupante()).isMoved()) {
+                                    if (!matrice.getSpazio(1, y).eOccupato()
+                                            && !matrice.getSpazio(2, y).eOccupato()
+                                            && !matrice.getSpazio(3, y).eOccupato()) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
         }
+        return false;
         
-        if(p instanceof Regina){
-            return percorsoAlfiere(p,x,y)||percorsoTorre(p,x,y);
-        }
-        
-        if(p instanceof Pedone){
-            //caso di una cella vuota
-            if(!matrice.getMatrice()[x][y].eOccupato()){
+    }
+    
+    private boolean percorsoPedone(Pezzo p,int x,int y,Spazio[][]matrice){
+        int xp=p.getX();
+        int yp=p.getY();
+        if(!matrice[x][y].eOccupato()){
+                System.err.println("DEBUG: percorsoPedone()");
                 //un pedone può spostari solo in avanti su celle vuote
                 if(x==xp){
                     if(p.getColore() instanceof Nero){
-                        if(((Pedone)p).isMoved()){
+                        //si è già mosso
+                        if(((Pedone) p).isMoved()){
                             if(y==yp+1)
                                 return true;
                         }
                         //p non si è mai mosso
-                        else if(y==yp+1 || y==yp+2){
-                            if(!matrice.getMatrice()[xp][yp+1].eOccupato())
+                        else 
+                            if(y==yp+1 || y==yp+2){
                                 return true;
                         }
                     }
                     //Bianco
                     else{
+                        //il pedone si è già mosso
                         if(((Pedone)p).isMoved()){
-                            if(y==yp-1)
+                            if((y==yp-1) && !matrice[x][y].eOccupato())
                                 return true;
                         }
                         //p non si è mai mosso
                         else if(y==yp-1 || y==yp-2){
-                            if(!matrice.getMatrice()[xp][yp-1].eOccupato())
+                            if(!matrice[x][y].eOccupato())
                                 return true;
                         }
                     }
@@ -1689,50 +1745,10 @@ public class GestoreMovimenti{
                         return false;
                     }
                 }
+                return false;
             }
-        }
         
-        if(p instanceof Re){
-            
-            //escludo il caso base
-        
-            if(x!=xp || y!=yp){
-            //posizioni adiacenti al re
-                if((x==xp+1 || x==xp-1 || x==xp)&&(y==yp+1 || y==yp-1 || y==yp)){
-                    System.err.println("posizione adiacente al re");
-                    if(!matrice.getSpazio(x,y).eOccupato() ||
-                        (matrice.getSpazio(x,y).eOccupato() && 
-                            !matrice.getSpazio(x,y).getOccupante().getColore().equals(p.getColore())))
-                        return true;
-                }
-                System.err.println("DEBUG: posizione non adiacente al re");
-                //arrocco
-                //devo aggiungere la condizione
-                //secondo la quale le posizioni tra il re e la torre non sono sotto scacco
-                //re mai mosso
-                if(!((Re)p).isMoved()){
-                    if(x==xp+2){
-                        if(matrice.getSpazio(7, y).eOccupato())
-                            if(!((Torre)matrice.getSpazio(7, y).getOccupante()).isMoved())
-                                if(!matrice.getSpazio(5, y).eOccupato() && !matrice.getSpazio(6, y).eOccupato())
-                                    return true;
-                    }
-                    if(x==xp-2){
-                        if(matrice.getSpazio(0,y).eOccupato())
-                            if(!((Torre)matrice.getSpazio(0, y).getOccupante()).isMoved())
-                                if(!matrice.getSpazio(1, y).eOccupato() && 
-                                !matrice.getSpazio(2, y).eOccupato() &&
-                                !matrice.getSpazio(3, y).eOccupato())
-                                    return true;
-                    }
-                }
-            }
-            return false;
-        }
-        
-        return false;
-        
-    }
+    }    
     
     
     //passa come parametro il colore considerato != colore Re
