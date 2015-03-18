@@ -179,9 +179,9 @@ public class GestoreBottoni {
                 if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                     System.err.println("DEBUG: premuto su una locazione vuota");
                     //se è una locazione consentita dal pezzo
-                    //if(gestoreTurni.getSpazioAttivato().getOccupante().spostabileIn(x, y, gestoreMovimenti.getMatrice().getMatrice())){
+                    if(gestoreTurni.getSpazioAttivato().getOccupante().spostabileIn(x, y, gestoreMovimenti.getMatrice().getMatrice())){
                     //alternativa in gestoreMovimenti
-                    if(gestoreMovimenti.spostabileIn(gestoreTurni.getSpazioAttivato().getOccupante(),x, y)){
+                    //if(gestoreMovimenti.spostabileIn(gestoreTurni.getSpazioAttivato().getOccupante(),x, y)){
                         System.err.println("DEBUG: premuto in una posizione valida");
                         //se spostando il pezzo in questa locazione non ho scacco/scacco matto
                         //(devo simulare la scachiera dopo la mossa)
