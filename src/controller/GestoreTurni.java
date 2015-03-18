@@ -80,6 +80,7 @@ public class GestoreTurni {
     
     public void attiva(){
         attivato=true;
+        
     }
     
     public void disattiva(){

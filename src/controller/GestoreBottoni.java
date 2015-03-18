@@ -1,5 +1,6 @@
 package controller;
 
+
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 import model.Bianco;
@@ -7,7 +8,6 @@ import model.Colore;
 import model.MatriceDeiPezzi;
 import model.Nero;
 import model.Pedone;
-import model.Pezzo;
 import model.Re;
 import model.Spazio;
 import model.Torre;
@@ -200,6 +200,9 @@ public class GestoreBottoni {
                             //contrassegno lo spazio occupato prima come non occupato
                             //matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);
                             gestoreMovimenti.setMatrice(matriceSimulata);
+                            //tolgo il bordo del bottone
+                            disattivaPosizione();
+                            gestoreTurni.passaTurno();
                             
                             //se il pezzo spostato precedentemente è un pedone o un re e se aveva il flag spostato=false
                             if((gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Pedone &&
@@ -208,10 +211,10 @@ public class GestoreBottoni {
                                 (((Re)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())) ||
                                 (gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Torre &&
                                 (((Torre)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved()))){
-					//spostato=true;
+                                    //spostato=true;
                                     ((Pedone)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).setMoved();
-                                }
-                                gestoreTurni.passaTurno();
+                            }
+                                
                             
                             //aggiorna la visuale
                             interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
@@ -219,7 +222,7 @@ public class GestoreBottoni {
                         //se provoco scacco matto
                         else{
                             //imposto come se niente fosse stato premuto
-                            gestoreTurni.disattiva();
+                            disattivaPosizione();
                         }
                         
                     }
@@ -228,7 +231,7 @@ public class GestoreBottoni {
                         System.err.println("DEBUG: premuto in una posizione non consentita dal pezzo");
                         //imposto come se niente fosse stato premuto
                         //System.err.println("DEBUG: premuto su una posizione non consentita -> annulla tutto");
-                        gestoreTurni.disattiva();
+                        disattivaPosizione();
                     }
                 }
                 //se è una locazione non vuota
@@ -264,7 +267,12 @@ public class GestoreBottoni {
                                 matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);
                                 //prova per debug
                                 matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupante(null);
+                                //disattiva bordo
+                                disattivaPosizione();
                                 gestoreTurni.passaTurno();
+                                
+                                
+                                
                                 //aggiorna la visuale
                                 interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
                             
@@ -296,13 +304,13 @@ public class GestoreBottoni {
                         //se provoco scacco matto
                         else{
                             //imposto come se niente fosse stato premuto
-                            gestoreTurni.disattiva();  
+                            disattivaPosizione();
                         }
                     }
                     //se contiene un pezzo del colore corrente
                     else{
                         //imposto come se niente fosse stato premuto
-                        gestoreTurni.disattiva();
+                        disattivaPosizione();
                     }
                 }
             }
@@ -320,6 +328,19 @@ public class GestoreBottoni {
         gestoreTurni.attiva();
         System.err.println("DEBUG: non blocco le posizioni nel metodo attivaPosizione (contiene dei bug)");
         //bloccoBottoniDopoAttivazione(gestoreMovimenti.getMatrice().getSpazio(x, y), gestoreMovimenti.getPossibiliMovimenti(gestoreMovimenti.getMatrice().getSpazio(x,y).getOccupante()));
+        //evidenzio la cella
+        
+        //da fare una chiamata in interfacciaGrafica
+        interfacciaGrafica.attivaBordo(x,y);
+    }
+    
+    private void disattivaPosizione(int x,int y){
+        gestoreTurni.disattiva();
+        interfacciaGrafica.disattivaBordo(x,y);
+    }
+    
+    private void disattivaPosizione(){
+        disattivaPosizione(gestoreTurni.getSpazioAttivato().getX(),gestoreTurni.getSpazioAttivato().getY());
     }
     
     public InterfacciaGrafica getInterfacciaGrafica(){

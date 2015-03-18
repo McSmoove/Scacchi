@@ -529,4 +529,16 @@ public class InterfacciaGrafica{
         }
     }
 
+    public void attivaBordo(int x, int y) {
+        quadratiScacchiera[x][y].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        //questo metodo evidenzia il bordo della cella in posizione x,y
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void disattivaBordo(int x, int y) {
+        quadratiScacchiera[x][y].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+        //il contrario di attivaBordo()
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 } // Fine Classe InterfacciaGrafica
