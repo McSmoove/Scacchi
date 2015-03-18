@@ -105,6 +105,9 @@ public abstract class Pezzo{
         }
         
         if(this instanceof Cavallo){
+            //da implementare il controllo se la ella contiene qualcosa 
+            //e se è di un colore diverso dall'attuale
+            System.err.println("modificare Qui spostabilein cavallo");
             //caso base per la verifica successiva
             if(xp!=x && yp!=y){
                 //funzione di verifica per la correttezza della posizione
@@ -236,6 +239,7 @@ public abstract class Pezzo{
         int xp=p.getX();
         int yp=p.getY();
         int temp;
+        System.err.println("modificare Qui spostabilein torre");
         //vedo se la posizione in cui spostarsi è valida
         if (x == xp) {
             temp = yp;
