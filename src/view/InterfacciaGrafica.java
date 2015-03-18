@@ -41,6 +41,12 @@ public class InterfacciaGrafica{
     
     private final JLabel messaggioInfo = new JLabel( "Tocca Al Bianco / Nero" );
     
+    private JLabel[] pezziMangiatiBianchi = new JLabel[ 16 ];
+    private int contaMortiBianchi = 0;
+    
+    private JLabel[] pezziMangiatiNeri = new JLabel[ 16 ];
+    private int contaMortiNeri = 0;
+    
     private static final String colonne = "ABCDEFGH";
     
     private Border bordo = new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.RED ) );
@@ -100,15 +106,6 @@ public class InterfacciaGrafica{
         mergeIco[22] = new MergeIcon( colore[0],immagine[RE_NERO] );
         mergeIco[23] = new MergeIcon( colore[1],immagine[RE_NERO] );
         
-        /*
-        // Panello Pezzi Bianchi
-        for( int i = 0; i < 16; i++ ){
-            
-            pezziBianchi.add( new JLabel( new ImageIcon( immagine[ TORRE_BIANCA ].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
-        
-        }
-        */
-
         // Scacchiera E I Bottoni Associati
         scacchiera = new JPanel( new GridLayout( 10, 10 ) ){
             
@@ -239,15 +236,6 @@ public class InterfacciaGrafica{
         } // Fine For
         
         scacchiera.add( new JLabel() ); // Ultimo Spazio Vuoto Per La Riga Contenente Le Lettere In Basso
-
-        /*
-        // Panello Pezzi Neri
-        for( int i = 0; i < 16; i++ ){
-            
-            pezziNeri.add( new JLabel( new ImageIcon( immagine[ TORRE_NERA ].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
-        
-        }
-        */
         
         JToolBar menu = new JToolBar();
         menu.setFloatable( false );
@@ -272,6 +260,13 @@ public class InterfacciaGrafica{
         JPanel pannelloMain = new JPanel( new GridBagLayout() );
         GridBagConstraints posizione = new GridBagConstraints();
         
+        for( int i = 0; i < 16; i++ ){
+            
+            pezziMangiatiBianchi[ i ] = new JLabel( new ImageIcon( new BufferedImage( 64, 64, BufferedImage.TYPE_INT_ARGB ) ) );
+            pezziBianchi.add( pezziMangiatiBianchi[ i ] );
+        
+        }
+        
         posizione.fill = GridBagConstraints.EAST;
         pezziBianchi.setBorder( bordo );
         pannelloMain.add( pezziBianchi, posizione );
@@ -280,9 +275,15 @@ public class InterfacciaGrafica{
         scacchiera.setBorder( bordo );
         pannelloMain.add( scacchiera, posizione );
         
+        for( int i = 0; i < 16; i++ ){
+            
+            pezziMangiatiNeri[ i ] = new JLabel( new ImageIcon( new BufferedImage( 64, 64, BufferedImage.TYPE_INT_ARGB ) ) );
+            pezziNeri.add( pezziMangiatiNeri[ i ] );
+        
+        }
+        
         posizione.fill = GridBagConstraints.WEST;
         pezziNeri.setBorder( bordo );
-        // scacchiera.setSize( new Dimension( 600, 600 ) );
         pannelloMain.add( pezziNeri, posizione );
         
         interfacciaGrafica.add( pannelloMain, BorderLayout.CENTER );
@@ -335,6 +336,7 @@ public class InterfacciaGrafica{
                 frame.add( interfacciaGrafica );
                 
                 frame.setLocationByPlatform( true );
+                System.out.println(""+ pezziNeri.getMinimumSize());
                 frame.setMinimumSize( frame.getMinimumSize() );
                 
                 frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
@@ -388,7 +390,8 @@ public class InterfacciaGrafica{
                     valore=RE_BIANCO;
             else if(p instanceof Regina)
                     valore=REGINA_BIANCA;
-            pezziBianchi.add( new JLabel( new ImageIcon( immagine[valore].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
+                       pezziMangiatiBianchi[ contaMortiBianchi ].setIcon( new ImageIcon( immagine[valore].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) );
+                       contaMortiBianchi++;
         }
         else{
             if(p instanceof Pedone)
@@ -403,7 +406,9 @@ public class InterfacciaGrafica{
                     valore=RE_NERO;
             else if(p instanceof Regina)
                     valore=REGINA_NERA; 
-            pezziNeri.add( new JLabel( new ImageIcon( immagine[valore].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) ) );
+            pezziMangiatiNeri[ contaMortiNeri ].setIcon( new ImageIcon( immagine[valore].getScaledInstance( 64, 64, Image.SCALE_FAST ) ) );
+            contaMortiNeri++;
+        
         }
              
     }
