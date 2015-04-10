@@ -9,6 +9,7 @@ import model.MatriceDeiPezzi;
 import model.Nero;
 import model.Pedone;
 import model.Re;
+import model.Regina;
 import model.Spazio;
 import model.Torre;
 import view.InterfacciaGrafica;
@@ -238,7 +239,27 @@ public class GestoreBottoni {
                                     ((Torre)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).setMoved();
                                     
                             }
-                                
+                            //se ho appena spostato un pedone
+                            if(gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Pedone){
+                                //divido in 2 casi in base al colore
+                                if(gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante().getColore() instanceof Bianco){
+                                    //se il pedone è in fondo alla scacchiera
+                                    if(y==0){
+                                        //trasforma il pedone in altro
+                                        System.err.println("DEBUG: trasformo il pedone in regina");
+                                        gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Bianco()),x,y);
+                                    }
+                                }
+                                //nero
+                                else{
+                                    //se il pedone è in fondo alla scacchiera
+                                    if(y==7){
+                                        //trasforma il pedone in altro
+                                        System.err.println("DEBUG: trasformo il pedone in regina");
+                                        gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Nero()),x,y);
+                                    }
+                                }
+                            }
                             
                             //aggiorna la visuale
                             interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
