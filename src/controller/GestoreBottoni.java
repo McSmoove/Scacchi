@@ -205,14 +205,38 @@ public class GestoreBottoni {
                             gestoreTurni.passaTurno();
                             
                             //se il pezzo spostato precedentemente è un pedone o un re e se aveva il flag spostato=false
-                            if((gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Pedone &&
-                                (((Pedone)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())) ||
-                                (gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Re &&
-                                (((Re)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())) ||
-                                (gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Torre &&
-                                (((Torre)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved()))){
+                            if(gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Pedone &&
+                              (!((Pedone)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())){
+                                ((Pedone)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).setMoved();
+                                System.err.println("DEBUG: setto il pedone in "+x+","+y+" come mosso");
+                            }
+                            
+                            if (gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Re &&
+                               (!((Re)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())){
+                                System.err.println("DEBUG: setto il re in "+x+","+y+" come mosso");
+                                    ((Re)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).setMoved();
+                                    //se la nuova posizione del re differisce di 2 celle da quella originale (fatto l'arrocco)
+                                    if(x==2){
+                                        System.err.print("DEBUG: arrocco lungo");
+                                        gestoreMovimenti.getMatrice().getSpazio(3, y).setOccupante(gestoreMovimenti.getMatrice().getSpazio(0, y).getOccupante(),3,y);
+                                        gestoreMovimenti.getMatrice().getSpazio(3,y).setOccupato(true);
+                                        gestoreMovimenti.getMatrice().getSpazio(0,y).setOccupante(null);
+                                        gestoreMovimenti.getMatrice().getSpazio(0,y).setOccupato(false);
+                                    }
+                                    else if(x==6){
+                                        System.err.print("DEBUG: arrocco corto");
+                                        gestoreMovimenti.getMatrice().getSpazio(5, y).setOccupante(gestoreMovimenti.getMatrice().getSpazio(7, y).getOccupante(),5,y);
+                                        gestoreMovimenti.getMatrice().getSpazio(5,y).setOccupato(true);
+                                        gestoreMovimenti.getMatrice().getSpazio(7,y).setOccupante(null);
+                                        gestoreMovimenti.getMatrice().getSpazio(7,y).setOccupato(false);
+                                    }
+                            }
+                            if    (gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Torre &&
+                                (!((Torre)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).isMoved())){
                                     //spostato=true;
-                                    ((Pedone)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).setMoved();
+                                    System.err.println("DEBUG: setto la torre in "+x+","+y+" come mosso");
+                                    ((Torre)gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante()).setMoved();
+                                    
                             }
                                 
                             

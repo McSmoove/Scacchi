@@ -67,10 +67,16 @@ public class Spazio{ // Cella Della Scacchiera Caratterizzata Dalla Presenza O N
     
     }
     
-    public void setOccupante( Pezzo p ){
-        
+    public void setOccupante( Pezzo p ){      
         occupante = p;
+    }
     
+    public void setOccupante( Pezzo p,int x,int y ){      
+        occupante = p;
+        this.x=x;
+        this.y=y;
+        p.setX(x);
+        p.setY(y);
     }
     
     public void setOccupato(boolean b){

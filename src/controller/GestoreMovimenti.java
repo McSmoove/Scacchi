@@ -173,18 +173,19 @@ public class GestoreMovimenti{
             if( !m[ x ][ y - 1 ].eOccupato() ){
                 System.err.println("DEBUG: spostamento in avanti con pedone bianco ok");
                 scacchiera[ x ][ y - 1 ] = 1;
+            }
             
+            //2 caselle più in alto
+            if( !m[ x ][ y - 2 ].eOccupato() && !p.isMoved()){
+                System.err.println("DEBUG: spostamento in avanti con pedone bianco ok");
+                scacchiera[ x ][ y - 2 ] = 1;
             }
             
             // In Alto A Sinistra
-            if( ( x - 1 ) >= 0 ){ // Controllo Posizione Valida ( Probabilmente Ridondante )
-                
-                if( m[ x - 1 ][ y - 1 ].eOccupato() && m[ x - 1][ y - 1 ].getOccupante().getColore() instanceof Nero ){
-                    
+            if( ( x - 1 ) >= 0 ){ // Controllo Posizione Valida ( Probabilmente Ridondante )   
+                if( m[ x - 1 ][ y - 1 ].eOccupato() && m[ x - 1][ y - 1 ].getOccupante().getColore() instanceof Nero ){   
                     scacchiera[ x - 1 ][ y - 1 ] = 1;
-                
                 }
-            
             }
 
             // In Alto A Destra
@@ -203,7 +204,11 @@ public class GestoreMovimenti{
             if( !m[ x ][ y + 1 ].eOccupato()){
                 System.err.println("DEBUG: spostamento in avanti con pedone nero ok");
                 scacchiera[ x ][ y + 1 ] = 1;
-            
+            }
+            //2 caselle in basso
+            if( !m[ x ][ y + 2 ].eOccupato() && !p.isMoved() ){
+                System.err.println("DEBUG: spostamento in avanti con pedone bianco ok");
+                scacchiera[ x ][ y + 2 ] = 1;
             }
             
             if( ( x - 1 ) >= 0 ) // Controllo Posizione Valida ( Probabilmente Ridondante )
@@ -734,13 +739,13 @@ public class GestoreMovimenti{
             // Gli Spazi Tra Re E Torre Destra Sono Liberi?
             if( !m[ 5 ][ re.getY() ].eOccupato() && !m[ 6 ][ re.getY() ].eOccupato() ){
 
-                // A Sinistra Ce Uma Torre Nella Sua Posizione Originale
+                // A Sinistra Ce Una Torre Nella Sua Posizione Originale
                 if( m[ MAXLENGTH ][ re.getY() ].getOccupante() instanceof Torre ){
 
                     // Torre A Sinistra Mai Mossa
                     if( !( ( Torre ) m[ MAXLENGTH ][ re.getY() ].getOccupante()).isMoved() ){
 
-                        // Controllo Se Tutti Gli Spazi Tra La Posizione Attuale Del Re E Quella Finale Non E Sotto Scacco
+                        // Controllo Se Tutti Gli Spazi Tra La Posizione Attuale Del Re E Quella Finale Non Sono Sotto Scacco
                         if(re.getColore() instanceof Bianco){
                             if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x+1, y), new Nero()).isEmpty() ) ){
                                 if( ( getPezziSpostabiliQui( matrice.getMatrice(),matrice.getSpazio(x+2, y), new Nero()).isEmpty() )  ){
@@ -1644,6 +1649,8 @@ public class GestoreMovimenti{
             }
 
             if (p instanceof Pedone) {
+                //System.err.println("chiamo percorsoPedone");
+                matrice.toString();
                 return percorsoPedone(matrice.getSpazio(xp, yp).getOccupante(), x, y, matrice.getMatrice());
             }
 
@@ -1667,7 +1674,7 @@ public class GestoreMovimenti{
                     //re mai mosso
                     if (!((Re) p).isMoved()) {
                         if (x == xp + 2) {
-                            if (matrice.getSpazio(7, y).eOccupato()) {
+                            if (matrice.getSpazio(7, y).eOccupato() && matrice.getSpazio(7, y).getOccupante() instanceof Torre ) {
                                 if (!((Torre) matrice.getSpazio(7, y).getOccupante()).isMoved()) {
                                     if (!matrice.getSpazio(5, y).eOccupato() && !matrice.getSpazio(6, y).eOccupato()) {
                                         return true;
@@ -1676,7 +1683,7 @@ public class GestoreMovimenti{
                             }
                         }
                         if (x == xp - 2) {
-                            if (matrice.getSpazio(0, y).eOccupato()) {
+                            if (matrice.getSpazio(0, y).eOccupato() && matrice.getSpazio(0, y).getOccupante() instanceof Torre) {
                                 if (!((Torre) matrice.getSpazio(0, y).getOccupante()).isMoved()) {
                                     if (!matrice.getSpazio(1, y).eOccupato()
                                             && !matrice.getSpazio(2, y).eOccupato()
@@ -1692,8 +1699,9 @@ public class GestoreMovimenti{
             }
         }
         return false;
-        
     }
+    
+    
     
     private boolean percorsoPedone(Pezzo p,int x,int y,Spazio[][]matrice){
         int xp=p.getX();
@@ -1709,10 +1717,11 @@ public class GestoreMovimenti{
                                 return true;
                         }
                         //p non si è mai mosso
-                        else 
+                        else {
                             if(y==yp+1 || y==yp+2){
                                 return true;
-                        }
+                            }
+                        }    
                     }
                     //Bianco
                     else{

@@ -93,4 +93,15 @@ public class MatriceDeiPezzi{ // La Matrice Rappresentante La Scacchiera
         scacchiera[x][y].setOccupato(true);
         
     }
+    
+    public String toString(){
+        String s="";
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                s+=scacchiera[j][i].toString();
+            }
+            s+="\n";
+        }
+        return s;
+    }
 }
