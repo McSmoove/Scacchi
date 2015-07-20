@@ -6,7 +6,7 @@ import model.*;
 import view.InterfacciaGrafica;
 
 /**
- *
+ * Setta i movimenti possibili dei pezzi sulla scacchiera
  * @author Viktor
  */
 
@@ -81,6 +81,10 @@ public class GestoreMovimenti{
     
     }
     
+    /**
+     * Riscrive la matrice dei pezzi secondo la nuova configurazione
+     * @param nuova 
+     */
     public void aggiornaMatriceDeiPezzi( MatriceDeiPezzi nuova ){ // Chiamata Fatta Dopo Ogni Mossa Effettuata
         
         matrice = nuova;
@@ -774,6 +778,14 @@ public class GestoreMovimenti{
     // Si Possono Fare Delle Chiamate Per Minimizzare Il Codice
     //0=c'è scacco
     //1=non c'è scacco
+    /**
+     * Determina se c'è scacco matto
+     * @param x
+     * @param y
+     * @param colore
+     * @param matrix
+     * @return 
+     */
     public int controlloScacco( int x, int y, Colore colore,Spazio[][] matrix){
         System.err.println("DEBUG: inizia controlloScacco");
         Spazio[][] mat=matrix;
@@ -1128,6 +1140,11 @@ public class GestoreMovimenti{
     
     }
     
+    /**
+     * Funzione di supporto per facilitare l'uso di controlloScacco
+     * @param r
+     * @return 
+     */
     public int controlloScacco(Re r) {  
         return controlloScacco( r.getX(), r.getY(), r.getColore(),m );
     }

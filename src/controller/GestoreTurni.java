@@ -87,7 +87,7 @@ public class GestoreTurni {
     }
     
     /**
-     * Inizia il turno
+     * Inizia a muovere
      */
     public void attiva(){
         attivato=true;
@@ -95,7 +95,7 @@ public class GestoreTurni {
     }
     
     /**
-     * Finisce il turno
+     * Finisce di muovere
      */
     public void disattiva(){
         attivato=false;

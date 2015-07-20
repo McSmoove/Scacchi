@@ -86,8 +86,8 @@ public class GestoreBottoni {
     
     //da ridefinire e settare...
     /**
-     * Viene chiamata quando si clicca una casella. Controlla se la casella è
-     * bloccata ed è valida. Inoltre controlla lo scacco matto
+     * Viene chiamata quando si clicca una casella. Controlla se il la casella
+     * cliccata è valida (colore = turno e movimento valido).
      * @param e 
      */
     public void pressionePulsanteScacchiera(ActionEvent e){
@@ -380,7 +380,7 @@ public class GestoreBottoni {
     
     //metto il pezzo premuto nella gestione turno e lo attivo
     /**
-     * Sblocca le caselle valide per il movimento della pedina selezionata
+     * Indico che ho selezionato quella casella (disegno il bordo di selezione)
      * @param x
      * @param y 
      */
@@ -396,7 +396,7 @@ public class GestoreBottoni {
     }
     
     /**
-     * Cambia il turno
+     * Segno che la casella non è più selezionata (cancello il bordo)
      * @param x
      * @param y 
      */
