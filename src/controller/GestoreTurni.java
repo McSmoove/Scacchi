@@ -12,7 +12,7 @@ import model.Pezzo; //import non usato NDGaetano
 import model.Spazio;
 
 /**
- * Determina di chi è il turno
+ * Controlla il turno attuale e il cambio di turno
  * @author Viktor
  */
 public class GestoreTurni {
@@ -41,12 +41,17 @@ public class GestoreTurni {
         return turno;
     }
     
+    //Non usato (forse da usare in futuro) NDGaetano
     public void setTurno(Colore t){
         turno=t;
         gestoreBottoni.bloccoBottoniIniziale();
         gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al "+t.toString());
     }
     
+    /**
+     * Decide di chi è il turno e aggiorna l'interfaccia
+     * @param t 
+     */
     public void setTurno(int t){
         if(t==Colore.BIANCO){
             turno=new Bianco();
@@ -63,6 +68,9 @@ public class GestoreTurni {
         gestoreBottoni.bloccoBottoniIniziale();
     }
     
+    /**
+     * Se il turno era del bianco lo passa al nero e viceversa
+     */
     public void passaTurno(){
         if(turno instanceof Bianco){
             turno=new Nero();
@@ -78,11 +86,17 @@ public class GestoreTurni {
         attivato=false;
     }
     
+    /**
+     * Inizia il turno
+     */
     public void attiva(){
         attivato=true;
         
     }
     
+    /**
+     * Finisce il turno
+     */
     public void disattiva(){
         attivato=false;
     }
