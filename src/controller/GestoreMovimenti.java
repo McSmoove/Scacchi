@@ -1149,6 +1149,12 @@ public class GestoreMovimenti{
         return controlloScacco( r.getX(), r.getY(), r.getColore(),m );
     }
     
+    /**
+     * Controlla se il re è messo in pericolo da eventuali pezzi nemici
+     * @param r
+     * @param matrix
+     * @return 
+     */
     public LinkedList<Pezzo> getPezziAttaccantiIlRe(Re r,Spazio[][] matrix){
         LinkedList<Pezzo> lista; 
         Spazio[][] mat=matrix;
@@ -1797,6 +1803,14 @@ public class GestoreMovimenti{
         return lista;
     }
     
+    /**
+     * Controlla quali pezzi della matrice impediscono lo scacco matto
+     * @param xRe
+     * @param yRe
+     * @param matrice
+     * @param turno
+     * @return 
+     */
     public int[][] getMatricePezziChePrevengonoScacco(int xRe,int yRe,MatriceDeiPezzi matrice,Colore turno){
         MatriceDeiPezzi originale=matrice;
         LinkedList<Pezzo> listaAttaccanti=new LinkedList<>();
