@@ -15,7 +15,9 @@ import model.Torre;
 import view.InterfacciaGrafica;
 
 /**
- *
+ * La classe gestoreBottoni blocca tutte le caselle che l'utente non può
+ * selezionare. Serve per gestire quali caselle sono cliccabili durante il
+ * turno.
  * @author Viktor
  */
 public class GestoreBottoni {
@@ -34,6 +36,10 @@ public class GestoreBottoni {
     
     //blocco spazi iniziale/generico (prima di aver schiacciato su un bottone
     //da chiamare all'inizio di ogni turno
+    /**
+     * Blocca le caselle occupate dalle pedine di cui non é il turno e quelle
+     * vuote. Lo si chiama all'inizio di ogni turno.
+     */
     public void bloccoBottoniIniziale(){
         System.err.println("DEBUG: blocco bottoni iniziale");
         for(int j=0;j<8;j++){
@@ -79,6 +85,11 @@ public class GestoreBottoni {
     */
     
     //da ridefinire e settare...
+    /**
+     * Setta quali pulsanti sono stati premuti e controlla che siano premuti i
+     * pulsanti validi.
+     * @param e 
+     */
     public void pressionePulsanteScacchiera(ActionEvent e){
         //identifico il bottone dove premo
         int x=0;
@@ -368,6 +379,11 @@ public class GestoreBottoni {
     }
     
     //metto il pezzo premuto nella gestione turno e lo attivo
+    /**
+     * Sblocca le caselle valide per il movimento della pedina selezionata
+     * @param x
+     * @param y 
+     */
     private void attivaPosizione(int x,int y){
         gestoreTurni.setSpazioAttivato(gestoreMovimenti.getMatrice().getMatrice()[x][y]);
         gestoreTurni.attiva();
@@ -384,6 +400,10 @@ public class GestoreBottoni {
         interfacciaGrafica.disattivaBordo(x,y);
     }
     
+    /**
+     * Si usa quando si muove la pedina in una posizione valida. Avverte che il
+     * turno è finito.
+     */
     private void disattivaPosizione(){
         disattivaPosizione(gestoreTurni.getSpazioAttivato().getX(),gestoreTurni.getSpazioAttivato().getY());
     }
@@ -392,6 +412,11 @@ public class GestoreBottoni {
         return interfacciaGrafica;
     }
     
+    /**
+     * Simula una nuova matrice
+     * @param m
+     * @return 
+     */
     private MatriceDeiPezzi coppiaMatrice(MatriceDeiPezzi m){
          MatriceDeiPezzi matriceSimulata=new MatriceDeiPezzi(new Spazio[8][8]);
                             //copio la matrice originale senza tenere le referenze
