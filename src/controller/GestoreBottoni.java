@@ -86,8 +86,8 @@ public class GestoreBottoni {
     
     //da ridefinire e settare...
     /**
-     * Setta quali pulsanti sono stati premuti e controlla che siano premuti i
-     * pulsanti validi.
+     * Viene chiamata quando si clicca una casella. Controlla se la casella è
+     * bloccata ed è valida. Inoltre controlla lo scacco matto
      * @param e 
      */
     public void pressionePulsanteScacchiera(ActionEvent e){
@@ -395,14 +395,19 @@ public class GestoreBottoni {
         interfacciaGrafica.attivaBordo(x,y);
     }
     
+    /**
+     * Cambia il turno
+     * @param x
+     * @param y 
+     */
     private void disattivaPosizione(int x,int y){
         gestoreTurni.disattiva();
         interfacciaGrafica.disattivaBordo(x,y);
     }
     
     /**
-     * Si usa quando si muove la pedina in una posizione valida. Avverte che il
-     * turno è finito.
+     * Facilita l'uso vera funzione disattivaPosizione(x, y), recuperando i
+     * parametri una volta sola
      */
     private void disattivaPosizione(){
         disattivaPosizione(gestoreTurni.getSpazioAttivato().getX(),gestoreTurni.getSpazioAttivato().getY());
@@ -417,6 +422,7 @@ public class GestoreBottoni {
      * @param m
      * @return 
      */
+    //Il parametro passato non viene usato NDGaetano
     private MatriceDeiPezzi coppiaMatrice(MatriceDeiPezzi m){
          MatriceDeiPezzi matriceSimulata=new MatriceDeiPezzi(new Spazio[8][8]);
                             //copio la matrice originale senza tenere le referenze

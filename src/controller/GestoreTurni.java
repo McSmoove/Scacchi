@@ -8,11 +8,11 @@ package controller;
 import model.Bianco;
 import model.Colore;
 import model.Nero;
-import model.Pezzo;
+import model.Pezzo; //import non usato NDGaetano
 import model.Spazio;
 
 /**
- *
+ * Determina di chi è il turno
  * @author Viktor
  */
 public class GestoreTurni {
