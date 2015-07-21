@@ -1,7 +1,8 @@
 package model;
 
 /**
- *
+ * Classe della regina. Tutte le classi dei pezzi definiscono oggetti che 
+ * vengono presi in esame nelle classi del package "contoller"
  * @author Viktor
  */
 

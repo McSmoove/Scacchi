@@ -99,6 +99,14 @@ public class GestoreMovimenti{
     }
     
     // Ritorna La Matrice Con Le Posizioni Mosse Dove Un Pezzo Puo Spostarsi
+    /**
+     * Ritorna una matrice con i possibili movimenti del pezzo passato come 
+     * parametro. Una volta passato il parametro ricerca il metodo che 
+     * determina il movimeto di tale pezzo e lo usa per scrivere la matrice
+     * da ritornare come risultato.
+     * @param p
+     * @return 
+     */
     public int[][] getPossibiliMovimenti( Pezzo p ){ 
         
         if( p instanceof Pedone ){
@@ -1626,7 +1634,13 @@ public class GestoreMovimenti{
             return false;  
     }
     
-    
+    /**
+     * Determina on quale posizione può essere spostato il pezzo
+     * @param p
+     * @param x
+     * @param y
+     * @return 
+     */
     public boolean spostabileIn(Pezzo p,int x, int y){
         int xp=p.getX();
         int yp=p.getY();
@@ -1784,6 +1798,14 @@ public class GestoreMovimenti{
     
     
     //passa come parametro il colore considerato != colore Re
+    /**
+     * Controlla ogni casella sulla scacchiera e definisce quali pezzi possono
+     * essere spostati in quella posizione
+     * @param mat
+     * @param s
+     * @param c
+     * @return 
+     */
     public LinkedList<Pezzo> getPezziSpostabiliQui(Spazio[][] mat,Spazio s,Colore c){
         LinkedList<Pezzo> lista;
         lista=new LinkedList<>();

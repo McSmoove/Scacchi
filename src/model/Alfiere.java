@@ -1,7 +1,9 @@
 package model;
 
 /**
- *
+ * Classe dell'alfiere
+ * Tutte le classi dei pezzi definiscono oggetti che vengono presi in esame 
+ * nelle classi del package "contoller"
  * @author Viktor
  */
 

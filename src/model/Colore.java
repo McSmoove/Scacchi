@@ -1,7 +1,7 @@
 package model;
 
 /**
- *
+ * Classe astratta del colore
  * @author Viktor
  */
 

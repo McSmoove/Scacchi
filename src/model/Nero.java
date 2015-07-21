@@ -1,7 +1,7 @@
 package model;
 
 /**
- *
+ * Classe del colore nero.
  * @author Viktor
  */
 
