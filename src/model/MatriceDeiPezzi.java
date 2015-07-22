@@ -1,7 +1,7 @@
 package model;
 
 /**
- *
+ * 
  * @author Viktor
  */
 

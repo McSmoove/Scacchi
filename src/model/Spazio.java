@@ -1,7 +1,8 @@
 package model;
 
 /**
- *
+ * La classe spazio  essenziale per sapere quale pezzo sta occupando una 
+ * casella di gioco o se la casella è libera
  * @author Viktor
  */
 

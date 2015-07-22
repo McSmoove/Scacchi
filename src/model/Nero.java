@@ -1,7 +1,9 @@
 package model;
 
 /**
- * Classe del colore nero.
+ * Classe del colore nero. Tutte le classi dei colori definiscono oggetti che 
+ * vengono presi in esame durante i controlli nelle classi del package 
+ * "contoller"
  * @author Viktor
  */
 

@@ -5,7 +5,8 @@ import static java.lang.Math.abs;
 import view.InterfacciaGrafica;
 
 /**
- *
+ * Classe astratta che definisce alcune funzioni comuni a tutti i pezzi della
+ * schacchiera
  * @author Viktor
  */
 
