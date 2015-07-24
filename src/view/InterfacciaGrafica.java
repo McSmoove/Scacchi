@@ -10,6 +10,20 @@ import javax.imageio.ImageIO;
 import model.*;
 import controller.*;
 
+/**
+ * La classe InterfacciaGrafica gestisce tutti i pannelli e i bottoni che 
+ * vengono usati duranti il gioco. L'interfaccia si compone di:
+ * - 3 pannelli
+ *  - uno per tutta l'interfaccia
+ *  - uno per i pezzi bianchi e uno per quelli neri
+ *  - un pannello per la schacchiera
+ * - 3 Image
+ *  - immagini dei pezzi (array da 12)
+ *  - colori (array da 3)
+ * - 2 jlabel per i pezzi mangiati
+ * - 1 jlabel per visualzzare il messaggio: "tocca al bianco/nero"
+ * 
+ */
 public class InterfacciaGrafica{
     
     private final int bianco = 0;
@@ -56,6 +70,18 @@ public class InterfacciaGrafica{
     private GestoreBottoni gestoreBottoni;
     private GestoreTurni gestoreTurni;
     
+    /**
+     * Costruttore che prende le immagini dal package "immagini" e le associa a
+     * una zona di memoria dell'array "immagine" di tipo Image. Da notare che 
+     * prima controlla che siano preseenti tutte le immagni necessarie e avvisa
+     * se c'è un errore.
+     * Dopodichè disegna un schacchiera VUOTA. Verrà ridisegnata e riempita con 
+     * le posizioni iniziali dei pezzi se verrà premuto il pulsante "nuova 
+     * partita" attraverso il metodo iniziaPartita
+     * Aggiunge anche una barra in alto con il bottone di "nuova partita" e un
+     * indicatore di chi è il turno.
+     * Infine diegna ai lati della scacchiera la tavola coi pezzi mangiati
+     */
     InterfacciaGrafica(){ // Inizializza Interfaccia Grafica ( Costruttore )
         
         try{
@@ -292,6 +318,10 @@ public class InterfacciaGrafica{
     } // Fine InterfacciaGrafica
 
     // Qui Si Inizializzano Le Immagini Eccetera
+    /**
+     * Metodo privato che inizializza le immagini quando si inizia un nuova 
+     * parita. Si aggiunge un ActionListener per ogni casella della scacchiera.
+     */
     private void iniziaPartita(){
         
         matrice = new MatriceDeiPezzi(); // Inizializzata Con La Scacchiera Di Default
@@ -325,6 +355,9 @@ public class InterfacciaGrafica{
     
     } // Fine iniziaPartita
     
+    /**
+     * Inizio del programma
+     */
     public void start() {
         
         Runnable run = new Runnable(){
@@ -375,6 +408,13 @@ public class InterfacciaGrafica{
         messaggioInfo.setText(s);
     }
     
+    /**
+     * Ogni volta che viene mangiato un pezzo viene aggiunto ai box laterali
+     * tramite questa funzione. Analizza quale pezzo è stato mangiato e lo
+     * aggiunge al box.
+     * @param p 
+     */
+    //Nota per Michele, uno switch non era più comodo?
     public void aggiungiPezzoMorto(Pezzo p){
         int valore=0;
         if(p.getColore() instanceof Bianco){
@@ -413,6 +453,10 @@ public class InterfacciaGrafica{
              
     }
 
+    /**
+     * 
+     * @param matrice 
+     */
     public void aggiornaBottoni(MatriceDeiPezzi matrice) {
         Pezzo p; // Sposteo In Alto La Dichiarazione
         for( int i = 0; i < 8; i++ ){
@@ -528,13 +572,23 @@ public class InterfacciaGrafica{
             }
         }
     }
-
+    
+    /**
+     * evidenzia il bordo della casella selezionata
+     * @param x
+     * @param y 
+     */
     public void attivaBordo(int x, int y) {
         quadratiScacchiera[x][y].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         //questo metodo evidenzia il bordo della cella in posizione x,y
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    /**
+     * Disattiva il bordo della casella precedentemente selezionata.
+     * @param x
+     * @param y 
+     */
     public void disattivaBordo(int x, int y) {
         quadratiScacchiera[x][y].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
         //il contrario di attivaBordo()
