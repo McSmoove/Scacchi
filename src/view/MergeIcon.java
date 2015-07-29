@@ -1,3 +1,4 @@
+
 package view;
 
 import java.awt.Component;
@@ -9,6 +10,14 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+/**
+ * Il merge icon è quella classe che permette di stampare il pezzo sopra la 
+ * texture della casella. Il metodo più importante è IconToBuffredImage. In 
+ * pratica elabora un'immagine usando i componenti del package immagini e 
+ * sovrapponendoli tra loro. E' il caso analogo, ad esempio, ai Layer di 
+ * Photoshop. Inoltre prima fa anche un resize dell'imagine.
+ * @author λ - s(h)ound
+ */
 public class MergeIcon implements Icon{
 
     private int larghezza;
@@ -33,6 +42,13 @@ public class MergeIcon implements Icon{
     
     }
     
+    /**
+     * Costruttore principale.
+     * @param sfondo
+     * @param icona
+     * @param offsetX
+     * @param offsetY 
+     */
     public MergeIcon( Image sfondo, Image icona, int offsetX, int offsetY ){
         
         larghezza = sfondo.getWidth( null );
@@ -57,9 +73,22 @@ public class MergeIcon implements Icon{
     @Override
     public int getIconHeight(){ return altezza; }
     
+    /**
+     * Stampa l'immagine in posizione x,y usando la funzione iconToImage che a
+     * sua volta usa iconToBufferedImage.
+     * @param c
+     * @param g
+     * @param x
+     * @param y 
+     */
     @Override
     public void paintIcon( Component c, Graphics g, int x, int y ) { g.drawImage( buffer, x, y, null ); }
     
+    /**
+     * 
+     * @param icon
+     * @return 
+     */
     public static BufferedImage iconToBufferedImage( Icon icon ){
         
         if ( icon == null ){

@@ -454,7 +454,12 @@ public class InterfacciaGrafica{
     }
 
     /**
-     * 
+     * Dato che ogni casella usa una texture bianca/nera ogni volta che si 
+     * sposta un pezzo si deve sostituire con una mergeIcon. Per inciso, 
+     * controlla tutte le posizioni, controlla quale pezzo è presente su quella 
+     * posizione e sostituisce il mergeIcon 
+     * del pezzo sulla texture della scacchiera. Deve anche 
+     * aggiornare le posizioni vuote per eliminare immagini obsolete.
      * @param matrice 
      */
     public void aggiornaBottoni(MatriceDeiPezzi matrice) {
@@ -574,7 +579,7 @@ public class InterfacciaGrafica{
     }
     
     /**
-     * evidenzia il bordo della casella selezionata
+     * Evidenzia il bordo della casella selezionata
      * @param x
      * @param y 
      */
