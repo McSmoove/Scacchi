@@ -1,0 +1,48 @@
+Credo sia stupido ragionare "per pezzo", complica solo la vita. Proviamo un 
+approccio diverso:
+
+- Gli scacchi si muovono su caselle. E' più semplice controllare le caselle per
+    un computer.
+- Aggiungiamo un parametro "threat" (suddiviso in bianco/nero) alla classe 
+    casella. Questo parametro indica se spostarsi in quella casella è un 
+    pericolo per il re.
+- A INIZIO TURNO (spiego dopo il perché) si fa il controllo dello scacco matto 
+    tramite il metodo "checkmate" (scacco matto)
+- Il metodo ritorna diversi livelli di "danger", da 0 a 4.
+- Danger = 0: il re non si trova su una casella con threat = true. Nessun 
+    problema
+- Danger = 1: il re si trova su una casella con threat = true. Tuttavia si può
+    spostare su un'altra casella con threat = false. Bisogna solo controllare
+    che l'utente non sia uno scemo e che sposti il re nella posizione 
+    sbagliata
+- Danger = 2: il re non può spostarsi in nessuna casella con threat = false.
+    Qui iniziano i casini. Bisogna bloccare il re (sempre per prevenire 
+    l'utente scemo) e bisogna trovare i pezzi che, spostandosi, mettono il re 
+    in una posizione sicura. E' una buona idea aggiungere il metodo 
+    "blockPawn" (blocca pedina) per bloccare tutte le pedine che non sono 
+    adatte a salvare il re e semplificare il danger = 3.
+-Danger = 3: TUTTE le pedine sono bloccate. Scacco matto.
+
+!!! - Caso speciale 1: il re non si trova in una casella con threat = true. 
+        Tuttavia è l'ultimo pezzo rimasto e l'unico che si può muovere. Se si
+        Può muovere solo in caselle con threat = true, automaticamente è 
+        scacco. Questo è il motivo principale per fare il checkmate a inizio 
+        turno
+
+!!! - Caso speciale 2: in caso di danger = 2, bisognerebbe impedire che 
+        l'utente (che ormai diamo per scontato sia un cretino) sposti i pezzi
+        in posizioni non idonee. Fiché ci lavoriamo sopra, dicamo che se il 
+        re è stato mangiato è scacco matto.
+
+!!! - Caso speciale 3: non si devono muovere le pedine se mettono in pericolo
+        il re. Si aggiunge il metodo "checkSafePawn" che simula lo spostamento
+        di una pedina e controlla se il re si trova su un threat. Impedisce la
+        mossa se ritorna true.
+
+Da implementare: 
+- updateThreatBoard: update per il threat delle caselle. Si imposta threat = 
+    = true in tutte quelle dove si possono muovere le pedine. Lo si usa a fine 
+    turno. Si potrebbe pensare di aggiungere la classe threatBoard per 
+    velocizzare la scrittura del codice, modo da evitare di ridefinire da zero
+    intere classi.
+- blockPawn: *please stand by*
