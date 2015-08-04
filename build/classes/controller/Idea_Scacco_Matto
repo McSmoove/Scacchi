@@ -45,4 +45,6 @@ Da implementare:
     turno. Si potrebbe pensare di aggiungere la classe threatBoard per 
     velocizzare la scrittura del codice, modo da evitare di ridefinire da zero
     intere classi.
-- blockPawn: *please stand by*
+- blockPawn: nota che se ci sono almeno due scacchi che minacciano il re,
+    E se il re è bloccato (non può muoversi senza andare in threat) è scacco 
+    matto.
