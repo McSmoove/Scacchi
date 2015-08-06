@@ -97,3 +97,5 @@ definire il metodo blockPawn:
     
 *Facciamo che anche la casella su cui si trova lo scacco minacciante ha threat=true.
 Serve anche per il cavallo, l'unico pezzo che necessita di un controllo più approfondito.
+
+Un solo appunto. Sta roba usa un fottio di memoria (due array d booleani da 16 per 64 caselle)
