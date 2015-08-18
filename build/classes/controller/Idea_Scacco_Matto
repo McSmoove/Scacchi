@@ -31,7 +31,7 @@ approccio diverso:
 
 !!! - Caso speciale 2: in caso di danger = 2, bisognerebbe impedire che 
         l'utente (che ormai diamo per scontato sia un cretino) sposti i pezzi
-        in posizioni non idonee. Fiché ci lavoriamo sopra, dicamo che se il 
+        in posizioni non idonee. Finché ci lavoriamo sopra, dicamo che se il 
         re è stato mangiato è scacco matto.
 
 !!! - Caso speciale 3: non si devono muovere le pedine se mettono in pericolo
@@ -48,3 +48,54 @@ Da implementare:
 - blockPawn: nota che se ci sono almeno due scacchi che minacciano il re,
     E se il re è bloccato (non può muoversi senza andare in threat) è scacco 
     matto.
+    
+- Ulteriore evoluzione su cui ci si potrebbe lavorare -
+Il punto di forza  del threat è che funziona bene per vedere se il re è sotto scacco,
+ma dà problemi a trovare le pedine che impediscono lo scacco. Ho pensato di evolverlo
+facendolo diventare un array da 16, in modo che indichi il threat PER OGNI PEZZO
+(ricordo che ci sono due parametri: whiteThreat e blackThreat) questo perché se un
+pezzo si può spostare in una casella dove c'è sia whiteThreat che blackThreat allora
+può impedire lo scacco. Ancora meglio se un pezzo nemico si trova su una casella 
+threat allora può essere mangiata e si può impedire lo scacco (funziona bene per cavalli
+e pedoni). Inoltre mettendo un threat per ogni pezzo sappiamo quali scacchi minacciano 
+il re. se non lo facessimo potremmo spostare pedine che non lo salvano. Inoltre sappiamo
+da quale direzione proviene lo scacco (eccetto il cavallo, che è l'unica eccezzione alla
+regola) semplicemente guardando le caselle andiacenti
+
+ - Esempio
+    Usando la seguente notazione:
+     
+     0=re
+     1=regina
+     2-3=alfieri
+     4-5=cavalli
+     6-7=torri
+     8-15=pedoni
+     
+    Abbiamo una casella con threat[2] e threat[7] uguali a true. Se guardiamo le
+    caselle adiacenti in diagonale troveremo sicuramente un threat[2]=true (alfiere).
+    Se guardiamo le caselle adiacenti in orizzontale o verticale troveremo di sicuro
+    un threat[7]=true (torre)
+
+Grazie a questi accorgimenti siamo in grado di risolvere il caso speciale 2 e di
+definire il metodo blockPawn:
+
+ -Simuliamo gli scacchi che si trovano su un whiteThreat o un blackThreat uguali
+  a true. Li blocchiamo se mettono in pericolo il re.
+ -Controlliamo il re: si trova su una casella di threat (indipendentemente dal
+  pezzo)? Se no, va bene, se sì:
+   -Analizziamo quanti e quali scacchi minacciano il re. Se più di due scacchi
+    lo minacciano blocchiamo tutto eccetto il re.
+   -Blocchiamo tutte le pedine che impediscono di salvare il re (ricordate il
+    nostro caro utente cretino). Lasciamo sbloccati solo quei scacchi che hanno
+    threat[n] uguale al threat[n] di dove si trova il re.
+   -Esempio: il re è sotto scacco da un threat[4], tutti gli scacchi che possono
+    muoversi su un threat[4] salvano il re*.
+   -Controlliamo se il re si può spostare in una casella senza threat. Se sì,
+    va bene, se no, lo blocchiamo e vediamo quanti pezzi sono bloccati. Se 
+    sono TUTTI bloccati... scacco matto.
+    
+*Facciamo che anche la casella su cui si trova lo scacco minacciante ha threat=true.
+Serve anche per il cavallo, l'unico pezzo che necessita di un controllo più approfondito.
+
+Un solo appunto. Sta roba usa un fottio di memoria (due array d booleani da 16 per 64 caselle)

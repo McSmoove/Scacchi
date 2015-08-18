@@ -14,6 +14,7 @@ public abstract class Pezzo{
     
     private int x, y; // Coordinate
     private Colore colore;
+    private boolean locked;
     
     public Pezzo( int x, int y, Colore colore ){
         
@@ -343,5 +344,16 @@ public abstract class Pezzo{
         this.y=y;
     }
 
-
+    public void setLock(boolean l){
+        
+        locked = l;
+        
+    }
+    
+    public boolean getLock(){
+        
+        return locked;
+        
+    }
+    
 }

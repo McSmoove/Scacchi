@@ -15,9 +15,9 @@ import model.Torre;
 import view.InterfacciaGrafica;
 
 /**
- * La classe gestoreBottoni blocca tutte le caselle che l'utente non può
- * selezionare. Serve per gestire quali caselle sono cliccabili durante il
- * turno.
+ * Gestisce i bottoni permettendo di cliccare solo quelli che permettono il 
+ * movimento delle pedine. E' direttamentte collegata alla classe 
+ * gestoreMovimenti
  * @author Viktor
  */
 public class GestoreBottoni {

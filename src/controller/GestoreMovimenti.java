@@ -154,6 +154,11 @@ public class GestoreMovimenti{
     
     }
     
+    /**
+     * Cerca il re sulla scacchiera e lo ritorna (controlla casella per casella)
+     * @param c
+     * @return 
+     */
     private Re getRe(Colore c){
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
