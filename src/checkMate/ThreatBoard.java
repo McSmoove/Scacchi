@@ -52,6 +52,19 @@ public class ThreatBoard {
         
         for(int y = 0; y < 8; y++){ 
             for (int x = 0; x < 8; x++){
+            
+                for(int i = 0; i < 16; i++){
+                    
+                    board[x][y].setThreat(false, false, i);
+                    board[x][y].setThreat(true, false, i);
+                    
+                }
+            
+            }
+        }
+        
+        for(int y = 0; y < 8; y++){ 
+            for (int x = 0; x < 8; x++){
                 
                 if(m[x][y].getOccupante().getColore() instanceof Bianco){
                     

@@ -60,7 +60,7 @@ threat allora può essere mangiata e si può impedire lo scacco (funziona bene p
 e pedoni). Inoltre mettendo un threat per ogni pezzo sappiamo quali scacchi minacciano 
 il re. se non lo facessimo potremmo spostare pedine che non lo salvano. Inoltre sappiamo
 da quale direzione proviene lo scacco (eccetto il cavallo, che è l'unica eccezzione alla
-regola) semplicemente guardando le caselle andiacenti
+regola) semplicemente guardando le caselle adiacenti
 
  - Esempio
     Usando la seguente notazione:
