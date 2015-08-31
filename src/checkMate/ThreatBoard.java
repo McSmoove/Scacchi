@@ -44,7 +44,7 @@ public class ThreatBoard {
         int whiteRooks = 0;
         int whitePawns = 0;
         
-        //éedine nere
+        //Pedine nere
         int blackBishops = 0;
         int blackKnights = 0;
         int blackRooks = 0;

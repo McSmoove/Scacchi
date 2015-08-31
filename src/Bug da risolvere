@@ -2,3 +2,5 @@ Metto qui ci� che trovo facendo il debug:
 -certe casele cambiano il bordo passandoi sopra e altre no
 -nella promozione il pedone diventa automaticamente regina senza chiamare la classe che fa effettuare la scelta
 -certe caselle hanno il bordo blu, altre grigio e altre non c'è l'hanno proprio
+-da implementare il metodo stBoard() nella classe ThreatBoard
+-collegare il nuovo sistema di scacco matto col vecchio main per poter effettutare il debug col nuovo sistema
