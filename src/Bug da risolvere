@@ -1,3 +1,4 @@
 Metto qui ci� che trovo facendo il debug:
--casella g4 non ha il bordo blu quando ci passi sopra
--regina non riesce a mangiare il pedone
+-certe casele cambiano il bordo passandoi sopra e altre no
+-nella promozione il pedone diventa automaticamente regina senza chiamare la classe che fa effettuare la scelta
+-certe caselle hanno il bordo blu, altre grigio e altre non c'è l'hanno proprio
