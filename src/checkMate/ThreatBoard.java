@@ -31,12 +31,19 @@ public class ThreatBoard {
     
     }
     
+    public ThreatBoard(Spazio[][] m){
+        
+        //da implementare...
+        
+    
+    }
+    
     /**
      * Setto la board con i pezzi che passo col parametro m.
      * @param m matrice quadrata di tipo spazio. serve per sapere l'attuale stato
      *          della board
      */
-    public void setBoard(Spazio[][] m){
+    public void setBoard(){
         
         //Pedine bianche
         int whiteBishops = 0;
@@ -55,8 +62,8 @@ public class ThreatBoard {
             
                 for(int i = 0; i < 16; i++){
                     
-                    board[x][y].setThreat(false, false, i);
-                    board[x][y].setThreat(true, false, i);
+                    board[x][y].setThreat(false, false, i); //sarebbe???
+                    board[x][y].setThreat(true, false, i); //significato di questa riga???????
                     
                 }
             
