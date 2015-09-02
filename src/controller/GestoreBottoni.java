@@ -347,7 +347,41 @@ public class GestoreBottoni {
                                 disattivaPosizione();
                                 gestoreTurni.passaTurno();
                                 
-                                
+                                //controllo pedone (per la promozione)
+                                if(gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Pedone){
+                                    //divido in 2 casi in base al colore
+                                    if(gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante().getColore() instanceof Bianco){
+                                        //se il pedone è in fondo alla scacchiera
+                                        if(y==0){
+                                            //trasforma il pedone in altro
+                                            System.err.println("DEBUG: trasformo il pedone in altro");
+                                            PromozionePedone promozione;
+                                            promozione = new PromozionePedone(this,new Bianco());
+                                            promozione.start();
+                                            //ultimoPedoneTrasformato=gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante();
+                                            //ultimoPedoneTrasformato=promozione.getPezzo();
+                                            /*
+                                            while(ultimoPedoneTrasformato.equals(null)){
+                                            
+                                            }*/
+                                            //ultimoPedoneTrasformato=null;   
+                                            //gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Bianco()),x,y);
+                                        }
+                                    }
+                                    //nero
+                                    else{
+                                        //se il pedone è in fondo alla scacchiera
+                                        if(y==7){
+                                            //trasforma il pedone in altro
+                                            System.err.println("DEBUG: trasformo il pedone in altro");
+                                            PromozionePedone promozione;
+                                            promozione = new PromozionePedone(this,new Nero());
+                                            promozione.start();
+                                            //gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Nero()),x,y);
+                                        }
+                                    }
+                                }
+                            
                                 
                                 //aggiorna la visuale
                                 interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
@@ -445,13 +479,13 @@ public class GestoreBottoni {
     //Il parametro passato non viene usato NDGaetano
     private MatriceDeiPezzi coppiaMatrice(MatriceDeiPezzi m){
          MatriceDeiPezzi matriceSimulata=new MatriceDeiPezzi(new Spazio[8][8]);
-                            //copio la matrice originale senza tenere le referenze
-                            for(int i=0;i<8;i++){
-                                for(int j=0;j<8;j++){
-                                    matriceSimulata.setSpazio(i, j,new Spazio(gestoreMovimenti.getMatrice().getSpazio(i,j)));
-                                }
-                            }
-                            return matriceSimulata;
+        //copio la matrice originale senza tenere le referenze
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                matriceSimulata.setSpazio(i, j,new Spazio(gestoreMovimenti.getMatrice().getSpazio(i,j)));
+            }
+        }
+        return matriceSimulata;
     }
     
     public void setPedoneTrasformato(Pezzo p){
