@@ -30,20 +30,21 @@ public class ThreatBoard {
         this.board[8][8] = new Cell();
     
     }
-    
+    /*
     public ThreatBoard(Spazio[][] m){
         
         //da implementare...
+        //... o forse no...
         
     
-    }
+    }*/
     
     /**
      * Setto la board con i pezzi che passo col parametro m.
      * @param m matrice quadrata di tipo spazio. serve per sapere l'attuale stato
      *          della board
      */
-    public void setBoard(){
+    public void setBoard(Spazio[][] m){
         
         //Pedine bianche
         int whiteBishops = 0;

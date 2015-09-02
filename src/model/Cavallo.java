@@ -13,6 +13,10 @@ public class Cavallo extends Pezzo{
     private Colore colore;
     
 
+    public Cavallo(Colore colore){
+        super(-1,-1,colore);
+    }
+    
     public Cavallo( int x, int y, Colore colore ){
         
         super( x, y, colore );

@@ -13,6 +13,10 @@ public class Torre extends Pezzo{
     private Colore colore;
     private boolean maiMossa = true; // Controllo Per Il Primo Movimento (A CHE SERVE)
     
+    public Torre (Colore colore){
+        super(-1,-1,colore);
+    }
+    
     public Torre( int x, int y, Colore colore ){
         
         super( x, y, colore );

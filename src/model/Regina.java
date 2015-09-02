@@ -13,9 +13,11 @@ public class Regina extends Pezzo{
     private Colore colore;
     
     public Regina( int x, int y, Colore colore ){
-        
         super( x, y, colore );
+    }
     
+    public Regina(Colore colore){
+        super(-1,-1,colore);
     }
     
     public Regina( int x, int y, int colore ){
