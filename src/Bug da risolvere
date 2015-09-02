@@ -4,3 +4,4 @@ Metto qui ci� che trovo facendo il debug:
 -certe caselle hanno il bordo blu, altre grigio e altre non c'è l'hanno proprio
 -da implementare il metodo stBoard() nella classe ThreatBoard
 -collegare il nuovo sistema di scacco matto col vecchio main per poter effettutare il debug
+-una volta mangiato il re bloccare la partita e mettere un messaggio x il vincitore con la possibilità di iniziare una nuova partita
