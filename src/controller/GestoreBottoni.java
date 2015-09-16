@@ -8,11 +8,13 @@ import model.Colore;
 import model.MatriceDeiPezzi;
 import model.Nero;
 import model.Pedone;
+import model.Pezzo;
 import model.Re;
 import model.Regina;
 import model.Spazio;
 import model.Torre;
 import view.InterfacciaGrafica;
+import view.PromozionePedone;
 
 /**
  * Gestisce i bottoni permettendo di cliccare solo quelli che permettono il 
@@ -25,6 +27,9 @@ public class GestoreBottoni {
     GestoreMovimenti gestoreMovimenti;
     InterfacciaGrafica interfacciaGrafica;
     JButton[][] matriceBottoni;
+    Pezzo ultimoPedoneTrasformato;
+    int x;
+    int y;
     
     public GestoreBottoni(GestoreMovimenti gm, GestoreTurni gt,InterfacciaGrafica ig){
         gestoreMovimenti=gm;
@@ -92,8 +97,8 @@ public class GestoreBottoni {
      */
     public void pressionePulsanteScacchiera(ActionEvent e){
         //identifico il bottone dove premo
-        int x=0;
-        int y=0;
+        x=0;
+        y=0;
         
         JButton b;
         //Pezzo morente;
@@ -257,8 +262,18 @@ public class GestoreBottoni {
                                     //se il pedone è in fondo alla scacchiera
                                     if(y==0){
                                         //trasforma il pedone in altro
-                                        System.err.println("DEBUG: trasformo il pedone in regina");
-                                        gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Bianco()),x,y);
+                                        System.err.println("DEBUG: trasformo il pedone in altro");
+                                        PromozionePedone promozione;
+                                        promozione = new PromozionePedone(this,new Bianco());
+                                        promozione.start();
+                                        //ultimoPedoneTrasformato=gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante();
+                                        //ultimoPedoneTrasformato=promozione.getPezzo();
+                                        /*
+                                        while(ultimoPedoneTrasformato.equals(null)){
+                                            
+                                        }*/
+                                        //ultimoPedoneTrasformato=null;   
+                                        //gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Bianco()),x,y);
                                     }
                                 }
                                 //nero
@@ -266,8 +281,11 @@ public class GestoreBottoni {
                                     //se il pedone è in fondo alla scacchiera
                                     if(y==7){
                                         //trasforma il pedone in altro
-                                        System.err.println("DEBUG: trasformo il pedone in regina");
-                                        gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Nero()),x,y);
+                                        System.err.println("DEBUG: trasformo il pedone in altro");
+                                        PromozionePedone promozione;
+                                        promozione = new PromozionePedone(this,new Nero());
+                                        promozione.start();
+                                        //gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Nero()),x,y);
                                     }
                                 }
                             }
@@ -284,7 +302,9 @@ public class GestoreBottoni {
                     }
                     //se non è una locazione consentita dal pezzo
                     else{
-                        System.err.println("DEBUG: premuto in una posizione non consentita dal pezzo");
+                        System.err.println("DEBUG: premuto in una posizione non consentita dal pezzo, bisogna farla diventare rossa");
+                        //il seguente codice commentato da spostare eventualmente nel package view
+                        //matriceBottoni[x][y].setBorder(...);//RED
                         //imposto come se niente fosse stato premuto
                         //System.err.println("DEBUG: premuto su una posizione non consentita -> annulla tutto");
                         disattivaPosizione();
@@ -327,7 +347,41 @@ public class GestoreBottoni {
                                 disattivaPosizione();
                                 gestoreTurni.passaTurno();
                                 
-                                
+                                //controllo pedone (per la promozione)
+                                if(gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante() instanceof Pedone){
+                                    //divido in 2 casi in base al colore
+                                    if(gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante().getColore() instanceof Bianco){
+                                        //se il pedone è in fondo alla scacchiera
+                                        if(y==0){
+                                            //trasforma il pedone in altro
+                                            System.err.println("DEBUG: trasformo il pedone in altro");
+                                            PromozionePedone promozione;
+                                            promozione = new PromozionePedone(this,new Bianco());
+                                            promozione.start();
+                                            //ultimoPedoneTrasformato=gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante();
+                                            //ultimoPedoneTrasformato=promozione.getPezzo();
+                                            /*
+                                            while(ultimoPedoneTrasformato.equals(null)){
+                                            
+                                            }*/
+                                            //ultimoPedoneTrasformato=null;   
+                                            //gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Bianco()),x,y);
+                                        }
+                                    }
+                                    //nero
+                                    else{
+                                        //se il pedone è in fondo alla scacchiera
+                                        if(y==7){
+                                            //trasforma il pedone in altro
+                                            System.err.println("DEBUG: trasformo il pedone in altro");
+                                            PromozionePedone promozione;
+                                            promozione = new PromozionePedone(this,new Nero());
+                                            promozione.start();
+                                            //gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(new Regina(x,y,new Nero()),x,y);
+                                        }
+                                    }
+                                }
+                            
                                 
                                 //aggiorna la visuale
                                 interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
@@ -402,7 +456,7 @@ public class GestoreBottoni {
      */
     private void disattivaPosizione(int x,int y){
         gestoreTurni.disattiva();
-        interfacciaGrafica.disattivaBordo(x,y);
+        //interfacciaGrafica.disattivaBordo(x,y);
     }
     
     /**
@@ -425,20 +479,31 @@ public class GestoreBottoni {
     //Il parametro passato non viene usato NDGaetano
     private MatriceDeiPezzi coppiaMatrice(MatriceDeiPezzi m){
          MatriceDeiPezzi matriceSimulata=new MatriceDeiPezzi(new Spazio[8][8]);
-                            //copio la matrice originale senza tenere le referenze
-                            for(int i=0;i<8;i++){
-                                for(int j=0;j<8;j++){
-                                    matriceSimulata.setSpazio(i, j,new Spazio(gestoreMovimenti.getMatrice().getSpazio(i,j)));
-                                }
-                            }
-                            return matriceSimulata;
+        //copio la matrice originale senza tenere le referenze
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                matriceSimulata.setSpazio(i, j,new Spazio(gestoreMovimenti.getMatrice().getSpazio(i,j)));
+            }
+        }
+        return matriceSimulata;
     }
     
+<<<<<<< HEAD
     public Spazio[][] getMatriceSpazi(){
         
         return gestoreMovimenti.getMatriceSpazi();
         
     }
     
+=======
+    public void setPedoneTrasformato(Pezzo p){
+        ultimoPedoneTrasformato=gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante();
+        p.setX(x);
+        p.setY(y);
+        gestoreMovimenti.getMatrice().getSpazio(x, y).setOccupante(p, x, y);
+        //aggiorna la visuale
+        interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
+    }
+>>>>>>> origin/master
 }
 

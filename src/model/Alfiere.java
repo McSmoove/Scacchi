@@ -18,6 +18,9 @@ public class Alfiere extends Pezzo{
     
     }
     
+    public Alfiere(Colore colore){
+        super(-1,-1,colore);
+    }
     public Alfiere( int x, int y, int colore ){
         
         super( x, y, colore );

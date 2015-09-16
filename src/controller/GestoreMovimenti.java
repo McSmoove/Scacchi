@@ -2045,7 +2045,7 @@ public class GestoreMovimenti{
     }
 
     public boolean scaccoMatto() {
-        System.out.println("DEBUG: scaccoMatto non implementato");
+        System.err.println("DEBUG: scaccoMatto non implementato");
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         return false;
     }

@@ -37,6 +37,14 @@ public class ThreatBoard {
         }
     
     }
+    /*
+    public ThreatBoard(Spazio[][] m){
+        
+        //da implementare...
+        //... o forse no...
+        
+    
+    }*/
     
     /**
      * Setto la board con i pezzi che passo col parametro m.
@@ -62,8 +70,8 @@ public class ThreatBoard {
             
                 for(int i = 0; i < 16; i++){
                     
-                    board[x][y].setThreat(false, false, i);
-                    board[x][y].setThreat(true, false, i);
+                    board[x][y].setThreat(false, false, i); //sarebbe???
+                    board[x][y].setThreat(true, false, i); //significato di questa riga???????
                     
                 }
             

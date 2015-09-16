@@ -27,7 +27,7 @@ public class Cell {
         contains = Pieces.empty;
         whiteThreat[16] = false;
         blackThreat[16] = false;
-        
+   
     }
     
     /**

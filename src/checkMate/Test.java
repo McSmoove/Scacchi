@@ -21,7 +21,7 @@ public class Test {
         // TODO code application logic her
         
         ThreatBoard board = new ThreatBoard();
-        board.setBoard();
+        board.setBoard(m);
         
         
         

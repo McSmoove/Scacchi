@@ -5,6 +5,7 @@
  */
 package view;
 
+import controller.GestoreBottoni;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -26,6 +27,15 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import model.Alfiere;
+import model.Bianco;
+import model.Cavallo;
+import model.Colore;
+import model.Nero;
+import model.Pezzo;
+import model.Regina;
+import model.Torre;
+import view.ImageButton;
 
 /**
  *
@@ -35,7 +45,7 @@ public class PromozionePedone{
     JFrame frame = new JFrame( "Scacchi Beta !!!" );
     private final int bianco = 0;
     private final int nero = 1;
-    
+    /*
     private final int TORRE_BIANCA = 1;
     private final int CAVALLO_BIANCO = 2;
     private final int ALFIERE_BIANCO = 3;
@@ -44,7 +54,7 @@ public class PromozionePedone{
     private final int CAVALLO_NERO = 8;
     private final int ALFIERE_NERO = 9;
     private final int REGINA_NERA = 10;
-    
+    */
     
     private JPanel panMain = new JPanel( new BorderLayout() );
     private JPanel scacchiera = new JPanel( new GridLayout( 1, 4 ) );
@@ -54,17 +64,28 @@ public class PromozionePedone{
     private Border bordo = new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.RED ) );
     private Border bordo2 = new CompoundBorder( new EmptyBorder( 5, 5, 5, 5 ), new LineBorder( Color.BLUE ) );
     private MergeIcon[] mergeIco = new MergeIcon[ 4 ];
+    private ImageButton []bottone;
+    private Pezzo prescelto;
     
-    PromozionePedone(){ // Inizializza Interfaccia Grafica ( Costruttore )
-        
+    //per il debug
+    /*
+    public static void main(String args[]){
+        PromozionePedone p=new PromozionePedone(null,new Bianco());
+        p.start();
+    }*/
+    
+    public PromozionePedone(GestoreBottoni g,Colore color){ // Inizializza Interfaccia Grafica ( Costruttore )
+       
         try{
             
-            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/pedoneBianco.png" ) );
-            immagine[ 1 ] = ImageIO.read( getClass().getResource( "../immagini/torreBianca.png" ) );
-            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) );
-            immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) );
-            immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) );
-            immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/reBianco.png" ) );
+            immagine[ 0 ] = ImageIO.read( getClass().getResource( "../immagini/torreBianca.png" ) );
+            immagine[ 1 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloBianco.png" ) );
+            immagine[ 2 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereBianco.png" ) );
+            immagine[ 3 ] = ImageIO.read( getClass().getResource( "../immagini/reginaBianca.png" ) );
+            immagine[ 4 ] = ImageIO.read( getClass().getResource( "../immagini/torreNera.png" ) );
+            immagine[ 5 ] = ImageIO.read( getClass().getResource( "../immagini/cavalloNero.png" ) );
+            immagine[ 6 ] = ImageIO.read( getClass().getResource( "../immagini/alfiereNero.png" ) );
+            immagine[ 7 ] = ImageIO.read( getClass().getResource( "../immagini/reginaNera.png" ) );
             
             colore[0] = ImageIO.read( getClass().getResource( "../immagini/bianco.png" ) );
             colore[1] = ImageIO.read( getClass().getResource( "../immagini/nero.png" ) );
@@ -74,27 +95,64 @@ public class PromozionePedone{
         
         // Creo I JButton Del Pannello Della Scacchiera
         Insets margineBottoni = new Insets( 0, 0, 0, 0 ); // Per Avere Margini = 0
-        
+        bottone = new ImageButton[4];
         for ( int i = 0; i < 4; i++ ){
             
-            ImageButton bottone = new ImageButton();
-            bottone.setMargin( margineBottoni );
+            bottone[i] = new ImageButton();
+            bottone[i].setMargin( margineBottoni );
 
             // I Pezzi Sono Da 64x64 Pixel E Trasparenti, Valori Default Lunghezza Scacchiera
             ImageIcon immaginePezzo = new ImageIcon( new BufferedImage( 200, 200, BufferedImage.TYPE_INT_ARGB ) );
-            bottone.setIcon( immaginePezzo );
-            bottone.setImage( immagine[ i ] );
+            bottone[i].setIcon( immaginePezzo );
+            if(color instanceof Bianco)
+                bottone[i].setImage( immagine[ i ] );
+            else
+                bottone[i].setImage( immagine[ i+4 ] );
             
-            bottone.setOpaque( true );
-            bottone.setContentAreaFilled( false );
-            bottone.setBorderPainted( true );
+            bottone[i].setOpaque( true );
+            bottone[i].setContentAreaFilled( false );
+            bottone[i].setBorderPainted( true );
             
-            scacchiera.add(bottone);
+            scacchiera.add(bottone[i]);
             
-            bottone.addActionListener( new ActionListener() {
+            bottone[i].addActionListener( new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    //come faccio a distinguere i vari ImageButton e dove sono salvati se all'interno del ciclo modifichi sempre "bottone"
+                    //devono essere all'interno di una struttura e non solo dentro la scacchiera altrimenti non si riesce a tornare indietro
+                    
+                    if(e.getSource().equals(bottone[0]))
+                        if(color instanceof Bianco)
+                            g.setPedoneTrasformato(new Torre(new Bianco()));
+                            //prescelto=new Torre(new Bianco());
+                        else
+                            g.setPedoneTrasformato(new Torre(new Nero()));
+                            //prescelto=new Torre(new Nero());
+                    
+                    if(e.getSource().equals(bottone[1]))
+                        if(color instanceof Bianco)
+                            g.setPedoneTrasformato(new Cavallo(new Bianco()));
+                            //prescelto=new Cavallo(new Bianco());
+                        else
+                            g.setPedoneTrasformato(new Cavallo(new Nero()));
+                            //prescelto=new Cavallo(new Nero());
+                    if(e.getSource().equals(bottone[2]))
+                        if(color instanceof Bianco)
+                            g.setPedoneTrasformato(new Alfiere(new Bianco()));
+                            //prescelto=new Alfiere(new Bianco());
+                        else
+                            g.setPedoneTrasformato(new Alfiere(new Nero()));
+                            //prescelto=new Alfiere(new Nero());
+                    if(e.getSource().equals(bottone[3]))
+                        if(color instanceof Bianco)
+                            g.setPedoneTrasformato(new Regina(new Bianco()));
+                            //prescelto=new Regina(new Bianco());
+                        else
+                            g.setPedoneTrasformato(new Regina(new Nero()));
+                            //prescelto=new Regina(new Nero());
+                    //uscita
+                    
                     frame.dispose();
                 }
             } );
@@ -127,6 +185,6 @@ public class PromozionePedone{
         };
         
         SwingUtilities.invokeLater(run);
-    
+        
     } // Fine main
 }
