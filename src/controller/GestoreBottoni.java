@@ -434,5 +434,11 @@ public class GestoreBottoni {
                             return matriceSimulata;
     }
     
+    public Spazio[][] getMatriceSpazi(){
+        
+        return gestoreMovimenti.getMatriceSpazi();
+        
+    }
+    
 }
 

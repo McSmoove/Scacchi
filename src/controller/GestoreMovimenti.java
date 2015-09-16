@@ -2050,5 +2050,10 @@ public class GestoreMovimenti{
         return false;
     }
     
+    public Spazio[][] getMatriceSpazi(){
+        
+        return m;
+        
+    }
     
 }

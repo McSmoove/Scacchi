@@ -32,6 +32,7 @@ public enum Pieces {
     pawn5, //12
     pawn6, //13
     pawn7, //14
-    pawn8; //15
+    pawn8, //15
+    empty;
     
 }

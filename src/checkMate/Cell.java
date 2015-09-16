@@ -24,7 +24,7 @@ public class Cell {
     public Cell(){
         
         //il contains inizializzato evita eventuali bachi
-        contains = null;
+        contains = Pieces.empty;
         whiteThreat[16] = false;
         blackThreat[16] = false;
         

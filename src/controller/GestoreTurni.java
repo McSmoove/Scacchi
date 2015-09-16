@@ -10,6 +10,7 @@ import model.Colore;
 import model.Nero;
 import model.Pezzo; //import non usato NDGaetano
 import model.Spazio;
+import checkMate.*;
 
 /**
  * Controlla il turno attuale e il cambio di turno
@@ -20,6 +21,7 @@ public class GestoreTurni {
     private boolean attivato;
     private Spazio spazioAttivato;
     GestoreBottoni gestoreBottoni;
+    ThreatBoard board = new ThreatBoard();
     
     public void setGestoreBottoni(GestoreBottoni gb){
         gestoreBottoni=gb;
@@ -46,6 +48,30 @@ public class GestoreTurni {
         turno=t;
         gestoreBottoni.bloccoBottoniIniziale();
         gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al "+t.toString());
+      
+        
+        board.setBoard(gestoreBottoni.getMatriceSpazi());
+        switch(board.checkMate(getTurno(), gestoreBottoni.getMatriceSpazi())){
+            
+            default:
+                //In caso di bug
+                throw new IllegalArgumentException();
+                
+            case 0:
+                //Da implementare (no scacco)
+                break;
+                
+            case 1:
+                //Da implementare scacco
+                break;
+                
+            case 2:
+                //Da implementare scacco matto
+                break; 
+               
+        };
+        
+        
     }
     
     /**

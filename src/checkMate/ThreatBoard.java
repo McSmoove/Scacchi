@@ -27,7 +27,14 @@ public class ThreatBoard {
     public ThreatBoard(){
         
         //Inizializzo la board
-        this.board[8][8] = new Cell();
+        for(int y = 0; y < 8; y++){ 
+            for (int x = 0; x < 8; x++){
+                
+                board[x][y] = new Cell();
+                
+            }
+            
+        }
     
     }
     
@@ -44,7 +51,7 @@ public class ThreatBoard {
         int whiteRooks = 0;
         int whitePawns = 0;
         
-        //éedine nere
+        //Pedine nere
         int blackBishops = 0;
         int blackKnights = 0;
         int blackRooks = 0;
