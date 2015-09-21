@@ -488,14 +488,14 @@ public class GestoreBottoni {
         return matriceSimulata;
     }
     
-<<<<<<< HEAD
+
     public Spazio[][] getMatriceSpazi(){
         
         return gestoreMovimenti.getMatriceSpazi();
         
     }
     
-=======
+
     public void setPedoneTrasformato(Pezzo p){
         ultimoPedoneTrasformato=gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante();
         p.setX(x);
@@ -504,6 +504,6 @@ public class GestoreBottoni {
         //aggiorna la visuale
         interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
     }
->>>>>>> origin/master
+
 }
 

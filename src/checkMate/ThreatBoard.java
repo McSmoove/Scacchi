@@ -25,11 +25,11 @@ public class ThreatBoard {
     private Cell[][] board;
     
     public ThreatBoard(){
-        
+        board=new Cell[8][8];
         //Inizializzo la board
         for(int y = 0; y < 8; y++){ 
             for (int x = 0; x < 8; x++){
-                
+                System.err.println("board "+x+" "+y);
                 board[x][y] = new Cell();
                 
             }
