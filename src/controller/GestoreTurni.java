@@ -11,6 +11,8 @@ import model.Nero;
 import model.Pezzo; //import non usato NDGaetano
 import model.Spazio;
 import checkMate.*;
+import static model.Colore.BIANCO;
+import static model.Colore.NERO;
 
 /**
  * Controlla il turno attuale e il cambio di turno
@@ -59,13 +61,16 @@ public class GestoreTurni {
                 
             case 0:
                 //Da implementare (no scacco)
+                System.err.println("DEBUG: No scacco");
                 break;
                 
             case 1:
+                System.err.println("DEBUG: Scacco");
                 //Da implementare scacco
                 break;
                 
             case 2:
+                System.err.println("DEBUG: Scacco matto");
                 //Da implementare scacco matto
                 break; 
                
@@ -79,6 +84,12 @@ public class GestoreTurni {
      * @param t 
      */
     public void setTurno(int t){
+        if(t == BIANCO)
+            setTurno(new Bianco());
+        else
+            setTurno(new Nero());
+            
+        /*
         if(t==Colore.BIANCO){
             turno=new Bianco();
             gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Bianco");
@@ -91,7 +102,7 @@ public class GestoreTurni {
             else
                 throw new IllegalArgumentException();
         }  
-        gestoreBottoni.bloccoBottoniIniziale();
+        gestoreBottoni.bloccoBottoniIniziale();*/
     }
     
     /**
@@ -99,11 +110,13 @@ public class GestoreTurni {
      */
     public void passaTurno(){
         if(turno instanceof Bianco){
-            turno=new Nero();
+            //turno=new Nero();
+            setTurno(NERO);
             gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Nero");
         }
         else{
-            turno=new Bianco();
+            //turno=new Bianco();
+            setTurno(BIANCO);
             gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Bianco");
         }
         System.err.println("DEBUG:non chiamo il blocco bottoni ");

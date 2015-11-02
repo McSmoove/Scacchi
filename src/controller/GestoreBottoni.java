@@ -123,39 +123,43 @@ public class GestoreBottoni {
             }
         }
         
-        System.out.println("DEBUG:\nx:"+x+"\ny:"+y);
+        //System.out.println("DEBUG:\nx:"+x+"\ny:"+y);
         
 
         //guardo se nello stesso turno non è abilitato un bottone
         if(!gestoreTurni.isAttivato()){
+            System.err.println("DEBUG: turno non attivato (prima pressione in questo turno)");
             //guardo se lo spazio contiene qualcosa
             if(gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                 //se ciò che contiene ha lo stesso colore del turno corrente
                 if(turno.equals(gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getColore())){
-                    //se il re del turno corrente non è sotto scacco
-                    System.err.println("controllo scacco fare debug");
-                    /*
-                    if(((turno instanceof Bianco) && 
+                    //se il pezzo nella posizione indicata non è bloccato
+                    //if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getLock()){
+                        System.err.println("DEBUG: Pezzo non bloccato");
+                        //se il re del turno corrente non è sotto scacco
+                        //System.err.println("controllo scacco fare debug");
+                        /*
+                        if(((turno instanceof Bianco) && 
                             gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),gestoreMovimenti.getReBianco().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)||
-                       ((turno instanceof Nero) && 
-                            gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),gestoreMovimenti.getReNero().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)){
+                            ((turno instanceof Nero) && 
+                                gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),gestoreMovimenti.getReNero().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)){
                         */
-                    //variante al posto di controllo scacco, getPezziAttaccantiIlRe
-                    /*
-                    if(((turno instanceof Bianco) && 
-                            (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReBianco(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty()))||
-                        (turno instanceof Nero) && 
-                            (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReNero(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty())){
-                    */
-                    if(true){
-                        //abilito le posizioni dove può muoversi il pezzo(non implementato)
-                        //metto il pezzo premuto nella gestione turno e lo attivo
-                        attivaPosizione(x,y);    
-                    }
-                    
-                    
-                    //se il re è sotto scacco
-                    else if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),gestoreMovimenti.getMatrice().getMatrice())==1)||
+                        //variante al posto di controllo scacco, getPezziAttaccantiIlRe
+                        /*
+                        if(((turno instanceof Bianco) && 
+                                (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReBianco(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty()))||
+                            (turno instanceof Nero) && 
+                                (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReNero(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty())){
+                        */
+                        if(true){
+                            //abilito le posizioni dove può muoversi il pezzo(non implementato)
+                            //metto il pezzo premuto nella gestione turno e lo attivo
+                            attivaPosizione(x,y);    
+                        }
+                        
+                        //NON ENTRA MAI QUI
+                        //se il re è sotto scacco
+                        else if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),gestoreMovimenti.getMatrice().getMatrice())==1)||
                             ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),gestoreMovimenti.getMatrice().getMatrice())==1)){
                       
                             //se il pezzo può salvare il re
@@ -176,7 +180,9 @@ public class GestoreBottoni {
                                     attivaPosizione(x,y);     
                                 //else... altrimenti non faccio niente
                         }
-                        
+                    //}
+                    //else
+                    //    System.err.println("DEBUG: pezzo bloccato");
                 }
                 //else... altrimenti non faccio niente
             }
@@ -184,6 +190,7 @@ public class GestoreBottoni {
         }
         //altrimenti (quindi è stato premuto precedentemente un pezzo valido)
         else{
+            System.err.println("DEBUG: è ststo premouto un pezzo valido prima");
             //se la posizione dove premo è quella dove ho premuto prima
             if(gestoreMovimenti.getMatrice().getMatrice()[x][y].equals(gestoreTurni.getSpazioAttivato())){
                 System.err.println("DEBUG: premuto sulla posizione precedente");
@@ -426,7 +433,7 @@ public class GestoreBottoni {
             }
             
         }
-        
+        System.err.println("DEBUG: qui arriva");
         
         
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

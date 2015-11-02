@@ -52,7 +52,7 @@ public class ThreatBoard {
      *          della board
      */
     public void setBoard(Spazio[][] m){
-        
+        System.err.println("DEBUG: inizio setBoard");
         //Pedine bianche
         int whiteBishops = 0;
         int whiteKnights = 0;
@@ -80,172 +80,172 @@ public class ThreatBoard {
         
         for(int y = 0; y < 8; y++){ 
             for (int x = 0; x < 8; x++){
+                if(m[x][y].eOccupato()){
+                    if(m[x][y].getOccupante().getColore() instanceof Bianco){
+                    
+                        if(m[x][y].getOccupante() instanceof Re)
+                            board[x][y].setPiece(Pieces.king, false);
                 
-                if(m[x][y].getOccupante().getColore() instanceof Bianco){
+                        if(m[x][y].getOccupante() instanceof Regina)
+                            board[x][y].setPiece(Pieces.queen, false);
                     
-                    if(m[x][y].getOccupante() instanceof Re)
-                        board[x][y].setPiece(Pieces.king, false);
+                        if(m[x][y].getOccupante() instanceof Alfiere){
+                            if(whiteBishops == 0){
+                                board[x][y].setPiece(Pieces.bishop, false);
+                                whiteBishops++;
+                            }
+                        
+                            else
+                                board[x][y].setPiece(Pieces.bishop2, false);
+                        }
                 
-                    if(m[x][y].getOccupante() instanceof Regina)
-                        board[x][y].setPiece(Pieces.queen, false);
+                        if(m[x][y].getOccupante() instanceof Cavallo){
+                            if(whiteKnights == 0){
+                                board[x][y].setPiece(Pieces.knight, false);
+                                whiteKnights++;
+                            }
+                        
+                            else
+                                board[x][y].setPiece(Pieces.knight2, false);
+                        }
                     
-                    if(m[x][y].getOccupante() instanceof Alfiere){
-                        if(whiteBishops == 0){
-                            board[x][y].setPiece(Pieces.bishop, false);
-                            whiteBishops++;
-                        }
+                        if(m[x][y].getOccupante() instanceof Torre){
+                            if(whiteRooks == 0){
+                                board[x][y].setPiece(Pieces.rook, false);
+                                whiteRooks++;
+                            }
                         
-                        else
-                            board[x][y].setPiece(Pieces.bishop2, false);
-                    }
-                
-                    if(m[x][y].getOccupante() instanceof Cavallo){
-                        if(whiteKnights == 0){
-                            board[x][y].setPiece(Pieces.knight, false);
-                            whiteKnights++;
+                            else
+                                board[x][y].setPiece(Pieces.rook2, false);
                         }
-                        
-                        else
-                            board[x][y].setPiece(Pieces.knight2, false);
-                    }
                     
-                    if(m[x][y].getOccupante() instanceof Torre){
-                        if(whiteRooks == 0){
-                            board[x][y].setPiece(Pieces.rook, false);
-                            whiteRooks++;
-                        }
+                        if(m[x][y].getOccupante() instanceof Pedone){
+                            if(whitePawns == 0){
+                                board[x][y].setPiece(Pieces.pawn, false);
+                                whitePawns++;
+                            }
                         
-                        else
-                            board[x][y].setPiece(Pieces.rook2, false);
-                    }
+                            else if(whitePawns == 1){
+                                board[x][y].setPiece(Pieces.pawn2, false);
+                                whitePawns++;
+                            }
+                        
+                            else if(whitePawns == 2){
+                                board[x][y].setPiece(Pieces.pawn3, false);
+                                whitePawns++;
+                            }
+                        
+                            else if(whitePawns == 3){
+                                board[x][y].setPiece(Pieces.pawn4, false);
+                                whitePawns++;
+                            }
+                        
+                            else if(whitePawns == 4){
+                                board[x][y].setPiece(Pieces.pawn5, false);
+                                whitePawns++;
+                            }
+                        
+                            else if(whitePawns == 5){
+                                board[x][y].setPiece(Pieces.pawn6, false);
+                                whitePawns++;
+                            }
+                        
+                            else if(whitePawns == 6){
+                                board[x][y].setPiece(Pieces.pawn7, false);
+                                whitePawns++;
+                            }
+                        
+                            else
+                                board[x][y].setPiece(Pieces.pawn8, false);
+                        }
                     
-                    if(m[x][y].getOccupante() instanceof Pedone){
-                        if(whitePawns == 0){
-                            board[x][y].setPiece(Pieces.pawn, false);
-                            whitePawns++;
-                        }
-                        
-                        else if(whitePawns == 1){
-                            board[x][y].setPiece(Pieces.pawn2, false);
-                            whitePawns++;
-                        }
-                        
-                        else if(whitePawns == 2){
-                            board[x][y].setPiece(Pieces.pawn3, false);
-                            whitePawns++;
-                        }
-                        
-                        else if(whitePawns == 3){
-                            board[x][y].setPiece(Pieces.pawn4, false);
-                            whitePawns++;
-                        }
-                        
-                        else if(whitePawns == 4){
-                            board[x][y].setPiece(Pieces.pawn5, false);
-                            whitePawns++;
-                        }
-                        
-                        else if(whitePawns == 5){
-                            board[x][y].setPiece(Pieces.pawn6, false);
-                            whitePawns++;
-                        }
-                        
-                        else if(whitePawns == 6){
-                            board[x][y].setPiece(Pieces.pawn7, false);
-                            whitePawns++;
-                        }
-                        
-                        else
-                            board[x][y].setPiece(Pieces.pawn8, false);
-                    }
-                    
-                }
-                
-                if(m[x][y].getOccupante().getColore() instanceof Nero){
-                    
-                    if(m[x][y].getOccupante() instanceof Re)
-                        board[x][y].setPiece(Pieces.king, true);
-                
-                    if(m[x][y].getOccupante() instanceof Regina)
-                        board[x][y].setPiece(Pieces.queen, true);
-                    
-                    if(m[x][y].getOccupante() instanceof Alfiere){
-                        if(blackBishops == 0){
-                            board[x][y].setPiece(Pieces.bishop, true);
-                            blackBishops++;
-                        }
-                        
-                        else
-                            board[x][y].setPiece(Pieces.bishop2, true);
                     }
                 
-                    if(m[x][y].getOccupante() instanceof Cavallo){
-                        if(blackKnights == 0){
-                            board[x][y].setPiece(Pieces.knight, true);
-                            blackKnights++;
-                        }
-                        
-                        else
-                            board[x][y].setPiece(Pieces.knight2, true);
-                    }
+                    if(m[x][y].getOccupante().getColore() instanceof Nero){
                     
-                    if(m[x][y].getOccupante() instanceof Torre){
-                        if(blackRooks == 0){
-                            board[x][y].setPiece(Pieces.rook, true);
-                            blackRooks++;
-                        }
-                        
-                        else
-                            board[x][y].setPiece(Pieces.rook2, true);
-                    }
+                        if(m[x][y].getOccupante() instanceof Re)
+                            board[x][y].setPiece(Pieces.king, true);
+                
+                        if(m[x][y].getOccupante() instanceof Regina)
+                            board[x][y].setPiece(Pieces.queen, true);
                     
-                    if(m[x][y].getOccupante() instanceof Pedone){
-                        if(blackPawns == 0){
-                            board[x][y].setPiece(Pieces.pawn, true);
-                            blackPawns++;
-                        }
+                        if(m[x][y].getOccupante() instanceof Alfiere){
+                            if(blackBishops == 0){
+                                board[x][y].setPiece(Pieces.bishop, true);
+                                blackBishops++;
+                            }
                         
-                        else if(blackPawns == 1){
-                            board[x][y].setPiece(Pieces.pawn2, true);
-                            blackPawns++;
+                            else
+                                board[x][y].setPiece(Pieces.bishop2, true);
                         }
+                
+                        if(m[x][y].getOccupante() instanceof Cavallo){
+                            if(blackKnights == 0){
+                                board[x][y].setPiece(Pieces.knight, true);
+                                blackKnights++;
+                            }
                         
-                        else if(blackPawns == 2){
-                            board[x][y].setPiece(Pieces.pawn3, true);
-                            blackPawns++;
+                            else
+                                board[x][y].setPiece(Pieces.knight2, true);
                         }
-                        
-                        else if(blackPawns == 3){
-                            board[x][y].setPiece(Pieces.pawn4, true);
-                            blackPawns++;
-                        }
-                        
-                        else if(blackPawns == 4){
-                            board[x][y].setPiece(Pieces.pawn5, true);
-                            blackPawns++;
-                        }
-                        
-                        else if(blackPawns == 5){
-                            board[x][y].setPiece(Pieces.pawn6, true);
-                            blackPawns++;
-                        }
-                        
-                        else if(blackPawns == 6){
-                            board[x][y].setPiece(Pieces.pawn7, true);
-                            blackPawns++;
-                        }
-                        
-                        else
-                            board[x][y].setPiece(Pieces.pawn8, true);
-                    }
                     
+                        if(m[x][y].getOccupante() instanceof Torre){
+                            if(blackRooks == 0){
+                                board[x][y].setPiece(Pieces.rook, true);
+                                blackRooks++;
+                            }
+                        
+                            else
+                                board[x][y].setPiece(Pieces.rook2, true);
+                        }
+                    
+                        if(m[x][y].getOccupante() instanceof Pedone){
+                            if(blackPawns == 0){
+                                board[x][y].setPiece(Pieces.pawn, true);
+                                blackPawns++;
+                            }
+                        
+                            else if(blackPawns == 1){
+                                board[x][y].setPiece(Pieces.pawn2, true);
+                                blackPawns++;
+                            }
+                        
+                            else if(blackPawns == 2){
+                                board[x][y].setPiece(Pieces.pawn3, true);
+                                blackPawns++;
+                            }
+                        
+                            else if(blackPawns == 3){
+                                board[x][y].setPiece(Pieces.pawn4, true);
+                                blackPawns++;
+                            }
+                        
+                            else if(blackPawns == 4){
+                                board[x][y].setPiece(Pieces.pawn5, true);
+                                blackPawns++;
+                            }
+                        
+                            else if(blackPawns == 5){
+                                board[x][y].setPiece(Pieces.pawn6, true);
+                                blackPawns++;
+                            }
+                        
+                            else if(blackPawns == 6){
+                                board[x][y].setPiece(Pieces.pawn7, true);
+                                blackPawns++;
+                            }
+                        
+                            else
+                                board[x][y].setPiece(Pieces.pawn8, true);
+                        }
+                    }
                 }
                 
             }
         }
         
         setThreat();
-        
+        System.err.println("DEBUG: fine setBoard");
     }
     
     private void setThreat(){
@@ -385,7 +385,7 @@ public class ThreatBoard {
         int tempX = x;
         board[x][y].setThreat(color, true, p);
         
-        while(x <= 7 && y <= 7){
+        while(x < 7 && y < 7){
         
             x++;
             y++;
@@ -398,7 +398,7 @@ public class ThreatBoard {
         
         int tempY = y;
         
-        while(x >= 0 && y >= 0){
+        while(x > 0 && y > 0){
             
             board[x][y].setThreat(color, true, p);
             x--;
@@ -473,7 +473,7 @@ public class ThreatBoard {
         int temp = x;
         board[x][y].setThreat(color, true, p);
         
-        while(x <= 7){
+        while(x < 7){
             
             x++;
         
@@ -483,7 +483,7 @@ public class ThreatBoard {
             
         }
         
-        while(x >= 0){
+        while(x > 0){
             
             //Ricorda: se la casella è occupata non è un problema, poiché
             //- Se è nemica, la pedina può mangiare il pezzo
@@ -499,7 +499,7 @@ public class ThreatBoard {
         
         x = temp;
         
-        while(y <= 7){
+        while(y < 7){
          
             y++;
         
@@ -509,7 +509,7 @@ public class ThreatBoard {
             
         }
             
-        while(y >= 0){
+        while(y > 0){
             
             board[x][y].setThreat(color, true, p);
             y--;
@@ -576,7 +576,7 @@ public class ThreatBoard {
      * 2: scacco matto;
      */
     public int checkMate(Colore c, Spazio[][] m){
-        
+        System.err.println("DEBUG: inizio checkMate");
         //Posizione del re
         int actualX = 0;
         int actualY = 0;
@@ -665,6 +665,7 @@ public class ThreatBoard {
                 for(int x = 0; x < 8; x++){
                 
                     if(!(m[x][y].getOccupante().getLock()))
+                        System.err.println("DEBUG: fine checkMate");
                         return result;
                 
                 }
@@ -672,6 +673,7 @@ public class ThreatBoard {
             }
             
             result++;
+            System.err.println("DEBUG: fine checkMate");
             return result;
             
         }
@@ -742,6 +744,7 @@ public class ThreatBoard {
                 for(int x = 0; x < 8; x++){
                 
                     if(!(m[x][y].getOccupante().getLock()))
+                        System.err.println("DEBUG: fine checkMate");
                         return result;
                 
                 }
@@ -749,6 +752,7 @@ public class ThreatBoard {
             }
             
             result++;
+            System.err.println("DEBUG: fine checkMate");
             return result;
         
         }
@@ -839,12 +843,14 @@ public class ThreatBoard {
             
         }
             
-        if(moves == 0)
+        if(moves == 0){
+            System.err.println("DEBUG: fine checkKingThreat");
             return true;
-        
-        else
+        }
+        else{
+            System.err.println("DEBUG: fine checkKingThreat");
             return false;
-        
+        }
     }
     
     private void findSafePieces(LinkedList list, Spazio[][] m, boolean c){
