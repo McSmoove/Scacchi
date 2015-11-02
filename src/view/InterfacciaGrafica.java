@@ -307,14 +307,37 @@ public class InterfacciaGrafica{
             pezziNeri.add( pezziMangiatiNeri[ i ] );
         
         }
-        
+                
         posizione.fill = GridBagConstraints.WEST;
-        pezziNeri.setBorder( bordo );
+        pezziNeri.setBorder( bordo );       
         pannelloMain.add( pezziNeri, posizione );
-        
+           
         interfacciaGrafica.add( pannelloMain, BorderLayout.CENTER );
         interfacciaGrafica.setBorder( bordo );
     
+        JPanel listaMosse = new JPanel( new BorderLayout() );
+        listaMosse.setBorder( bordo );
+        JTextArea mosse = new JTextArea( );
+        //mosse.setOpaque( false );
+        mosse.setLineWrap(true);
+        mosse.setEditable(false);
+        
+        JScrollPane scroll = new JScrollPane (mosse);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        
+        JLabel messaggio = new JLabel( " Mosse Effettuate: " );
+        listaMosse.add( messaggio, BorderLayout.LINE_START );
+       // mosse.setText("Lista Delle Mosse Effetuate: ");
+        for( int i = 0; i < 99; i++ ){
+            
+            mosse.setText( mosse.getText() + " \n " + " Tutto Bene " + i );
+        
+        }
+        
+        listaMosse.add(scroll);
+        
+        interfacciaGrafica.add( listaMosse, BorderLayout.EAST );
+        
     } // Fine InterfacciaGrafica
 
     // Qui Si Inizializzano Le Immagini Eccetera
@@ -368,10 +391,10 @@ public class InterfacciaGrafica{
                 JFrame frame = new JFrame( "Scacchi Beta !!!" );
                 frame.add( interfacciaGrafica );
                 
-                frame.setLocationByPlatform( true );
-                System.out.println(""+ pezziNeri.getMinimumSize());
-                frame.setMinimumSize( frame.getMinimumSize() );
                 
+                frame.setLocationByPlatform( true );
+                frame.setMinimumSize( new Dimension( 1280, 768 ) );
+
                 frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
                 frame.setVisible( true );
             
