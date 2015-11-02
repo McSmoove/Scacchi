@@ -391,8 +391,6 @@ public class InterfacciaGrafica{
                 JFrame frame = new JFrame( "Scacchi Beta !!!" );
                 frame.add( interfacciaGrafica );
                 
-                
-                frame.setLocationByPlatform( true );
                 frame.setMinimumSize( new Dimension( 1280, 768 ) );
 
                 frame.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
