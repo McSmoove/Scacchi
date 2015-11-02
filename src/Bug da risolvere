@@ -1,12 +1,11 @@
 Metto qui ciò che trovo facendo il debug:
--certe casele cambiano il bordo passandoi sopra e altre no
+-certe casele cambiano il bordo passandoi sopra e altre no (problemi coi listener???)
 -nella promozione il pedone diventa automaticamente regina senza chiamare la classe che fa effettuare la scelta
 -certe caselle hanno il bordo blu, altre grigio e altre non c'è l'hanno proprio
 -da implementare il metodo setBoard() nella classe ThreatBoard
--collegare il nuovo sistema di scacco matto col vecchio main per poter effettutare il debug
 -una volta mangiato il re bloccare la partita e mettere un messaggio x il vincitore con la possibilità di iniziare una nuova partita
 -disattivaBordo non disattiva il vecchio bordo ma quello nuovo
 -non si deselezionano solo i bordi neri
--dopo il primo turno rimangono i listener solo delle prime 2 righe in alto
+-//dopo il primo turno rimangono i listener solo delle prime 2 righe in alto
 -ogni tanto quando un pedone nero mangia uno bianco sparisce la torre nerasinistra
 -non funziona nuova partita, deve ripulire i campi ai fianchi della scacchiera

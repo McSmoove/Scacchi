@@ -5,6 +5,7 @@
  */
 package checkMate;
 import controller.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 import model.*;
 import view.*;
@@ -619,7 +620,7 @@ public class ThreatBoard {
                     
                 }
             }
-            
+            System.err.println("GAETANO: come funziona la ricerca?");//da qui si dovrebbe cercare il bug
             //Primo passo: controlliamo chi e quanti minacciano il re
             for(int p = 0; p < 16; p++){
                 
@@ -632,7 +633,11 @@ public class ThreatBoard {
             
             //Il re è in scacco. Un piccolo controllo da fare
             if(danger > 0){
-                
+                System.err.println("COLORO CHE ATTACCANO IL RE:");
+                Iterator i=list.iterator();
+                while(i.hasNext()){
+                    System.err.println(i.next().toString());
+                }
                 result++;
                 
                 //Blocco tutti gli scacchi e sblocco in seguito solo quelli che salvano il
