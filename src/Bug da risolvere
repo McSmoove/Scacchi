@@ -7,3 +7,4 @@ Metto qui ci� che trovo facendo il debug:
 -una volta mangiato il re bloccare la partita e mettere un messaggio x il vincitore con la possibilità di iniziare una nuova partita
 -disattivaBordo non disattiva il vecchio bordo ma quello nuovo
 -non si deselezionano solo i bordi neri
+-dopo il primo turno rimangono i listener solo delle prime 2 righe in alto

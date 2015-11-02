@@ -1,5 +1,6 @@
 package view;
 
+import static com.sun.glass.ui.Application.run;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -270,6 +271,8 @@ public class InterfacciaGrafica{
             
             @Override
             public void actionPerformed( ActionEvent e ){ 
+                //start();
+                //SwingUtilities.invokeLater(run);
                 
                 iniziaPartita();
             
@@ -347,6 +350,7 @@ public class InterfacciaGrafica{
         matrice = new MatriceDeiPezzi(); // Inizializzata Con La Scacchiera Di Default
         gm = new GestoreMovimenti( matrice ); // Collegamento Interfaccia-Gestore
         gm.setInterfacciaGrafica( this ); // Collegamento Gestore-Interfaccia
+        //gm.setInterfacciaGrafica(new InterfacciaGrafica());
         gestoreTurni=new GestoreTurni();
         gestoreBottoni=new GestoreBottoni(gm,gestoreTurni,this);
         gestoreTurni.setGestoreBottoni(gestoreBottoni);
@@ -359,10 +363,11 @@ public class InterfacciaGrafica{
         
         aggiornaBottoni(gm.getMatrice());
         
-        //aggiungo i listener a tutti i bottoni (!!!qui potrebbe esserci un bug!!!)
-        for (ImageButton[] quadratiScacchiera1 : quadratiScacchiera) {
-            for (int j = 0; j<quadratiScacchiera.length; j++) {
-                quadratiScacchiera1[j].addActionListener((ActionEvent e) -> {
+        //aggiungo i listener a tutti i bottoni (!!!qui potrebbe esserci un bug -> dopo un certo punto non tutti i bottoni hanno un listener!!!)
+        for (int i=0;i<8;i++) {
+            for (int j = 0; j<8; j++) {
+                //System.err.println("DEBUG: creo un listener in "+);
+                quadratiScacchiera[i][j].addActionListener((ActionEvent e) -> {
                     System.err.println("INTERFACCIA: prima della chiamata pressionePulsanteScacchiera, in AcionListener");
                     gestoreBottoni.pressionePulsanteScacchiera( e );
                 });      
