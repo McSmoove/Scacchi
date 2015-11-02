@@ -314,29 +314,26 @@ public class InterfacciaGrafica{
            
         interfacciaGrafica.add( pannelloMain, BorderLayout.CENTER );
         interfacciaGrafica.setBorder( bordo );
-    
-        JPanel listaMosse = new JPanel( new BorderLayout() );
-        listaMosse.setBorder( bordo );
-        JTextArea mosse = new JTextArea( );
+
+        JTextArea mosse = new JTextArea();
         //mosse.setOpaque( false );
-        mosse.setLineWrap(true);
         mosse.setEditable(false);
         
         JScrollPane scroll = new JScrollPane (mosse);
+        scroll.setBorder( bordo );
+        
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         
-        JLabel messaggio = new JLabel( " Mosse Effettuate: " );
-        listaMosse.add( messaggio, BorderLayout.LINE_START );
-       // mosse.setText("Lista Delle Mosse Effetuate: ");
+        // JLabel messaggio = new JLabel( "Lista Delle Mosse Effettuate:" );
+        mosse.setText("Lista Delle Mosse Effetuate: \n");
+        
         for( int i = 0; i < 99; i++ ){
             
             mosse.setText( mosse.getText() + " \n " + " Tutto Bene " + i );
         
         }
         
-        listaMosse.add(scroll);
-        
-        interfacciaGrafica.add( listaMosse, BorderLayout.EAST );
+        interfacciaGrafica.add( scroll, BorderLayout.EAST );
         
     } // Fine InterfacciaGrafica
 
@@ -355,7 +352,7 @@ public class InterfacciaGrafica{
         gestoreTurni.setGestoreBottoni(gestoreBottoni);
         
         // Da Modificare Il Testo In Base Al Turno
-        messaggioInfo.setText( "Fai Una Mossa !!!");
+        messaggioInfo.setText( " Fai Una Mossa !!! " );
 
         // Qui Si Metteranno I Pezzi Collegandoli Alle Immagini
         
