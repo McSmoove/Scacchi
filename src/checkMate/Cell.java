@@ -22,16 +22,11 @@ public class Cell {
      * Costruttore principale. Inizializza il threat a 0.
      */
     public Cell(){
-        whiteThreat=new boolean[16];
-        blackThreat=new boolean[16];
+        
         //il contains inizializzato evita eventuali bachi
         contains = Pieces.empty;
-        for(int i=0;i<16;i++){
-            whiteThreat[i] = false;
-            blackThreat[i] = false;
-        }
-        
-        
+        whiteThreat[16] = false;
+        blackThreat[16] = false;
    
     }
     
