@@ -96,6 +96,7 @@ public class GestoreBottoni {
      * @param e 
      */
     public void pressionePulsanteScacchiera(ActionEvent e){
+        System.err.println("PRESSIONE SCACCHIERA");
         //identifico il bottone dove premo
         x=0;
         y=0;
@@ -126,7 +127,7 @@ public class GestoreBottoni {
         //System.out.println("DEBUG:\nx:"+x+"\ny:"+y);
         
 
-        //guardo se nello stesso turno non è abilitato un bottone
+        //guardo se nello stesso turno non è stato abilitato un bottone
         if(!gestoreTurni.isAttivato()){
             System.err.println("DEBUG: turno non attivato (prima pressione in questo turno)");
             //guardo se lo spazio contiene qualcosa
@@ -195,10 +196,12 @@ public class GestoreBottoni {
             if(gestoreMovimenti.getMatrice().getMatrice()[x][y].equals(gestoreTurni.getSpazioAttivato())){
                 System.err.println("DEBUG: premuto sulla posizione precedente");
                 //imposto come se niente fosse stato premuto
-                gestoreTurni.disattiva();
+                //gestoreTurni.disattiva();
+                disattivaPosizione();
             }
             //altrimenti se è una posizione diversa
             else{
+                System.err.println("DEBUG: prima del controllo posizione vuota o no");
                 //se è una locazione vuota
                 if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                     System.err.println("DEBUG: premuto su una locazione vuota");
@@ -225,6 +228,7 @@ public class GestoreBottoni {
                             //matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);
                             gestoreMovimenti.setMatrice(matriceSimulata);
                             //tolgo il bordo del bottone
+                            
                             disattivaPosizione();
                             gestoreTurni.passaTurno();
                             
@@ -350,7 +354,8 @@ public class GestoreBottoni {
                                 matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);
                                 //prova per debug
                                 matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupante(null);
-                                //disattiva bordo
+                                //disattiva bordo mancante
+                                
                                 disattivaPosizione();
                                 gestoreTurni.passaTurno();
                                 
@@ -426,6 +431,7 @@ public class GestoreBottoni {
                     }
                     //se contiene un pezzo del colore corrente
                     else{
+                        System.err.println(" dello stesso colore");
                         //imposto come se niente fosse stato premuto
                         disattivaPosizione();
                     }
@@ -446,9 +452,10 @@ public class GestoreBottoni {
      * @param y 
      */
     private void attivaPosizione(int x,int y){
+        System.err.println("DEBUG: entro in attivaPosizione(x,y)");
         gestoreTurni.setSpazioAttivato(gestoreMovimenti.getMatrice().getMatrice()[x][y]);
         gestoreTurni.attiva();
-        System.err.println("DEBUG: non blocco le posizioni nel metodo attivaPosizione (contiene dei bug)");
+        //System.err.println("DEBUG: non blocco le posizioni nel metodo attivaPosizione (contiene dei bug)");
         //bloccoBottoniDopoAttivazione(gestoreMovimenti.getMatrice().getSpazio(x, y), gestoreMovimenti.getPossibiliMovimenti(gestoreMovimenti.getMatrice().getSpazio(x,y).getOccupante()));
         //evidenzio la cella
         
@@ -462,8 +469,10 @@ public class GestoreBottoni {
      * @param y 
      */
     private void disattivaPosizione(int x,int y){
+        System.err.println("DEBUG: entro in disattivaPosizione(x,y)");
         gestoreTurni.disattiva();
-        //interfacciaGrafica.disattivaBordo(x,y);
+        interfacciaGrafica.disattivaBordo(x,y);
+        //disattiva bordo deve disattivare anche la vecchia posizione
     }
     
     /**

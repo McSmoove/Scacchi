@@ -359,18 +359,14 @@ public class InterfacciaGrafica{
         
         aggiornaBottoni(gm.getMatrice());
         
-        //aggiungo i listener a tutti i bottoni
-        for(int i=0;i<quadratiScacchiera.length;i++){
-            for(int j=0;j<quadratiScacchiera.length;j++){
-                quadratiScacchiera[i][j].addActionListener(new ActionListener() {
- 
-                    @Override
-                    public void actionPerformed(ActionEvent e){
-                        gestoreBottoni.pressionePulsanteScacchiera( e );
-                    }
+        //aggiungo i listener a tutti i bottoni (!!!qui potrebbe esserci un bug!!!)
+        for (ImageButton[] quadratiScacchiera1 : quadratiScacchiera) {
+            for (int j = 0; j<quadratiScacchiera.length; j++) {
+                quadratiScacchiera1[j].addActionListener((ActionEvent e) -> {
+                    System.err.println("INTERFACCIA: prima della chiamata pressionePulsanteScacchiera, in AcionListener");
+                    gestoreBottoni.pressionePulsanteScacchiera( e );
                 });      
             }
-            
         }
     
     } // Fine iniziaPartita
@@ -602,6 +598,7 @@ public class InterfacciaGrafica{
      * @param y 
      */
     public void attivaBordo(int x, int y) {
+        System.err.println("INTERFACCIA: attivo il bordo");
         quadratiScacchiera[x][y].setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
         //questo metodo evidenzia il bordo della cella in posizione x,y
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -613,6 +610,7 @@ public class InterfacciaGrafica{
      * @param y 
      */
     public void disattivaBordo(int x, int y) {
+        System.err.println("INTERFACCIA: disattivo il bordo");
         quadratiScacchiera[x][y].setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
         //il contrario di attivaBordo()
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
