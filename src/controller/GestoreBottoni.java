@@ -96,7 +96,6 @@ public class GestoreBottoni {
      * @param e 
      */
     public void pressionePulsanteScacchiera(ActionEvent e){
-        System.err.println("PRESSIONE SCACCHIERA");
         //identifico il bottone dove premo
         x=0;
         y=0;
@@ -127,38 +126,37 @@ public class GestoreBottoni {
         //System.out.println("DEBUG:\nx:"+x+"\ny:"+y);
         
 
-        //guardo se nello stesso turno non è stato abilitato un bottone
+        //guardo se nello stesso turno non è abilitato un bottone
         if(!gestoreTurni.isAttivato()){
-            System.err.println("DEBUG: turno non attivato (prima pressione in questo turno)");
             //guardo se lo spazio contiene qualcosa
             if(gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                 //se ciò che contiene ha lo stesso colore del turno corrente
                 if(turno.equals(gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getColore())){
                     //se il pezzo nella posizione indicata non è bloccato
-                    //if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getLock()){
+                    if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getLock()){
                         System.err.println("DEBUG: Pezzo non bloccato");
                         //se il re del turno corrente non è sotto scacco
-                        //System.err.println("controllo scacco fare debug");
+                        System.err.println("controllo scacco fare debug");
                         /*
                         if(((turno instanceof Bianco) && 
-                            gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),gestoreMovimenti.getReBianco().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)||
+                                gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),gestoreMovimenti.getReBianco().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)||
                             ((turno instanceof Nero) && 
                                 gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),gestoreMovimenti.getReNero().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)){
                         */
                         //variante al posto di controllo scacco, getPezziAttaccantiIlRe
                         /*
                         if(((turno instanceof Bianco) && 
-                                (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReBianco(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty()))||
+                            (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReBianco(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty()))||
                             (turno instanceof Nero) && 
-                                (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReNero(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty())){
+                            (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReNero(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty())){
                         */
                         if(true){
                             //abilito le posizioni dove può muoversi il pezzo(non implementato)
                             //metto il pezzo premuto nella gestione turno e lo attivo
                             attivaPosizione(x,y);    
                         }
-                        
-                        //NON ENTRA MAI QUI
+                    
+                        //NON ENTRO MAI QUI
                         //se il re è sotto scacco
                         else if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),gestoreMovimenti.getMatrice().getMatrice())==1)||
                             ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),gestoreMovimenti.getMatrice().getMatrice())==1)){
@@ -181,9 +179,7 @@ public class GestoreBottoni {
                                     attivaPosizione(x,y);     
                                 //else... altrimenti non faccio niente
                         }
-                    //}
-                    //else
-                    //    System.err.println("DEBUG: pezzo bloccato");
+                    }
                 }
                 //else... altrimenti non faccio niente
             }
@@ -191,17 +187,14 @@ public class GestoreBottoni {
         }
         //altrimenti (quindi è stato premuto precedentemente un pezzo valido)
         else{
-            System.err.println("DEBUG: è ststo premouto un pezzo valido prima");
             //se la posizione dove premo è quella dove ho premuto prima
             if(gestoreMovimenti.getMatrice().getMatrice()[x][y].equals(gestoreTurni.getSpazioAttivato())){
                 System.err.println("DEBUG: premuto sulla posizione precedente");
                 //imposto come se niente fosse stato premuto
-                //gestoreTurni.disattiva();
-                disattivaPosizione();
+                gestoreTurni.disattiva();
             }
             //altrimenti se è una posizione diversa
             else{
-                System.err.println("DEBUG: prima del controllo posizione vuota o no");
                 //se è una locazione vuota
                 if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].eOccupato()){
                     System.err.println("DEBUG: premuto su una locazione vuota");
@@ -228,7 +221,6 @@ public class GestoreBottoni {
                             //matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);
                             gestoreMovimenti.setMatrice(matriceSimulata);
                             //tolgo il bordo del bottone
-                            
                             disattivaPosizione();
                             gestoreTurni.passaTurno();
                             
@@ -354,8 +346,7 @@ public class GestoreBottoni {
                                 matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);
                                 //prova per debug
                                 matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupante(null);
-                                //disattiva bordo mancante
-                                
+                                //disattiva bordo
                                 disattivaPosizione();
                                 gestoreTurni.passaTurno();
                                 
@@ -431,7 +422,6 @@ public class GestoreBottoni {
                     }
                     //se contiene un pezzo del colore corrente
                     else{
-                        System.err.println(" dello stesso colore");
                         //imposto come se niente fosse stato premuto
                         disattivaPosizione();
                     }
@@ -439,7 +429,7 @@ public class GestoreBottoni {
             }
             
         }
-        System.err.println("DEBUG: qui arriva");
+        
         
         
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -452,9 +442,9 @@ public class GestoreBottoni {
      * @param y 
      */
     private void attivaPosizione(int x,int y){
-        System.err.println("DEBUG: entro in attivaPosizione(x,y)");
         gestoreTurni.setSpazioAttivato(gestoreMovimenti.getMatrice().getMatrice()[x][y]);
         gestoreTurni.attiva();
+        System.err.println("DEBUG: attivaPosizione");
         //System.err.println("DEBUG: non blocco le posizioni nel metodo attivaPosizione (contiene dei bug)");
         //bloccoBottoniDopoAttivazione(gestoreMovimenti.getMatrice().getSpazio(x, y), gestoreMovimenti.getPossibiliMovimenti(gestoreMovimenti.getMatrice().getSpazio(x,y).getOccupante()));
         //evidenzio la cella
@@ -469,10 +459,9 @@ public class GestoreBottoni {
      * @param y 
      */
     private void disattivaPosizione(int x,int y){
-        System.err.println("DEBUG: entro in disattivaPosizione(x,y)");
         gestoreTurni.disattiva();
-        interfacciaGrafica.disattivaBordo(x,y);
-        //disattiva bordo deve disattivare anche la vecchia posizione
+        System.err.println("DEBUG: disattivaPosizione");
+        //interfacciaGrafica.disattivaBordo(x,y);
     }
     
     /**
@@ -504,14 +493,14 @@ public class GestoreBottoni {
         return matriceSimulata;
     }
     
-<<<<<<< HEAD
+
     public Spazio[][] getMatriceSpazi(){
         
         return gestoreMovimenti.getMatriceSpazi();
         
     }
     
-=======
+
     public void setPedoneTrasformato(Pezzo p){
         ultimoPedoneTrasformato=gestoreMovimenti.getMatrice().getSpazio(x, y).getOccupante();
         p.setX(x);
@@ -520,6 +509,6 @@ public class GestoreBottoni {
         //aggiorna la visuale
         interfacciaGrafica.aggiornaBottoni(gestoreMovimenti.getMatrice());
     }
->>>>>>> origin/master
+
 }
 

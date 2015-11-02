@@ -8,3 +8,4 @@ Metto qui ci� che trovo facendo il debug:
 -disattivaBordo non disattiva il vecchio bordo ma quello nuovo
 -non si deselezionano solo i bordi neri
 -dopo il primo turno rimangono i listener solo delle prime 2 righe in alto
+-in checkmate entro nella parte di codice che dice che il re è in scacco anche se sono al primo turno...

@@ -11,8 +11,6 @@ import model.Nero;
 import model.Pezzo; //import non usato NDGaetano
 import model.Spazio;
 import checkMate.*;
-import static model.Colore.BIANCO;
-import static model.Colore.NERO;
 
 /**
  * Controlla il turno attuale e il cambio di turno
@@ -61,17 +59,17 @@ public class GestoreTurni {
                 
             case 0:
                 //Da implementare (no scacco)
-                System.err.println("DEBUG: No scacco");
+                System.err.println("GESTORE TURNI: no scacco");
                 break;
                 
             case 1:
-                System.err.println("DEBUG: Scacco");
                 //Da implementare scacco
+                System.err.println("GESTORE TURNI: scacco");
                 break;
                 
             case 2:
-                System.err.println("DEBUG: Scacco matto");
                 //Da implementare scacco matto
+                System.err.println("GESTORE TURNI: scacco matto");
                 break; 
                
         };
@@ -84,12 +82,6 @@ public class GestoreTurni {
      * @param t 
      */
     public void setTurno(int t){
-        if(t == BIANCO)
-            setTurno(new Bianco());
-        else
-            setTurno(new Nero());
-            
-        /*
         if(t==Colore.BIANCO){
             turno=new Bianco();
             gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Bianco");
@@ -102,7 +94,30 @@ public class GestoreTurni {
             else
                 throw new IllegalArgumentException();
         }  
-        gestoreBottoni.bloccoBottoniIniziale();*/
+        //gestoreBottoni.bloccoBottoniIniziale();
+        board.setBoard(gestoreBottoni.getMatriceSpazi());
+        switch(board.checkMate(getTurno(), gestoreBottoni.getMatriceSpazi())){
+            
+            default:
+                //In caso di bug
+                throw new IllegalArgumentException();
+                
+            case 0:
+                //Da implementare (no scacco)
+                System.err.println("GESTORE TURNI: no scacco");
+                break;
+                
+            case 1:
+                //Da implementare scacco
+                System.err.println("GESTORE TURNI: scacco");
+                break;
+                
+            case 2:
+                //Da implementare scacco matto
+                System.err.println("GESTORE TURNI: scacco matto");
+                break; 
+               
+        };
     }
     
     /**
@@ -110,17 +125,41 @@ public class GestoreTurni {
      */
     public void passaTurno(){
         if(turno instanceof Bianco){
-            //turno=new Nero();
-            setTurno(NERO);
+            turno=new Nero();
             gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Nero");
         }
         else{
-            //turno=new Bianco();
-            setTurno(BIANCO);
+            turno=new Bianco();
             gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Bianco");
         }
-        System.err.println("DEBUG:non chiamo il blocco bottoni ");
+        //System.err.println("DEBUG:non chiamo il blocco bottoni ");
         //gestoreBottoni.bloccoBottoniIniziale();
+        
+        System.err.println("DEBUG: inizio chiamata prima di checkmate in passaTurno");
+        
+        board.setBoard(gestoreBottoni.getMatriceSpazi());
+        switch(board.checkMate(getTurno(), gestoreBottoni.getMatriceSpazi())){
+            
+            default:
+                //In caso di bug
+                throw new IllegalArgumentException();
+                
+            case 0:
+                //Da implementare (no scacco)
+                System.err.println("GESTORE TURNI: no scacco");
+                break;
+                
+            case 1:
+                //Da implementare scacco
+                System.err.println("GESTORE TURNI: scacco");
+                break;
+                
+            case 2:
+                //Da implementare scacco matto
+                System.err.println("GESTORE TURNI: scacco matto");
+                break; 
+               
+        };
         
         attivato=false;
     }

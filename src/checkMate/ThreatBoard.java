@@ -25,6 +25,7 @@ public class ThreatBoard {
     private Cell[][] board;
     
     public ThreatBoard(){
+        System.err.println("DEBUG: creazione threatBoard");
         board=new Cell[8][8];
         //Inizializzo la board
         for(int y = 0; y < 8; y++){ 
@@ -52,7 +53,7 @@ public class ThreatBoard {
      *          della board
      */
     public void setBoard(Spazio[][] m){
-        System.err.println("DEBUG: inizio setBoard");
+        
         //Pedine bianche
         int whiteBishops = 0;
         int whiteKnights = 0;
@@ -107,7 +108,7 @@ public class ThreatBoard {
                         
                             else
                                 board[x][y].setPiece(Pieces.knight2, false);
-                        }
+                        }   
                     
                         if(m[x][y].getOccupante() instanceof Torre){
                             if(whiteRooks == 0){
@@ -238,14 +239,14 @@ public class ThreatBoard {
                             else
                                 board[x][y].setPiece(Pieces.pawn8, true);
                         }
+                    
                     }
                 }
-                
             }
         }
         
         setThreat();
-        System.err.println("DEBUG: fine setBoard");
+        
     }
     
     private void setThreat(){
@@ -398,7 +399,7 @@ public class ThreatBoard {
         
         int tempY = y;
         
-        while(x > 0 && y > 0){
+        while(x >= 0 && y >= 0){
             
             board[x][y].setThreat(color, true, p);
             x--;
@@ -576,7 +577,7 @@ public class ThreatBoard {
      * 2: scacco matto;
      */
     public int checkMate(Colore c, Spazio[][] m){
-        System.err.println("DEBUG: inizio checkMate");
+        System.err.println("DEBUG: entro in checkMate");
         //Posizione del re
         int actualX = 0;
         int actualY = 0;
@@ -638,11 +639,11 @@ public class ThreatBoard {
                 //re
                 for(int y = 0; y < 8; y++){
                     for(int x = 0; x < 8; x++){
-                        
-                        //Odio gli instanceof... lsciamelo dire
-                        if(m[x][y].getOccupante().getColore() instanceof Bianco
+                        if(m[x][y].eOccupato())
+                            //Odio gli instanceof... lsciamelo dire
+                            if(m[x][y].getOccupante().getColore() instanceof Bianco
                                 && !(m[x][y].getOccupante() instanceof Re))
-                            m[x][y].getOccupante().setLock(true);
+                                m[x][y].getOccupante().setLock(true);
                         
                     }
                 }
@@ -665,7 +666,6 @@ public class ThreatBoard {
                 for(int x = 0; x < 8; x++){
                 
                     if(!(m[x][y].getOccupante().getLock()))
-                        System.err.println("DEBUG: fine checkMate");
                         return result;
                 
                 }
@@ -673,7 +673,6 @@ public class ThreatBoard {
             }
             
             result++;
-            System.err.println("DEBUG: fine checkMate");
             return result;
             
         }
@@ -744,7 +743,6 @@ public class ThreatBoard {
                 for(int x = 0; x < 8; x++){
                 
                     if(!(m[x][y].getOccupante().getLock()))
-                        System.err.println("DEBUG: fine checkMate");
                         return result;
                 
                 }
@@ -752,7 +750,6 @@ public class ThreatBoard {
             }
             
             result++;
-            System.err.println("DEBUG: fine checkMate");
             return result;
         
         }
@@ -843,14 +840,12 @@ public class ThreatBoard {
             
         }
             
-        if(moves == 0){
-            System.err.println("DEBUG: fine checkKingThreat");
+        if(moves == 0)
             return true;
-        }
-        else{
-            System.err.println("DEBUG: fine checkKingThreat");
+        
+        else
             return false;
-        }
+        
     }
     
     private void findSafePieces(LinkedList list, Spazio[][] m, boolean c){
