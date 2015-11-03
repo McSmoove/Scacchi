@@ -1,6 +1,7 @@
 package controller;
 
 import static java.lang.Math.abs;
+import java.util.Iterator;
 import java.util.LinkedList;
 import model.*;
 import view.InterfacciaGrafica;
@@ -1844,11 +1845,17 @@ public class GestoreMovimenti{
         LinkedList<Pezzo> listaSalvatori=new LinkedList<>();
         Re re=(Re) originale.getSpazio(xRe, yRe).getOccupante();
         int[][] matricePosizioni=new int[8][8];
+        Iterator iter=listaAttaccanti.iterator();
+        boolean cavalloAttaccante=false;
+        int x; //x provvisoria per il passaggio da linked list a matrice di inter
+        int y; //y provvisoria " "
+        int[][] matriceRisultante = new int[8][8];
         
-        //azzero la matrice per sicurezza
+        //azzero le matrici
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
                 matricePosizioni[i][j]=0;
+                matriceRisultante[i][j]=0;
             }
         }
         
@@ -1890,6 +1897,8 @@ public class GestoreMovimenti{
             listaSalvatori.add(re);
         //2)
         
+        
+        
         //QUI devo mettere la chiamata del metodo che prende tutti i pezzi che potrebbero salvare il re e incrociare 
         //i loro percorsi con tutti i percorsi degli attaccanti
         
@@ -1901,6 +1910,28 @@ public class GestoreMovimenti{
         //il numero nelle celle da usare deve essere uguale al numero di attaccanti
         //nel caso contrario il metodo 2 non può funzionare
         //mi ricavo le posizioni intermedie
+        
+        
+        
+        //vedo se tra gli attaccanti c'è un cavallo
+        while(iter.hasNext()){
+            if((Pezzo)iter.next() instanceof Cavallo)
+                cavalloAttaccante=true;
+        }
+        
+        //se ci sono più pezzi che attaccano il re il salvatore deve poter 
+        //arrivare nell'intersezione di tutti altrimenti il secondo caso 
+        //non ha senso di essere usato
+        
+        //nel caso contrario si procede nel caso 2
+        if(!cavalloAttaccante){
+            LinkedList<Pezzo> temp=pezziCheSalvanoIlReCasoDue(listaAttaccanti,matricePosizioni,re);
+            iter=temp.iterator();
+            while(iter.hasNext()){
+                listaSalvatori.add((Pezzo)iter.next());
+            }
+        }
+        
         
         
         //3)
@@ -1921,10 +1952,136 @@ public class GestoreMovimenti{
             }*/
         }
         
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //assegno i pezzi trovati nella matricePosizioni
+        iter=listaSalvatori.iterator();
+        while(iter.hasNext()){
+            x=((Pezzo)iter.next()).getX();
+            y=((Pezzo)iter.next()).getY();
+            matriceRisultante[x][y]=1;
+        }
+        return matriceRisultante;
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     
     }
+    
+    //devo vedere se il pezzo salvatore è spostabile in almeno una delle posizioni che si trovano tra il re e gli attaccanti
+    public LinkedList<Pezzo> pezziCheSalvanoIlReCasoDue(LinkedList<Pezzo> attaccanti, int[][] matricePotenzialiSalvatori,Re re){
+        LinkedList salvatori;
+        salvatori = new LinkedList<Pezzo>();
+        Iterator iter;
+        int xRe=re.getX();
+        int yRe=re.getY();
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                //if(matricePotenzialiSalvatori[i][j]==1)
+                    
+            }
+        }
+        throw new UnsupportedOperationException("Not supported yet.");
+        
+    }
+    //uso per ricavare tutte le posizioni tra il re e il pezzo in questione che può
+    //essere uno che vuole attaccare il re o uno che può salvarlo
+    public int[][] getPercorsoFinoAlRe(Re re,Pezzo pezzo,MatriceDeiPezzi matrice){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public int[][] getPercorsoFinoAlRe(Re re,Pezzo pezzo){
+        int xRe=re.getX();
+        int yRe=re.getY();
+        int xPezzo=pezzo.getX();
+        int yPezzo=pezzo.getY();
+        int[][] matrice=new int[8][8];
+        int temp;
+        int temp2;
+        //inizializzo la matrice
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                matrice[i][j]=0;
+            }
+        }
+        //il pedone non ha percorsi
+        if(pezzo instanceof Pedone)
+            return matrice;
+        
+        if(pezzo instanceof Torre){
+            //La torre non può fisicamente attaccare il re => non esiste un percorso
+            if(xPezzo != xRe && yPezzo != yRe)
+                return matrice;
+            else
+                if(xPezzo == xRe){
+                    //la torre è sopra al re
+                    if(yPezzo>yRe){
+                        temp=yPezzo-1;
+                        while(temp>yRe){
+                            matrice[xPezzo][temp]=1;
+                            temp--;
+                        }
+                        return matrice;
+                    }
+                    else{
+                        //la torre è sotto al re
+                        if(yPezzo<yRe){
+                            temp=yPezzo+1;
+                            while(temp<yRe){
+                                matrice[xPezzo][temp]=1;
+                                temp++;
+                            }
+                            return matrice;
+                        }
+                    }
+                }
+                //yPezzo == yRe
+                else{
+                    //la torre è 
+                    if(xPezzo>xRe){
+                        temp=xPezzo-1;
+                        while(temp>xRe){
+                            matrice[temp][yPezzo]=1;
+                            temp--;
+                        }
+                        return matrice;
+                    }
+                    else{
+                        temp=xPezzo+1;
+                        while(temp<xRe){
+                            matrice[yPezzo][temp]=1;
+                            temp++;
+                        }
+                        return matrice;
+                    }
+                }
+            
+        }
+        
+        //mancano gli altri casi: alfiere, regina
+        if(pezzo instanceof Alfiere){
+            //l'alfiere non è in diagonale col re
+            if(!((xPezzo - xRe == yPezzo - yRe)||(xPezzo - xRe == -yPezzo-yRe)))
+                return matrice;
+            if(xPezzo>xRe){
+                if(yPezzo>yRe){
+                    temp=xPezzo-1;
+                    temp2=yPezzo-1;
+                    while(temp>xRe){
+                        matrice[temp][temp2]=1;
+                        temp--;
+                        temp2--;
+                    }
+                    return matrice;
+                }
+                //else
+                
+            }
+        }
+        
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
+    
+    //private boolean percorsiCheSiincrociano();
+    
     private boolean reSiSalvaDaScacco(Re re,Spazio[][] matrice){
         Spazio[][] originale=matrice;
         Spazio[][] matSimulata;
