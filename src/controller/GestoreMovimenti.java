@@ -1860,7 +1860,7 @@ public class GestoreMovimenti{
                     if(originale.getSpazio(j, i).eOccupato())
                         //prendo tutti i pezzi del colore del turno corrente
                         if(originale.getSpazio(j, i).getOccupante().getColore().equals(turno))
-                            //setto a 1 le posizioni dove i pezzi sono del colore giusto
+                            //setto a 1 le posizioni dove i pezzi sono del colore del turno corrente
                             matricePosizioni[j][i]=1;
             }
         }
@@ -1880,21 +1880,23 @@ public class GestoreMovimenti{
         
         /*si può salvare il re cosi:
             1)Il re può spostarsi (si salva da solo)
-            2)Mi metto tra l'attaccante e il Re
-            3)Mangio l'attaccante
+            2)Mi metto tra l'attaccante e il Re (non nel caso del cavallo che attacca)
+            3)Mangio l'attaccante (se è uno solo)
         Per fare il punto 2 potrei salvarmi le posizioni intermedie tra gli attaccanti e il re (esclusa la torre)    
         
         */
         //1)
         if(reSiSalvaDaScacco(re,originale.getMatrice()))
             listaSalvatori.add(re);
-        
         //2)
+        
+        //QUI devo mettere la chiamata del metodo che prende tutti i pezzi che potrebbero salvare il re e incrociare 
+        //i loro percorsi con tutti i percorsi degli attaccanti
         
         //...
         //NON funziona se tra gli attaccanti c'è un cavallo
         //guardo il tipo di pezzo dell'attaccante o degli attaccanti
-        //sommo le 2 matrici ricevute avendo tutte le posizioni che intercorrono tra i 2 attaccanti
+        //sommo le 2 matrici ricevute avendo tutte le posizioni che intercorrono tra l'attaccante e il salvatore
         //le posizioni di intersezione saranno le posizioni nelle quali spostarsi per evitare lo scacco
         //il numero nelle celle da usare deve essere uguale al numero di attaccanti
         //nel caso contrario il metodo 2 non può funzionare

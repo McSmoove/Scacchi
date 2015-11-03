@@ -623,7 +623,7 @@ public class ThreatBoard {
             System.err.println("GAETANO: come funziona la ricerca?");//da qui si dovrebbe cercare il bug
             //Primo passo: controlliamo chi e quanti minacciano il re
             for(int p = 0; p < 16; p++){
-                
+                //non trovo il senso di questa parte di codice
                 if(board[actualX][actualY].getThreat(black, p)){
                     list.add(p);
                     danger++;

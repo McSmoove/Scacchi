@@ -9,3 +9,4 @@ Metto qui ciò che trovo facendo il debug:
 -//dopo il primo turno rimangono i listener solo delle prime 2 righe in alto
 -ogni tanto quando un pedone nero mangia uno bianco sparisce la torre nerasinistra
 -non funziona nuova partita, deve ripulire i campi ai fianchi della scacchiera
+-in checkmate sono empre gli stessi 3 pezzi che vengono descritti come pericolosi, identificati dai numeri: 3 11 13

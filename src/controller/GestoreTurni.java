@@ -124,13 +124,16 @@ public class GestoreTurni {
      * Se il turno era del bianco lo passa al nero e viceversa
      */
     public void passaTurno(){
+        
         if(turno instanceof Bianco){
             turno=new Nero();
             gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Nero");
+            System.err.println("NERO");
         }
         else{
             turno=new Bianco();
             gestoreBottoni.getInterfacciaGrafica().setMessaggio("Tocca al Bianco");
+            System.err.println("BIANCO");
         }
         //System.err.println("DEBUG:non chiamo il blocco bottoni ");
         //gestoreBottoni.bloccoBottoniIniziale();

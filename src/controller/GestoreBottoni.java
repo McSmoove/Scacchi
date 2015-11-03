@@ -180,6 +180,8 @@ public class GestoreBottoni {
                                 //else... altrimenti non faccio niente
                         }
                     }
+                    else
+                        System.err.println("DEBUG: Pezzo bloccato");
                 }
                 //else... altrimenti non faccio niente
             }
