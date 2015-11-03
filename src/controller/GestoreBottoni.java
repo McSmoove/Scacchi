@@ -31,7 +31,7 @@ public class GestoreBottoni {
     int x;
     int y;
     
-    public GestoreBottoni(GestoreMovimenti gm, GestoreTurni gt,InterfacciaGrafica ig){
+    public GestoreBottoni(GestoreMovimenti gm, GestoreTurni gt, InterfacciaGrafica ig){
         gestoreMovimenti=gm;
         gestoreTurni=gt;
         interfacciaGrafica=ig;

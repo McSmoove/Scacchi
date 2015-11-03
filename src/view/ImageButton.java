@@ -31,7 +31,7 @@ public class ImageButton extends JButton{
     public Image getIcona(){ return icona; }
     
     @Override
-    protected void paintComponent( Graphics g ){
+    public void paintComponent( Graphics g ){
         
         super.paintComponent( g );
         
