@@ -872,7 +872,7 @@ public class GestoreMovimenti{
         }
 
         // Controlli In Diagonale Per Alfieri E Regine
-
+        System.err.println("DEBUG: controlloAlfiere in controlloScacco");
         // Verso L'Alto A Destra
         temp1 = x + 1;
         temp2 = y + 1;
@@ -941,72 +941,69 @@ public class GestoreMovimenti{
         temp2 = y - 1;
         
         while( temp1 <= MAXLENGTH && temp2 >= 0 && !mat[ temp1 ][ temp2 ].eOccupato() ){
-            
             temp1++;
             temp2--;
-        
         }
         
-        if( temp1 <= MAXLENGTH && temp2 >= 0 && !mat[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore ) ){
-            
-            if( mat[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || mat[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){
-                
-                return 0;
-            
+        if( temp1 <= MAXLENGTH && temp2 >= 0 ){
+            if(!mat[ temp1 ][ temp2 ].getOccupante().getColore().equals( colore )){
+                if( mat[ temp1 ][ temp2 ].getOccupante() instanceof Alfiere || mat[ temp1 ][ temp2 ].getOccupante() instanceof Regina ){         
+                    return 0;
+                }
             }
-        
         }
 
         // Controlli Per Il Pedone ( Potrebbe Essere Integrato Nell'Alfiere In Casi Specifici )
-        
+        System.err.println("DEBUG: controllo pedone in controlloScacco");
         if( colore instanceof Nero ){ // Inizio Controllo Pedoni Neri
             
-            if( x + 1 <= MAXLENGTH && y + 1 <= MAXLENGTH && mat[ x + 1 ][ y + 1 ].eOccupato() && mat[ x + 1 ][ y + 1 ].getOccupante() instanceof Pedone ){
-                
-                if( !mat[ x + 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) ){
-                    
-                    return 0;
-                
+            if( x + 1 <= MAXLENGTH && y + 1 <= MAXLENGTH ){
+                if(mat[ x + 1 ][ y + 1 ].eOccupato()){
+                    if(mat[ x + 1 ][ y + 1 ].getOccupante() instanceof Pedone){
+                        if( !mat[ x + 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) ){
+                            return 0;
+                        }
+                    }
                 }
-            
             }
             
-            if( x - 1 >= 0 && y + 1 <= MAXLENGTH && mat[ x - 1 ][ y + 1 ].eOccupato() && mat[ x + 1 ][ y - 1 ].getOccupante() instanceof Pedone ){
-                
-                if( !mat[ x - 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) ){
-                    
-                    return 0;
-                
+            if( x - 1 >= 0 && y + 1 <= MAXLENGTH ){
+                if(mat[ x - 1 ][ y + 1 ].eOccupato()){
+                    if(mat[ x - 1 ][ y + 1 ].getOccupante() instanceof Pedone){
+                        if( !mat[ x - 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) ){
+                            return 0;
+                        }
+                    }
                 }
             
             }
         
         } else { // Inizio Controllo Pedoni Bianchi
             
-            if( x + 1 <= MAXLENGTH && y - 1 >= 0 && mat[ x + 1 ][ y - 1 ].eOccupato() && mat[ x + 1 ][ y - 1 ].getOccupante() instanceof Pedone ){
-                
-                if( !mat[ x + 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) ){
-                    
-                    return 0;
-                
+            if( x + 1 <= MAXLENGTH && y - 1 >= 0  ){
+                if(mat[ x + 1 ][ y - 1 ].eOccupato()){
+                    if(mat[ x + 1 ][ y - 1 ].getOccupante() instanceof Pedone){
+                        if( !mat[ x + 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) ){
+                            return 0;
+                        }
+                    }
                 }
-            
             }
             
-            if( x - 1 >= 0 && y - 1 >= 0 && mat[ x - 1 ][ y - 1 ].eOccupato() && mat[ x - 1 ][ y - 1 ].getOccupante() instanceof Pedone ){
-                
-                if( !mat[ x - 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) ){
-                    
-                    return 0;
-                
+            if( x - 1 >= 0 && y - 1 >= 0 ){
+                if(mat[ x - 1 ][ y - 1 ].eOccupato() ){
+                    if(mat[ x - 1 ][ y - 1 ].getOccupante() instanceof Pedone){
+                        if( !mat[ x - 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) ){
+                            return 0;
+                        }
+                    }
                 }
-            
             }
         
         }
 
         // Controlli Del Cavallo
-
+        System.err.println("DEBUG: controlloCavallo in controllOScacco");
         //In Alto A Destra
         if( x + 1 <= MAXLENGTH && y + 2 <= MAXLENGTH && mat[ x + 1 ][ y + 2 ].eOccupato() ){
             
@@ -1066,86 +1063,95 @@ public class GestoreMovimenti{
         }
 
         // In Basso A Destra
-        if( x + 1 <= MAXLENGTH && y - 2 <= MAXLENGTH && mat[ x + 1 ][ y - 2 ].eOccupato() ){
-            
-            if( !mat[ x + 1 ][ y - 2 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y - 2 ].getOccupante() instanceof Cavallo ){
-                
-                return 0;
-            
+        if( (x + 1) <= MAXLENGTH && (y - 2) >= 0 ){
+            //System.err.println("DEBUG: mat in "+(x+1)+" "+(y-2));
+            if(mat[ x + 1 ][ y - 2 ].eOccupato()){
+                if( !mat[ x + 1 ][ y - 2 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y - 2 ].getOccupante() instanceof Cavallo ){            
+                    return 0;
+                }
             }
-        
         }
 
         // In Basso A Sinistra
-        if( x - 1 >= 0 && y - 2 >= 0 && mat[ x - 1 ][ y - 2 ].eOccupato() ){
-            
-            if( !mat[ x - 1 ][ y - 2 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y - 2 ].getOccupante() instanceof Cavallo ){
-                
-                return 0;
-            
+        if( x - 1 >= 0 && y - 2 >= 0 ){
+            if(mat[ x - 1 ][ y - 2 ].eOccupato()){
+                if( !mat[ x - 1 ][ y - 2 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y - 2 ].getOccupante() instanceof Cavallo ){  
+                    return 0;
+                }
             }
-        
         }
 
         // Controllo Re Adiacente
-
+        System.err.println("DEBUG: controlloRe in controlloScacco");
         // Destra
-        if( x + 1 <= MAXLENGTH && mat[ x + 1 ][ y ].eOccupato() ){
-            
-            if( !mat[ x + 1 ][ y ].getOccupante().getColore().equals( colore ) && m[ x + 1 ][ y ].getOccupante() instanceof Re ){
-                
-                return 0;
-            
+        if( x + 1 <= MAXLENGTH ){
+            if(mat[ x + 1 ][ y ].eOccupato()){
+                if( !mat[ x + 1 ][ y ].getOccupante().getColore().equals( colore ) && m[ x + 1 ][ y ].getOccupante() instanceof Re ){
+                    return 0;
+                }
             }
-        
         }
 
         // Sinistra
-        if( x - 1 >= 0 && mat[ x - 1 ][ y ].eOccupato() ){          
-            if( !mat[ x - 1 ][ y ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y ].getOccupante() instanceof Re ){
-                return 0;
+        if( x - 1 >= 0 ){    
+            if(mat[ x - 1 ][ y ].eOccupato()){
+                if( !mat[ x - 1 ][ y ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y ].getOccupante() instanceof Re ){
+                    return 0;
+                }
             }
         }
 
         // Alto
-        if( y + 1 <= MAXLENGTH && m[ x ][ y + 1 ].eOccupato() ){ 
-            if( !mat[ x ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x ][ y + 1 ].getOccupante() instanceof Re ){             
-                return 0;
+        if( y + 1 <= MAXLENGTH ){ 
+            if(m[ x ][ y + 1 ].eOccupato()){
+                if( !mat[ x ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x ][ y + 1 ].getOccupante() instanceof Re ){             
+                    return 0;
+                }
             }
         }
 
         // Basso
-        if( y - 1 >= 0 && mat[ x ][ y - 1 ].eOccupato() ){
-            if( !mat[ x ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x ][ y - 1 ].getOccupante() instanceof Re ){
-                return 0;
+        if( y - 1 >= 0 ){
+            if(mat[ x ][ y - 1 ].eOccupato()){
+                if( !mat[ x ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x ][ y - 1 ].getOccupante() instanceof Re ){
+                    return 0;
+                }
             }
         }
 
         // In Alto A Destra
-        if( x + 1 <= MAXLENGTH && y + 1 <= MAXLENGTH && mat[ x + 1 ][ y + 1 ].eOccupato() ){
-            if( !mat[ x + 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y + 1 ].getOccupante() instanceof Re ){ 
-                return 0;
+        if( x + 1 <= MAXLENGTH && y + 1 <= MAXLENGTH ){
+            if(mat[ x + 1 ][ y + 1 ].eOccupato()){
+                if( !mat[ x + 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y + 1 ].getOccupante() instanceof Re ){ 
+                    return 0;
+                }
             }
         }
 
         // In Alto A Sinistra
-        if( x - 1 >= 0 && y + 1 <= MAXLENGTH && mat[ x - 1 ][ y + 1 ].eOccupato() ){
-            if( !mat[ x - 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y + 1 ].getOccupante() instanceof Re ){ 
-                return 0;
+        if( x - 1 >= 0 && y + 1 <= MAXLENGTH ){
+            if(mat[ x - 1 ][ y + 1 ].eOccupato()){
+                if( !mat[ x - 1 ][ y + 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y + 1 ].getOccupante() instanceof Re ){ 
+                    return 0;
+                }
             }
         }
 
         // In Basso A Destra
-        if( x + 1 <= MAXLENGTH && y - 1 >= 0 && mat[ x + 1 ][ y - 1 ].eOccupato() ){
-            if( !mat[ x + 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y - 1 ].getOccupante() instanceof Re ){      
-                return 0;
+        if( x + 1 <= MAXLENGTH && y - 1 >= 0 ){
+            if(mat[ x + 1 ][ y - 1 ].eOccupato()){
+                if( !mat[ x + 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x + 1 ][ y - 1 ].getOccupante() instanceof Re ){      
+                    return 0;
+                }
             }
         }
 
         // In Basso A Sinistra
-        if( x - 1 >= 0 && y - 1 >= 0 && mat[ x - 1 ][ y - 1 ].eOccupato() ){         
-            if( !mat[ x - 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y - 1 ].getOccupante() instanceof Re ){   
-                return 0;
+        if( x - 1 >= 0 && y - 1 >= 0 ){   
+            if(mat[ x - 1 ][ y - 1 ].eOccupato()){
+                if( !mat[ x - 1 ][ y - 1 ].getOccupante().getColore().equals( colore ) && mat[ x - 1 ][ y - 1 ].getOccupante() instanceof Re ){   
+                    return 0;
+                }
             }
         }
         
@@ -1653,7 +1659,7 @@ public class GestoreMovimenti{
         int temp;//vriabile temporale per torre
         int temp1;//variabile temèorale per alfiere
         int temp2;// " "
-        
+        System.err.println("DEBUG: entro nel metodo spostabileIn");
         Spazio s=matrice.getMatrice()[x][y];
         //devo controllare se nella posizione finale c'è uno spazio libero o un pezzo del colore opposto e poi
         //tutti gli spazi intermedi x tuti i tipi di pezzo tranne il cavallo
@@ -1922,13 +1928,22 @@ public class GestoreMovimenti{
         //se ci sono più pezzi che attaccano il re il salvatore deve poter 
         //arrivare nell'intersezione di tutti altrimenti il secondo caso 
         //non ha senso di essere usato
+        //CORREZIONE
+        //se ci sono più di un attaccante il secondo caso non è valido
         
         //nel caso contrario si procede nel caso 2
         if(!cavalloAttaccante){
-            LinkedList<Pezzo> temp=pezziCheSalvanoIlReCasoDue(listaAttaccanti,matricePosizioni,re);
-            iter=temp.iterator();
-            while(iter.hasNext()){
-                listaSalvatori.add((Pezzo)iter.next());
+            int contatoreAttaccanti=0;
+            contatoreAttaccanti++;
+            iter=listaAttaccanti.iterator();
+            while(iter.hasNext())
+                contatoreAttaccanti++;
+            if(contatoreAttaccanti==1){
+                LinkedList<Pezzo> temp=pezziCheSalvanoIlReCasoDue(listaAttaccanti,matricePosizioni,re);
+                iter=temp.iterator();
+                while(iter.hasNext()){
+                    listaSalvatori.add((Pezzo)iter.next());
+                }
             }
         }
         
@@ -1936,7 +1951,8 @@ public class GestoreMovimenti{
         
         //3)
         //c'è solo un elemento nella lista (non posso prevenire lo scacco eliminando tutti gli attaccanti contemporaneamente)
-        if(!listaAttaccanti.iterator().hasNext()){
+        
+        if(!listaAttaccanti.isEmpty()){
             for(int i=0;i<8;i++){
                 for(int j=0;j<8;j++){
                     if(matricePosizioni[i][j]==1)
@@ -1954,39 +1970,66 @@ public class GestoreMovimenti{
         
         //assegno i pezzi trovati nella matricePosizioni
         iter=listaSalvatori.iterator();
-        while(iter.hasNext()){
-            x=((Pezzo)iter.next()).getX();
-            y=((Pezzo)iter.next()).getY();
-            matriceRisultante[x][y]=1;
+        Pezzo pezzoTemporaneo;
+        if(!listaSalvatori.isEmpty()){
+            while(iter.hasNext()){
+                pezzoTemporaneo=(Pezzo)iter.next();
+                x=pezzoTemporaneo.getX();
+                y=pezzoTemporaneo.getY();
+                matriceRisultante[x][y]=1;
+            }
         }
         return matriceRisultante;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     
     }
     
-    //devo vedere se il pezzo salvatore è spostabile in almeno una delle posizioni che si trovano tra il re e gli attaccanti
+    //devo vedere se il pezzo salvatore è spostabile in almeno una delle posizioni che si trovano tra il re e TUTTI gli attaccanti
+    //non funziona se ci sono più di un pezzo che attaccano
     public LinkedList<Pezzo> pezziCheSalvanoIlReCasoDue(LinkedList<Pezzo> attaccanti, int[][] matricePotenzialiSalvatori,Re re){
         LinkedList salvatori;
         salvatori = new LinkedList<Pezzo>();
         Iterator iter;
+        Pezzo attaccante;
+        int[][] percorsoAttaccante=new int[8][8];
+        //caso in cui non ci sono attaccanti, forse si può portare la soluzione del caso più in alto
+        //non dovrei mai entrare qui
+        if(attaccanti.isEmpty()){
+            for(int i=0;i<8;i++){
+                for(int j=0;j<8;j++){
+                    if(matricePotenzialiSalvatori[i][j]==1)
+                        salvatori.add(matrice.getSpazio(i, j).getOccupante());
+                }
+            }
+            return salvatori;
+        }
+        
         int xRe=re.getX();
         int yRe=re.getY();
+        int[][] percorsoTemporaneo;
+        iter=attaccanti.iterator();
+        attaccante=(Pezzo)iter.next();
+        percorsoAttaccante=getPercorsoFinoAlRe(re,attaccante);
         for(int i=0;i<8;i++){
             for(int j=0;j<8;j++){
-                //if(matricePotenzialiSalvatori[i][j]==1)
-                    
+                if(matricePotenzialiSalvatori[i][j]==1){
+                    percorsoTemporaneo=getPercorsoFinoAlRe(re,matrice.getSpazio(i, j).getOccupante());
+                    if(intersezionePercorsiNonVuota(percorsoAttaccante,percorsoTemporaneo))
+                        salvatori.add(matrice.getSpazio(i, j).getOccupante());
+                }      
             }
         }
-        throw new UnsupportedOperationException("Not supported yet.");
+        return salvatori;
+        //throw new UnsupportedOperationException("Not supported yet.");
         
     }
     //uso per ricavare tutte le posizioni tra il re e il pezzo in questione che può
     //essere uno che vuole attaccare il re o uno che può salvarlo
-    public int[][] getPercorsoFinoAlRe(Re re,Pezzo pezzo,MatriceDeiPezzi matrice){
+    private int[][] getPercorsoFinoAlRe(Re re,Pezzo pezzo,MatriceDeiPezzi matrice){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public int[][] getPercorsoFinoAlRe(Re re,Pezzo pezzo){
+    private int[][] getPercorsoFinoAlRe(Re re,Pezzo pezzo){
         int xRe=re.getX();
         int yRe=re.getY();
         int xPezzo=pezzo.getX();
@@ -2078,7 +2121,29 @@ public class GestoreMovimenti{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    private int[][] intersezioneTraPercorsi(int[][] primo,int[][]secondo){
+        int[][] risultato=new int[8][8];
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(primo[i][j]==1 && secondo[i][j]==1){
+                    risultato[i][j]=1;
+                }
+                else
+                    risultato[i][j]=0;
+            }
+        }
+        return risultato;
+    }
     
+    private boolean intersezionePercorsiNonVuota(int [][]primo,int [][] secondo){
+        for(int i=0;i<8;i++){
+            for(int j=0;j<8;j++){
+                if(primo[i][j]==1 && secondo[i][j]==1)
+                    return true;    
+            }
+        }
+        return false;
+    }
     
     //private boolean percorsiCheSiincrociano();
     
@@ -2187,7 +2252,6 @@ public class GestoreMovimenti{
         }
         return false; 
     }
-    
     
     public int getTurno(){    
         return turno;

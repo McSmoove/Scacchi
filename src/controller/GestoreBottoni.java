@@ -133,16 +133,20 @@ public class GestoreBottoni {
                 //se ciò che contiene ha lo stesso colore del turno corrente
                 if(turno.equals(gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getColore())){
                     //se il pezzo nella posizione indicata non è bloccato
-                    if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getLock()){
-                        System.err.println("DEBUG: Pezzo non bloccato");
+                    //throw new UnsupportedOperationException();
+                    //if(!gestoreMovimenti.getMatrice().getMatrice()[x][y].getOccupante().getLock()){
+                        System.err.println("GESTORE BOTTONI: Pezzo non bloccato");
                         //se il re del turno corrente non è sotto scacco
-                        System.err.println("controllo scacco fare debug");
-                        /*
+                        //System.err.println("controllo scacco fare debug");
+                        
+                        //il re non è sotto scacco
                         if(((turno instanceof Bianco) && 
                                 gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),gestoreMovimenti.getReBianco().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)||
                             ((turno instanceof Nero) && 
                                 gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),gestoreMovimenti.getReNero().getColore(),gestoreMovimenti.getMatrice().getMatrice())==0)){
-                        */
+                            System.err.println("GESTORE BOTTONI: il re non è sotto scacco");
+                            attivaPosizione(x,y); 
+                        }
                         //variante al posto di controllo scacco, getPezziAttaccantiIlRe
                         /*
                         if(((turno instanceof Bianco) && 
@@ -150,17 +154,19 @@ public class GestoreBottoni {
                             (turno instanceof Nero) && 
                             (gestoreMovimenti.getPezziAttaccantiIlRe(gestoreMovimenti.getReNero(), gestoreMovimenti.getMatrice().getMatrice()).isEmpty())){
                         */
-                        if(true){
+                        
+                        //per non fare debug su scacco matto
+                        /*if(true){
                             //abilito le posizioni dove può muoversi il pezzo(non implementato)
                             //metto il pezzo premuto nella gestione turno e lo attivo
                             attivaPosizione(x,y);    
-                        }
+                        }*/
                     
                         //NON ENTRO MAI QUI
                         //se il re è sotto scacco
                         else if(((turno instanceof Bianco) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReBianco().getX(),gestoreMovimenti.getReBianco().getY(),new Bianco(),gestoreMovimenti.getMatrice().getMatrice())==1)||
                             ((turno instanceof Nero) && gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),gestoreMovimenti.getMatrice().getMatrice())==1)){
-                      
+                            System.err.println("DEBUG: il re è sotto scacco");
                             //se il pezzo può salvare il re
                             //devo controllare la matrice simulata, ma prima devo crearla
                             //matriceTemporanea=gestoreMovimenti.getMatrice();
@@ -169,19 +175,22 @@ public class GestoreBottoni {
                                 if(gestoreMovimenti.getMatricePezziChePrevengonoScacco(gestoreMovimenti.getReBianco().getX(),
                                                                                        gestoreMovimenti.getReBianco().getY(),
                                                                                        gestoreMovimenti.getMatrice(),new Bianco())[x][y]==1)
-                                    attivaPosizione(x,y);
+                                    System.err.println("DEBUG: il pezzo può salvare il re");
+                                    attivaPosizione(x,y);     
                                 //altrimenti non faccio niente
                             }
                             //Nero
                             else if(gestoreMovimenti.getMatricePezziChePrevengonoScacco(gestoreMovimenti.getReBianco().getX(),
                                                                                        gestoreMovimenti.getReBianco().getY(),
                                                                                        gestoreMovimenti.getMatrice(),new Nero())[x][y]==1)
+                                    System.err.println("DEBUG: il pezzo può salvare il re");
                                     attivaPosizione(x,y);     
                                 //else... altrimenti non faccio niente
                         }
-                    }
-                    else
-                        System.err.println("DEBUG: Pezzo bloccato");
+                        System.err.println("DEBUG: posizione attivata dopo controllo scacco");
+                    //}
+                    //else
+                    //    System.err.println("DEBUG: Pezzo bloccato");
                 }
                 //else... altrimenti non faccio niente
             }
@@ -217,7 +226,9 @@ public class GestoreBottoni {
                                 gestoreMovimenti.controlloScacco(gestoreMovimenti.getReNero().getX(),gestoreMovimenti.getReNero().getY(),new Nero(),matriceSimulata.getMatrice())==1)){
                             //sposto il pezzo, aggiorno la matrice della scacchiera e tutto, cambio il turno
                         */
+                        //modificare l parte soprastante nel contorllo se è stato rilevato ce il re è sotto scacco
                         if(true){
+                            System.err.println("RE: posizione del re bianco: "+gestoreMovimenti.getReBianco().getX()+" "+gestoreMovimenti.getReBianco().getY());
                             //gestoreTurni.getSpazioAttivato().setOccupato(false);
                             //contrassegno lo spazio occupato prima come non occupato
                             //matriceSimulata.getSpazio(gestoreTurni.getSpazioAttivato().getX(), gestoreTurni.getSpazioAttivato().getY()).setOccupato(false);

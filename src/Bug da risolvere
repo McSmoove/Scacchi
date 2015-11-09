@@ -10,3 +10,4 @@ Metto qui ciò che trovo facendo il debug:
 -ogni tanto quando un pedone nero mangia uno bianco sparisce la torre nerasinistra
 -non funziona nuova partita, deve ripulire i campi ai fianchi della scacchiera
 -in checkmate sono empre gli stessi 3 pezzi che vengono descritti come pericolosi, identificati dai numeri: 3 11 13
+-quando sposto qualsiasi pedina al primo turno il re viene spostato nella posizione D2 che nella matrice sarebbe (3,6)
